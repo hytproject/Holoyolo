@@ -14,7 +14,7 @@ static int fe_isnonzero(const fe f) {
     s[27] | s[28] | s[29] | s[30] | s[31]) - 1) >> 8) + 1;
 }
 
-//double scalar mult precomp
+//double Holoyolor mult precomp
 void ge_dsm_precomp(ge_dsmp r, const ge_p3 *s) {
   ge_p1p1 t;
   ge_p3 s2, u;
@@ -36,7 +36,7 @@ and b = b[0]+256*b[1]+...+256^31 b[31].
 B is the Ed25519 base point (x,4/5) with x positive.
 */
 
-void ge_double_scalarmult_base_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A, const unsigned char *b) {
+void ge_double_Holoyolormult_base_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A, const unsigned char *b) {
   signed char aslide[256];
   signed char bslide[256];
   ge_dsmp Ai; /* A, 3A, 5A, 7A, 9A, 11A, 13A, 15A */
@@ -255,7 +255,7 @@ static void ge_cached_cmov(ge_cached *t, const ge_cached *u, unsigned char b) {
 }
 
 /* Assumes that a[31] <= 127 */
-void ge_scalarmult(ge_p2 *r, const unsigned char *a, const ge_p3 *A) {
+void ge_Holoyolormult(ge_p2 *r, const unsigned char *a, const ge_p3 *A) {
   signed char e[64];
   int carry, carry2, i;
   ge_cached Ai[8]; /* 1 * A, 2 * A, ..., 8 * A */
@@ -316,7 +316,7 @@ void ge_scalarmult(ge_p2 *r, const unsigned char *a, const ge_p3 *A) {
 }
 
 //assume Bi has precomputed multiples
-void ge_double_scalarmult_precomp_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A, const unsigned char *b, const ge_dsmp Bii) {
+void ge_double_Holoyolormult_precomp_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A, const unsigned char *b, const ge_dsmp Bii) {
   signed char aslide[256];
   signed char bslide[256];
   ge_dsmp Ai; /* A, 3A, 5A, 7A, 9A, 11A, 13A, 15A */ //precomps

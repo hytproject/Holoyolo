@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -33,16 +33,16 @@
 
 #include "crypto-tests.h"
 
-bool check_scalar(const crypto::ec_scalar &scalar) {
-  return crypto::sc_check(crypto::operator &(scalar)) == 0;
+bool check_Holoyolor(const crypto::ec_Holoyolor &Holoyolor) {
+  return crypto::sc_check(crypto::operator &(Holoyolor)) == 0;
 }
 
-void random_scalar(crypto::ec_scalar &res) {
-  crypto::random_scalar(res);
+void random_Holoyolor(crypto::ec_Holoyolor &res) {
+  crypto::random_Holoyolor(res);
 }
 
-void hash_to_scalar(const void *data, std::size_t length, crypto::ec_scalar &res) {
-  crypto::hash_to_scalar(data, length, res);
+void hash_to_Holoyolor(const void *data, std::size_t length, crypto::ec_Holoyolor &res) {
+  crypto::hash_to_Holoyolor(data, length, res);
 }
 
 void hash_to_point(const crypto::hash &h, crypto::ec_point &res) {

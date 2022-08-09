@@ -188,25 +188,25 @@ RUN set -ex && \
     rm -rf /var/lib/apt
 COPY --from=builder /src/build/release/bin /usr/local/bin/
 
-# Create scala user
-RUN adduser --system --group --disabled-password scala && \
-	mkdir -p /wallet /home/scala/.bitscala && \
-	chown -R scala:scala /home/scala/.bitscala && \
-	chown -R scala:scala /wallet
+# Create Holoyolo user
+RUN adduser --system --group --disabled-password Holoyolo && \
+	mkdir -p /wallet /home/Holoyolo/.bitHoloyolo && \
+	chown -R Holoyolo:Holoyolo /home/Holoyolo/.bitHoloyolo && \
+	chown -R Holoyolo:Holoyolo /wallet
 
 # Contains the blockchain
-VOLUME /home/scala/.bitscala
+VOLUME /home/Holoyolo/.bitHoloyolo
 
 # Generate your wallet via accessing the container and run:
 # cd /wallet
-# scala-wallet-cli
+# Holoyolo-wallet-cli
 VOLUME /wallet
 
 EXPOSE 18080
 EXPOSE 18081
 
-# switch to user scala
-USER scala
+# switch to user Holoyolo
+USER Holoyolo
 
-ENTRYPOINT ["scalad", "--p2p-bind-ip=0.0.0.0", "--p2p-bind-port=18080", "--rpc-bind-ip=0.0.0.0", "--rpc-bind-port=18081", "--non-interactive", "--confirm-external-bind"]
+ENTRYPOINT ["Holoyolod", "--p2p-bind-ip=0.0.0.0", "--p2p-bind-port=18080", "--rpc-bind-ip=0.0.0.0", "--rpc-bind-port=18081", "--non-interactive", "--confirm-external-bind"]
 

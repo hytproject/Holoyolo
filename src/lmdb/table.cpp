@@ -30,14 +30,14 @@ namespace lmdb
 {
     expect<MDB_dbi> table::open(MDB_txn& write_txn) const noexcept
     {
-        SCALA_PRECOND(name != nullptr);
+        Holoyolo_PRECOND(name != nullptr);
 
         MDB_dbi out;
-        SCALA_LMDB_CHECK(mdb_dbi_open(&write_txn, name, flags, &out));
+        Holoyolo_LMDB_CHECK(mdb_dbi_open(&write_txn, name, flags, &out));
         if (key_cmp && !(flags & MDB_INTEGERKEY))
-            SCALA_LMDB_CHECK(mdb_set_compare(&write_txn, out, key_cmp));
+            Holoyolo_LMDB_CHECK(mdb_set_compare(&write_txn, out, key_cmp));
         if (value_cmp && !(flags & MDB_INTEGERDUP))
-            SCALA_LMDB_CHECK(mdb_set_dupsort(&write_txn, out, value_cmp));
+            Holoyolo_LMDB_CHECK(mdb_set_dupsort(&write_txn, out, value_cmp));
         return out;
     }
 }

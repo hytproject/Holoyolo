@@ -707,7 +707,7 @@ namespace Language
         "época",
         "equipo",
         "erizo",
-        "escala",
+        "eHoloyolo",
         "escena",
         "escolar",
         "escribir",

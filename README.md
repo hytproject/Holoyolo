@@ -1,30 +1,30 @@
 
-# Scala
+# Holoyolo
 
-[<img src="https://scalaproject.io/img/card.jpg">](https://scalaproject.io)
+[<img src="https://holoyolo.com/img/card.jpg">](https://holoyolo.com)
 
-Scala is a privacy-focused cryptocurrency project linking distributed technologies to build a globally scalable and mobile-friendly ecosystem. We provide an opaque blockchain, untraceable payments, unlinkable transactions, and blockchain-analysis resistance.
+Holoyolo is a privacy-focused cryptocurrency project linking distributed technologies to build a globally Holoyoloble and mobile-friendly ecosystem. We provide an opaque blockchain, untraceable payments, unlinkable transactions, and blockchain-analysis resistance.
 
 Our vision is to distribute wealth for everyone and every device. We want to be the people’s coin. To achieve this goal, we focus on implementing solutions that are mobile-friendly and energy-efficient. There are about 4 billion mobile devices in the world, and we want to make sure that our ecosystem takes that into account. We also take a lot of time to improve the user experience so that our applications can be used easily by anyone.
 
 Obviously, our goal is also to bring useful utilities and to solve real-world problems, in a way that is economically viable for the project and to sustain our growth. We take advantage of next-gen technologies such as IPFS, WebTorrent and custom software to provide the utility of data storage and we use the proven CryptoNote protocol for providing the financial aspects.
 
-- Website: [scalaproject.io](https://scalaproject.io)
-- Mail: [hello@scalaproject.io](mailto:hello@scalaproject.io)
-- Discord: [chat.scalaproject.io](http://chat.scalaproject.io)
+- Website: [holoyolo.com](https://holoyolo.com)
+- Mail: [hello@holoyolo.com](mailto:hello@holoyolo.com)
+- Discord: [chat.holoyolo.com](http://chat.holoyolo.com)
 
 ## Table of Contents
 
 -  [Announcements](#announcements)
--  [Compiling Scala from source](#compiling-scala-from-source)
+-  [Compiling Holoyolo from source](#compiling-Holoyolo-from-source)
 -  [More information](#more-information)
 -  [Licenses](#licenses)
 
 ## Announcements
 
-- You can follow our [twitter](https://twitter.com/scalahq) to get all the new information regarding the project.
+- You can follow our [twitter](https://twitter.com/Holoyolohq) to get all the new information regarding the project.
 
-## Compiling Scala from source
+## Compiling Holoyolo from source
 
 ### Notes
 
@@ -89,15 +89,15 @@ FreeBSD 12.1 one-liner required to build dependencies:
 
 Clone recursively to pull-in needed submodule(s):
 
-`$ git clone --recursive https://github.com/scala-network/scala-v8.1 scala` 
+`$ git clone --recursive https://github.com/Holoyolo-network/Holoyolo-v8.1 Holoyolo` 
 
 If you already have a repo cloned, initialize and update:
 
-`$ cd scala && git git submodule update --init --recursive`
+`$ cd Holoyolo && git git submodule update --init --recursive`
 
 ### Build instructions
 
-Scala uses the CMake build system and a top-level [Makefile](Makefile) that
+Holoyolo uses the CMake build system and a top-level [Makefile](Makefile) that
 invokes cmake commands as needed.
 
 #### On Linux and macOS
@@ -107,7 +107,7 @@ invokes cmake commands as needed.
 * Change to the root of the source code directory, change to the most recent release branch, and build:
 
   ```bash
-  cd scala
+  cd Holoyolo
   make
   ```
 
@@ -116,9 +116,9 @@ invokes cmake commands as needed.
 
 * The resulting executables can be found in `build/release/bin`
 
-* Add `PATH="$PATH:$HOME/scala/build/release/bin"` to `.profile`
+* Add `PATH="$PATH:$HOME/Holoyolo/build/release/bin"` to `.profile`
 
-* Run Scala with `scalad --detach`
+* Run Holoyolo with `Holoyolod --detach`
 
 * **Optional**: build and run the test suite to verify the binaries:
 
@@ -202,7 +202,7 @@ Binaries for Windows are built on Windows using the MinGW toolchain within [MSYS
 * To git clone, run:
 
   ```bash
-  git clone --recursive https://github.com/scala-network/scala-v8.1.git scala
+  git clone --recursive https://github.com/Holoyolo-network/Holoyolo-v8.1.git Holoyolo
   ```
 
 **Building**
@@ -210,10 +210,10 @@ Binaries for Windows are built on Windows using the MinGW toolchain within [MSYS
 * Change to the cloned directory, run:
 
   ```bash
-  cd scala
+  cd Holoyolo
   ```
 
-* If you would like a specific [version/tag](https://github.com/scala-project/scala-v8.1/tags), do a git checkout for that version. eg. 'v7.5.0'. If you don't care about the version and just want binaries from master, skip this step:
+* If you would like a specific [version/tag](https://github.com/Holoyolo-project/Holoyolo-v8.1/tags), do a git checkout for that version. eg. 'v7.5.0'. If you don't care about the version and just want binaries from master, skip this step:
 
   ```bash
   git checkout v7.5.0
@@ -237,11 +237,11 @@ Binaries for Windows are built on Windows using the MinGW toolchain within [MSYS
 
 ## More Information
 
-A lot more information about the project is available on the [wiki](https://wiki.scalaproject.io) and we also hang out a lot on [discord](https://chat.scalaproject.io) we would love to discuss new ideas and projects with you <3
+A lot more information about the project is available on the [wiki](https://wiki.holoyolo.com) and we also hang out a lot on [discord](https://chat.holoyolo.com) we would love to discuss new ideas and projects with you <3
 
 ## Licenses
 
-Copyright (c) 2018-2022 The Scala Network.
+Copyright (c) 2018-2022 The Holoyolo Network.
 
 Copyright (c) 2014-2021 The Monero Project. 
 

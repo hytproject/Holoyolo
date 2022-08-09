@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 //
 // All rights reserved.
 //
@@ -40,8 +40,8 @@
 #include <boost/optional.hpp>
 using namespace epee;
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.dns"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net.dns"
 
 static const char *DEFAULT_DNS_PUBLIC_ADDR[] =
 {
@@ -285,7 +285,7 @@ DNSResolver::DNSResolver() : m_data(new DNSResolverData())
     // should be a valid DNSSEC record, and switch to known good
     // DNSSEC resolvers if verification fails
     bool available, valid;
-    static const char *probe_hostname = "updates.scalapulse.org";
+    static const char *probe_hostname = "updates.Holoyolopulse.org";
     auto records = get_txt_record(probe_hostname, available, valid);
     if (!valid)
     {
@@ -433,9 +433,9 @@ std::string address_from_txt_record(const std::string& s)
   return {};
 }
 /**
- * @brief gets a scala address from the TXT record of a DNS entry
+ * @brief gets a Holoyolo address from the TXT record of a DNS entry
  *
- * gets the scala address from the TXT record of the DNS entry associated
+ * gets the Holoyolo address from the TXT record of the DNS entry associated
  * with <url>.  If this lookup fails, or the TXT record does not contain an
  * XLA address in the correct format, returns an empty string.  <dnssec_valid>
  * will be set true or false according to whether or not the DNS query passes
@@ -444,7 +444,7 @@ std::string address_from_txt_record(const std::string& s)
  * @param url the url to look up
  * @param dnssec_valid return-by-reference for DNSSEC status of query
  *
- * @return a scala address (as a string) or an empty string
+ * @return a Holoyolo address (as a string) or an empty string
  */
 std::vector<std::string> addresses_from_url(const std::string& url, bool& dnssec_valid)
 {
@@ -461,7 +461,7 @@ std::vector<std::string> addresses_from_url(const std::string& url, bool& dnssec
   }
   else dnssec_valid = false;
 
-  // for each txt record, try to find a scala address in it.
+  // for each txt record, try to find a Holoyolo address in it.
   for (auto& rec : records)
   {
     std::string addr = address_from_txt_record(rec);

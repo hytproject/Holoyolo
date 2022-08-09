@@ -46,7 +46,7 @@ endif()
 cmake_minimum_required(VERSION 2.8.7)
 message(STATUS "CMake version ${CMAKE_VERSION}")
 
-project(scala)
+project(Holoyolo)
 
 include(FindCcache) # Has to be included after the project() macro, to be able to read the CXX variable.
 
@@ -70,7 +70,7 @@ endfunction ()
 # Parameters:
 # - headers_found:    Output variable, which will hold the found headers
 # - module_root_dir:  The search path for the headers. Typically it will be the module's root dir, so "${CMAKE_CURRENT_SOURCE_DIR}" or a derivative of it.
-macro (scala_find_all_headers headers_found module_root_dir)
+macro (Holoyolo_find_all_headers headers_found module_root_dir)
   file(GLOB ${headers_found}
            "${module_root_dir}/*.h*"    # h* will include hpps as well.
            "${module_root_dir}/**/*.h*" # Any number of subdirs will be included.
@@ -79,27 +79,27 @@ macro (scala_find_all_headers headers_found module_root_dir)
 )
 endmacro()
 
-function (scala_add_library name)
-    scala_add_library_with_deps(NAME "${name}" SOURCES ${ARGN})
+function (Holoyolo_add_library name)
+    Holoyolo_add_library_with_deps(NAME "${name}" SOURCES ${ARGN})
 endfunction()
 
-function (scala_add_library_with_deps)
-  cmake_parse_arguments(SCALA_ADD_LIBRARY "" "NAME" "DEPENDS;SOURCES" ${ARGN})
-  source_group("${SCALA_ADD_LIBRARY_NAME}" FILES ${SCALA_ADD_LIBRARY_SOURCES})
+function (Holoyolo_add_library_with_deps)
+  cmake_parse_arguments(Holoyolo_ADD_LIBRARY "" "NAME" "DEPENDS;SOURCES" ${ARGN})
+  source_group("${Holoyolo_ADD_LIBRARY_NAME}" FILES ${Holoyolo_ADD_LIBRARY_SOURCES})
 
   # Define a ("virtual") object library and an actual library that links those
   # objects together. The virtual libraries can be arbitrarily combined to link
   # any subset of objects into one library archive. This is used for releasing
   # libwallet, which combines multiple components.
-  set(objlib obj_${SCALA_ADD_LIBRARY_NAME})
-  add_library(${objlib} OBJECT ${SCALA_ADD_LIBRARY_SOURCES})
-  add_library("${SCALA_ADD_LIBRARY_NAME}" $<TARGET_OBJECTS:${objlib}>)
-  if (SCALA_ADD_LIBRARY_DEPENDS)
-    add_dependencies(${objlib} ${SCALA_ADD_LIBRARY_DEPENDS})
+  set(objlib obj_${Holoyolo_ADD_LIBRARY_NAME})
+  add_library(${objlib} OBJECT ${Holoyolo_ADD_LIBRARY_SOURCES})
+  add_library("${Holoyolo_ADD_LIBRARY_NAME}" $<TARGET_OBJECTS:${objlib}>)
+  if (Holoyolo_ADD_LIBRARY_DEPENDS)
+    add_dependencies(${objlib} ${Holoyolo_ADD_LIBRARY_DEPENDS})
   endif()
-  set_property(TARGET "${SCALA_ADD_LIBRARY_NAME}" PROPERTY FOLDER "libs")
+  set_property(TARGET "${Holoyolo_ADD_LIBRARY_NAME}" PROPERTY FOLDER "libs")
   target_compile_definitions(${objlib}
-    PRIVATE $<TARGET_PROPERTY:${SCALA_ADD_LIBRARY_NAME},INTERFACE_COMPILE_DEFINITIONS>)
+    PRIVATE $<TARGET_PROPERTY:${Holoyolo_ADD_LIBRARY_NAME},INTERFACE_COMPILE_DEFINITIONS>)
 endfunction ()
 
 function (add_c_flag_if_supported flag var)
@@ -404,7 +404,7 @@ if(SANITIZE)
 endif()
 
 # Set default blockchain storage location:
-# memory was the default in Cryptonote before Scala implemented LMDB, it still works but is unnecessary.
+# memory was the default in Cryptonote before Holoyolo implemented LMDB, it still works but is unnecessary.
 # set(DATABASE memory)
 set(DATABASE lmdb)
 message(STATUS "Using LMDB as default DB type")
@@ -832,7 +832,7 @@ else()
     set(DEBUG_FLAGS "${DEBUG_FLAGS} -O0 ")
   endif()
 
-  # At least some CLANGs default to not enough for scala
+  # At least some CLANGs default to not enough for Holoyolo
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-depth=900")
 
   if(NOT DEFINED USE_LTO_DEFAULT)

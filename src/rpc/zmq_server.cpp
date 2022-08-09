@@ -52,7 +52,7 @@ ZmqServer::ZmqServer(RpcHandler& h) :
     context(zmq_init(num_zmq_threads))
 {
     if (!context)
-        SCALA_ZMQ_THROW("Unable to create ZMQ context");
+        Holoyolo_ZMQ_THROW("Unable to create ZMQ context");
 }
 
 ZmqServer::~ZmqServer()
@@ -73,13 +73,13 @@ void ZmqServer::serve()
 
     while (1)
     {
-      const std::string message = SCALA_UNWRAP(net::zmq::receive(socket.get()));
+      const std::string message = Holoyolo_UNWRAP(net::zmq::receive(socket.get()));
       MDEBUG("Received RPC request: \"" << message << "\"");
       epee::byte_slice response = handler.handle(message);
 
       const boost::string_ref response_view{reinterpret_cast<const char*>(response.data()), response.size()};
       MDEBUG("Sending RPC reply: \"" << response_view << "\"");
-      SCALA_UNWRAP(net::zmq::send(std::move(response), socket.get()));
+      Holoyolo_UNWRAP(net::zmq::send(std::move(response), socket.get()));
     }
   }
   catch (const std::system_error& e)
@@ -114,20 +114,20 @@ bool ZmqServer::addTCPSocket(boost::string_ref address, boost::string_ref port)
   rep_socket.reset(zmq_socket(context.get(), ZMQ_REP));
   if (!rep_socket)
   {
-    SCALA_LOG_ZMQ_ERROR("ZMQ RPC Server socket create failed");
+    Holoyolo_LOG_ZMQ_ERROR("ZMQ RPC Server socket create failed");
     return false;
   }
 
   if (zmq_setsockopt(rep_socket.get(), ZMQ_MAXMSGSIZE, std::addressof(max_message_size), sizeof(max_message_size)) != 0)
   {
-    SCALA_LOG_ZMQ_ERROR("Failed to set maximum incoming message size");
+    Holoyolo_LOG_ZMQ_ERROR("Failed to set maximum incoming message size");
     return false;
   }
 
   static constexpr const int linger_value = std::chrono::milliseconds{linger_timeout}.count();
   if (zmq_setsockopt(rep_socket.get(), ZMQ_LINGER, std::addressof(linger_value), sizeof(linger_value)) != 0)
   {
-    SCALA_LOG_ZMQ_ERROR("Failed to set linger timeout");
+    Holoyolo_LOG_ZMQ_ERROR("Failed to set linger timeout");
     return false;
   }
 
@@ -143,7 +143,7 @@ bool ZmqServer::addTCPSocket(boost::string_ref address, boost::string_ref port)
 
   if (zmq_bind(rep_socket.get(), bind_address.c_str()) < 0)
   {
-    SCALA_LOG_ZMQ_ERROR("ZMQ RPC Server bind failed");
+    Holoyolo_LOG_ZMQ_ERROR("ZMQ RPC Server bind failed");
     return false;
   }
   return true;

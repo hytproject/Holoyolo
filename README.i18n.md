@@ -1,9 +1,9 @@
-Scala daemon internationalization
+Holoyolo daemon internationalization
 ==================================
 
-The Scala command line tools can be translated in various languages. If you wish to contribute and need help/support, contact the [Scala Localization Workgroup on Taiga](https://taiga.getscala.org/project/erciccione-scala-localization/) or come chat on `#scala-translations` (Freenode/IRC, riot/matrix, MatterMost)
+The Holoyolo command line tools can be translated in various languages. If you wish to contribute and need help/support, contact the [Holoyolo Localization Workgroup on Taiga](https://taiga.getHoloyolo.org/project/erciccione-Holoyolo-localization/) or come chat on `#Holoyolo-translations` (Freenode/IRC, riot/matrix, MatterMost)
 
-In order to use the same translation workflow as the [Scala Core GUI](https://github.com/scala-project/scala-gui), they use Qt Linguist translation files.  However, to avoid the dependencies on Qt this normally implies, they use a custom loader to read those files at runtime.
+In order to use the same translation workflow as the [Holoyolo Core GUI](https://github.com/Holoyolo-project/Holoyolo-gui), they use Qt Linguist translation files.  However, to avoid the dependencies on Qt this normally implies, they use a custom loader to read those files at runtime.
 
 ### Tools for translators
 
@@ -22,13 +22,13 @@ To update ts files after changing source code:
 To add a new language, eg Spanish (ISO code es):
 
 ```bash
-cp translations/scala.ts translations/scala_es.ts
+cp translations/Holoyolo.ts translations/Holoyolo_es.ts
 ```
 
 To edit translations for Spanish:
 
 ```bash
-linguist translations/scala_es.ts
+linguist translations/Holoyolo_es.ts
 ```
 
 To build translations after modifying them:
@@ -40,7 +40,7 @@ To build translations after modifying them:
 To test a translation:
 
 ```bash
-LANG=es ./build/release/bin/scala-wallet-cli
+LANG=es ./build/release/bin/Holoyolo-wallet-cli
 ```
 
 To add new translatable strings in the source code:

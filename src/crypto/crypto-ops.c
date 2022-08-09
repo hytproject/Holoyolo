@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -1139,7 +1139,7 @@ void ge_add(ge_p1p1 *r, const ge_p3 *p, const ge_cached *q) {
   fe_sub(r->T, t0, r->T);
 }
 
-/* From ge_double_scalarmult.c, modified */
+/* From ge_double_Holoyolormult.c, modified */
 
 static void slide(signed char *r, const unsigned char *a) {
   int i;
@@ -1194,7 +1194,7 @@ and b = b[0]+256*b[1]+...+256^31 b[31].
 B is the Ed25519 base point (x,4/5) with x positive.
 */
 
-void ge_double_scalarmult_base_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A, const unsigned char *b) {
+void ge_double_Holoyolormult_base_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A, const unsigned char *b) {
   signed char aslide[256];
   signed char bslide[256];
   ge_dsmp Ai; /* A, 3A, 5A, 7A, 9A, 11A, 13A, 15A */
@@ -1235,7 +1235,7 @@ void ge_double_scalarmult_base_vartime(ge_p2 *r, const unsigned char *a, const g
   }
 }
 
-void ge_double_scalarmult_base_vartime_p3(ge_p3 *r3, const unsigned char *a, const ge_p3 *A, const unsigned char *b) {
+void ge_double_Holoyolormult_base_vartime_p3(ge_p3 *r3, const unsigned char *a, const ge_p3 *A, const unsigned char *b) {
   signed char aslide[256];
   signed char bslide[256];
   ge_dsmp Ai; /* A, 3A, 5A, 7A, 9A, 11A, 13A, 15A */
@@ -1534,7 +1534,7 @@ static void ge_precomp_0(ge_precomp *h) {
   fe_0(h->xy2d);
 }
 
-/* From ge_scalarmult_base.c */
+/* From ge_Holoyolormult_base.c */
 
 static unsigned char equal(signed char b, signed char c) {
   unsigned char ub = b;
@@ -1587,7 +1587,7 @@ Preconditions:
   a[31] <= 127
 */
 
-void ge_scalarmult_base(ge_p3 *h, const unsigned char *a) {
+void ge_Holoyolormult_base(ge_p3 *h, const unsigned char *a) {
   signed char e[64];
   signed char carry;
   ge_p1p1 r;
@@ -1986,7 +1986,7 @@ static void ge_cached_cmov(ge_cached *t, const ge_cached *u, unsigned char b) {
 }
 
 /* Assumes that a[31] <= 127 */
-void ge_scalarmult(ge_p2 *r, const unsigned char *a, const ge_p3 *A) {
+void ge_Holoyolormult(ge_p2 *r, const unsigned char *a, const ge_p3 *A) {
   signed char e[64];
   int carry, carry2, i;
   ge_cached Ai[8]; /* 1 * A, 2 * A, ..., 8 * A */
@@ -2046,7 +2046,7 @@ void ge_scalarmult(ge_p2 *r, const unsigned char *a, const ge_p3 *A) {
   }
 }
 
-void ge_scalarmult_p3(ge_p3 *r3, const unsigned char *a, const ge_p3 *A) {
+void ge_Holoyolormult_p3(ge_p3 *r3, const unsigned char *a, const ge_p3 *A) {
   signed char e[64];
   int carry, carry2, i;
   ge_cached Ai[8]; /* 1 * A, 2 * A, ..., 8 * A */
@@ -2110,7 +2110,7 @@ void ge_scalarmult_p3(ge_p3 *r3, const unsigned char *a, const ge_p3 *A) {
   }
 }
 
-void ge_double_scalarmult_precomp_vartime2(ge_p2 *r, const unsigned char *a, const ge_dsmp Ai, const unsigned char *b, const ge_dsmp Bi) {
+void ge_double_Holoyolormult_precomp_vartime2(ge_p2 *r, const unsigned char *a, const ge_dsmp Ai, const unsigned char *b, const ge_dsmp Bi) {
   signed char aslide[256];
   signed char bslide[256];
   ge_p1p1 t;
@@ -2149,7 +2149,7 @@ void ge_double_scalarmult_precomp_vartime2(ge_p2 *r, const unsigned char *a, con
   }
 }
 
-void ge_double_scalarmult_precomp_vartime2_p3(ge_p3 *r3, const unsigned char *a, const ge_dsmp Ai, const unsigned char *b, const ge_dsmp Bi) {
+void ge_double_Holoyolormult_precomp_vartime2_p3(ge_p3 *r3, const unsigned char *a, const ge_dsmp Ai, const unsigned char *b, const ge_dsmp Bi) {
   signed char aslide[256];
   signed char bslide[256];
   ge_p1p1 t;
@@ -2192,11 +2192,11 @@ void ge_double_scalarmult_precomp_vartime2_p3(ge_p3 *r3, const unsigned char *a,
   }
 }
 
-void ge_double_scalarmult_precomp_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A, const unsigned char *b, const ge_dsmp Bi) {
+void ge_double_Holoyolormult_precomp_vartime(ge_p2 *r, const unsigned char *a, const ge_p3 *A, const unsigned char *b, const ge_dsmp Bi) {
   ge_dsmp Ai; /* A, 3A, 5A, 7A, 9A, 11A, 13A, 15A */
 
   ge_dsm_precomp(Ai, A);
-  ge_double_scalarmult_precomp_vartime2(r, a, Ai, b, Bi);
+  ge_double_Holoyolormult_precomp_vartime2(r, a, Ai, b, Bi);
 }
 
 void ge_mul8(ge_p1p1 *r, const ge_p2 *t) {

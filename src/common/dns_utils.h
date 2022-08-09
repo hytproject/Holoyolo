@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -110,7 +110,7 @@ public:
    * @brief Gets a DNS address from OpenAlias format
    *
    * If the address looks good, but contains one @ symbol, replace that with a .
-   * e.g. donate@getscala.org becomes donate.getscala.org
+   * e.g. donate@getHoloyolo.org becomes donate.getHoloyolo.org
    *
    * @param oa_addr  OpenAlias address
    *

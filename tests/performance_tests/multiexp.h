@@ -55,11 +55,11 @@ public:
     res = rct::identity();
     for (size_t n = 0; n < npoints; ++n)
     {
-      data[n].scalar = rct::skGen();
-      rct::key point = rct::scalarmultBase(rct::skGen());
+      data[n].Holoyolor = rct::skGen();
+      rct::key point = rct::HoloyolormultBase(rct::skGen());
       if (ge_frombytes_vartime(&data[n].point, point.bytes))
         return false;
-      rct::key kn = rct::scalarmultKey(point, data[n].scalar);
+      rct::key kn = rct::HoloyolormultKey(point, data[n].Holoyolor);
       res = rct::addKeys(res, kn);
     }
     straus_cache = rct::straus_init_cache(data);

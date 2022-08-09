@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 #
 # All rights reserved.
 #
@@ -45,9 +45,9 @@ set(checkpoints_headers)
 set(checkpoints_private_headers
   checkpoints.h)
 
-scala_private_headers(checkpoints
+Holoyolo_private_headers(checkpoints
   ${checkpoints_private_headers})
-scala_add_library(checkpoints
+Holoyolo_add_library(checkpoints
   ${checkpoints_sources}
   ${checkpoints_headers}
   ${checkpoints_private_headers})

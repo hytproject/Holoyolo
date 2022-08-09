@@ -32,10 +32,10 @@
 #include "ringct/rctOps.h"
 #include "ringct/multiexp.h"
 
-#define TESTSCALAR []{ static const rct::key TESTSCALAR = rct::skGen(); return TESTSCALAR; }()
-#define TESTPOW2SCALAR []{ static const rct::key TESTPOW2SCALAR = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}; return TESTPOW2SCALAR; }()
-#define TESTSMALLSCALAR []{ static const rct::key TESTSMALLSCALAR = {{5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}; return TESTSMALLSCALAR; }()
-#define TESTPOINT []{ static const rct::key TESTPOINT = rct::scalarmultBase(rct::skGen()); return TESTPOINT; }()
+#define TESTHoloyoloR []{ static const rct::key TESTHoloyoloR = rct::skGen(); return TESTHoloyoloR; }()
+#define TESTPOW2HoloyoloR []{ static const rct::key TESTPOW2HoloyoloR = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}; return TESTPOW2HoloyoloR; }()
+#define TESTSMALLHoloyoloR []{ static const rct::key TESTSMALLHoloyoloR = {{5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}; return TESTSMALLHoloyoloR; }()
+#define TESTPOINT []{ static const rct::key TESTPOINT = rct::HoloyolormultBase(rct::skGen()); return TESTPOINT; }()
 
 static rct::key basic(const std::vector<rct::MultiexpData> &data)
 {
@@ -45,7 +45,7 @@ static rct::key basic(const std::vector<rct::MultiexpData> &data)
     ge_cached cached;
     ge_p3 p3;
     ge_p1p1 p1;
-    ge_scalarmult_p3(&p3, d.scalar.bytes, &d.point);
+    ge_Holoyolormult_p3(&p3, d.Holoyolor.bytes, &d.point);
     ge_p3_to_cached(&cached, &p3);
     ge_add(&p1, &res_p3, &cached);
     ge_p1p1_to_p3(&res_p3, &p1);
@@ -87,7 +87,7 @@ TEST(multiexp, bos_coster_zero_and_non_zero)
 {
   std::vector<rct::MultiexpData> data;
   data.push_back({rct::zero(), get_p3(TESTPOINT)});
-  data.push_back({TESTSCALAR, get_p3(TESTPOINT)});
+  data.push_back({TESTHoloyoloR, get_p3(TESTPOINT)});
   ASSERT_TRUE(basic(data) == bos_coster_heap_conv_robust(data));
 }
 
@@ -95,7 +95,7 @@ TEST(multiexp, straus_zero_and_non_zero)
 {
   std::vector<rct::MultiexpData> data;
   data.push_back({rct::zero(), get_p3(TESTPOINT)});
-  data.push_back({TESTSCALAR, get_p3(TESTPOINT)});
+  data.push_back({TESTHoloyoloR, get_p3(TESTPOINT)});
   ASSERT_TRUE(basic(data) == straus(data));
 }
 
@@ -103,31 +103,31 @@ TEST(multiexp, pippenger_zero_and_non_zero)
 {
   std::vector<rct::MultiexpData> data;
   data.push_back({rct::zero(), get_p3(TESTPOINT)});
-  data.push_back({TESTSCALAR, get_p3(TESTPOINT)});
+  data.push_back({TESTHoloyoloR, get_p3(TESTPOINT)});
   ASSERT_TRUE(basic(data) == pippenger(data));
 }
 
-TEST(multiexp, bos_coster_pow2_scalar)
+TEST(multiexp, bos_coster_pow2_Holoyolor)
 {
   std::vector<rct::MultiexpData> data;
-  data.push_back({TESTPOW2SCALAR, get_p3(TESTPOINT)});
-  data.push_back({TESTSMALLSCALAR, get_p3(TESTPOINT)});
+  data.push_back({TESTPOW2HoloyoloR, get_p3(TESTPOINT)});
+  data.push_back({TESTSMALLHoloyoloR, get_p3(TESTPOINT)});
   ASSERT_TRUE(basic(data) == bos_coster_heap_conv_robust(data));
 }
 
-TEST(multiexp, straus_pow2_scalar)
+TEST(multiexp, straus_pow2_Holoyolor)
 {
   std::vector<rct::MultiexpData> data;
-  data.push_back({TESTPOW2SCALAR, get_p3(TESTPOINT)});
-  data.push_back({TESTSMALLSCALAR, get_p3(TESTPOINT)});
+  data.push_back({TESTPOW2HoloyoloR, get_p3(TESTPOINT)});
+  data.push_back({TESTSMALLHoloyoloR, get_p3(TESTPOINT)});
   ASSERT_TRUE(basic(data) == straus(data));
 }
 
-TEST(multiexp, pippenger_pow2_scalar)
+TEST(multiexp, pippenger_pow2_Holoyolor)
 {
   std::vector<rct::MultiexpData> data;
-  data.push_back({TESTPOW2SCALAR, get_p3(TESTPOINT)});
-  data.push_back({TESTSMALLSCALAR, get_p3(TESTPOINT)});
+  data.push_back({TESTPOW2HoloyoloR, get_p3(TESTPOINT)});
+  data.push_back({TESTSMALLHoloyoloR, get_p3(TESTPOINT)});
   ASSERT_TRUE(basic(data) == pippenger(data));
 }
 
@@ -159,7 +159,7 @@ TEST(multiexp, bos_coster_only_identities)
 {
   std::vector<rct::MultiexpData> data;
   for (int n = 0; n < 16; ++n)
-    data.push_back({TESTSCALAR, get_p3(rct::identity())});
+    data.push_back({TESTHoloyoloR, get_p3(rct::identity())});
   ASSERT_TRUE(basic(data) == bos_coster_heap_conv_robust(data));
 }
 
@@ -167,7 +167,7 @@ TEST(multiexp, straus_only_identities)
 {
   std::vector<rct::MultiexpData> data;
   for (int n = 0; n < 16; ++n)
-    data.push_back({TESTSCALAR, get_p3(rct::identity())});
+    data.push_back({TESTHoloyoloR, get_p3(rct::identity())});
   ASSERT_TRUE(basic(data) == straus(data));
 }
 
@@ -175,7 +175,7 @@ TEST(multiexp, pippenger_only_identities)
 {
   std::vector<rct::MultiexpData> data;
   for (int n = 0; n < 16; ++n)
-    data.push_back({TESTSCALAR, get_p3(rct::identity())});
+    data.push_back({TESTHoloyoloR, get_p3(rct::identity())});
   ASSERT_TRUE(basic(data) == pippenger(data));
 }
 
@@ -184,7 +184,7 @@ TEST(multiexp, bos_coster_random)
   std::vector<rct::MultiexpData> data;
   for (int n = 0; n < 32; ++n)
   {
-    data.push_back({rct::skGen(), get_p3(rct::scalarmultBase(rct::skGen()))});
+    data.push_back({rct::skGen(), get_p3(rct::HoloyolormultBase(rct::skGen()))});
     ASSERT_TRUE(basic(data) == bos_coster_heap_conv_robust(data));
   }
 }
@@ -194,7 +194,7 @@ TEST(multiexp, straus_random)
   std::vector<rct::MultiexpData> data;
   for (int n = 0; n < 32; ++n)
   {
-    data.push_back({rct::skGen(), get_p3(rct::scalarmultBase(rct::skGen()))});
+    data.push_back({rct::skGen(), get_p3(rct::HoloyolormultBase(rct::skGen()))});
     ASSERT_TRUE(basic(data) == straus(data));
   }
 }
@@ -204,7 +204,7 @@ TEST(multiexp, pippenger_random)
   std::vector<rct::MultiexpData> data;
   for (int n = 0; n < 32; ++n)
   {
-    data.push_back({rct::skGen(), get_p3(rct::scalarmultBase(rct::skGen()))});
+    data.push_back({rct::skGen(), get_p3(rct::HoloyolormultBase(rct::skGen()))});
     ASSERT_TRUE(basic(data) == pippenger(data));
   }
 }
@@ -215,8 +215,8 @@ TEST(multiexp, straus_cached)
   std::vector<rct::MultiexpData> P(N);
   for (size_t n = 0; n < N; ++n)
   {
-    P[n].scalar = rct::zero();
-    ASSERT_TRUE(ge_frombytes_vartime(&P[n].point, rct::scalarmultBase(rct::skGen()).bytes) == 0);
+    P[n].Holoyolor = rct::zero();
+    ASSERT_TRUE(ge_frombytes_vartime(&P[n].point, rct::HoloyolormultBase(rct::skGen()).bytes) == 0);
   }
   std::shared_ptr<rct::straus_cached_data> cache = rct::straus_init_cache(P);
   for (size_t n = 0; n < N/16; ++n)
@@ -237,8 +237,8 @@ TEST(multiexp, pippenger_cached)
   std::vector<rct::MultiexpData> P(N);
   for (size_t n = 0; n < N; ++n)
   {
-    P[n].scalar = rct::zero();
-    ASSERT_TRUE(ge_frombytes_vartime(&P[n].point, rct::scalarmultBase(rct::skGen()).bytes) == 0);
+    P[n].Holoyolor = rct::zero();
+    ASSERT_TRUE(ge_frombytes_vartime(&P[n].point, rct::HoloyolormultBase(rct::skGen()).bytes) == 0);
   }
   std::shared_ptr<rct::pippenger_cached_data> cache = rct::pippenger_init_cache(P);
   for (size_t n = 0; n < N/16; ++n)

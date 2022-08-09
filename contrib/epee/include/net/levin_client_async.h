@@ -31,8 +31,8 @@
 #include "net_helper.h"
 #include "levin_base.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net"
 
 
 namespace epee

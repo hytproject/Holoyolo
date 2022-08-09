@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -82,7 +82,7 @@ namespace cryptonote
   {
     keypair k;
 
-    ec_scalar& sec = k.sec;
+    ec_Holoyolor& sec = k.sec;
 
     for (int i=0; i < 8; i++)
     {
@@ -589,11 +589,11 @@ namespace cryptonote
     // if this is a single-destination transfer to a subaddress, we set the tx pubkey to R=s*D
     if (num_stdaddresses == 0 && num_subaddresses == 1)
     {
-      txkey_pub = rct::rct2pk(hwdev.scalarmultKey(rct::pk2rct(single_dest_subaddress.m_spend_public_key), rct::sk2rct(tx_key)));
+      txkey_pub = rct::rct2pk(hwdev.HoloyolormultKey(rct::pk2rct(single_dest_subaddress.m_spend_public_key), rct::sk2rct(tx_key)));
     }
     else
     {
-      txkey_pub = rct::rct2pk(hwdev.scalarmultBase(rct::sk2rct(tx_key)));
+      txkey_pub = rct::rct2pk(hwdev.HoloyolormultBase(rct::sk2rct(tx_key)));
     }
     remove_field_from_tx_extra(tx.extra, typeid(tx_extra_pub_key));
     add_tx_pub_key_to_extra(tx, txkey_pub);

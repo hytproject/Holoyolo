@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Simulate a maximal block attack on the Scala network
+# Simulate a maximal block attack on the Holoyolo network
 # This uses the scheme proposed by ArticMine
 # Written by Sarang Nother
 # Copyright (c) 2019 The Monero Project

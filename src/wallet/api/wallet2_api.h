@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -41,7 +41,7 @@
 #include <stdexcept>
 
 //  Public interface for libwallet library
-namespace Scala {
+namespace Holoyolo {
 
 enum NetworkType : uint8_t {
     MAINNET = 0,
@@ -533,7 +533,7 @@ struct Wallet
      * \param upper_transaction_size_limit
      * \param daemon_username
      * \param daemon_password
-     * \param lightWallet - start wallet in light mode, connect to a openscala compatible server.
+     * \param lightWallet - start wallet in light mode, connect to a openHoloyolo compatible server.
      * \return  - true on success
      */
     virtual bool init(const std::string &daemon_address, uint64_t upper_transaction_size_limit = 0, const std::string &daemon_username = "", const std::string &daemon_password = "", bool use_ssl = false, bool lightWallet = false) = 0;
@@ -1290,7 +1290,7 @@ struct WalletManager
     //! stops mining
     virtual bool stopMining() = 0;
 
-    //! resolves an OpenAlias address to a scala address
+    //! resolves an OpenAlias address to a Holoyolo address
     virtual std::string resolveOpenAlias(const std::string &address, bool &dnssec_valid) const = 0;
 
     //! checks for an update and returns version, hash and url
@@ -1324,5 +1324,5 @@ struct WalletManagerFactory
 
 }
 
-namespace Bitscala = Scala;
+namespace BitHoloyolo = Holoyolo;
 

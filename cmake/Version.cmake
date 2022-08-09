@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 # 
 # All rights reserved.
 # 
@@ -28,7 +28,7 @@
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 function (write_version tag)
-  set(VERSIONTAG "${tag}" CACHE STRING "The tag portion of the Scala software version" FORCE)
+  set(VERSIONTAG "${tag}" CACHE STRING "The tag portion of the Holoyolo software version" FORCE)
   configure_file("${CMAKE_SOURCE_DIR}/src/version.cpp.in" "${CMAKE_BINARY_DIR}/version.cpp")
 endfunction ()
 

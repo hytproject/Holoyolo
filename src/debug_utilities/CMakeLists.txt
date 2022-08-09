@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 #
 # All rights reserved.
 #
@@ -31,7 +31,7 @@ set(cn_deserialize_sources
   cn_deserialize.cpp
   )
 
-scala_add_executable(cn_deserialize
+Holoyolo_add_executable(cn_deserialize
   ${cn_deserialize_sources}
   ${cn_deserialize_private_headers})
 
@@ -47,14 +47,14 @@ target_link_libraries(cn_deserialize
 
 set_property(TARGET cn_deserialize
 	PROPERTY
-	OUTPUT_NAME "scala-utils-deserialize")
+	OUTPUT_NAME "Holoyolo-utils-deserialize")
 
 
 set(object_sizes_sources
   object_sizes.cpp
   )
 
-scala_add_executable(object_sizes
+Holoyolo_add_executable(object_sizes
   ${object_sizes_sources}
   ${object_sizes_private_headers})
 
@@ -68,14 +68,14 @@ target_link_libraries(object_sizes
 
 set_property(TARGET object_sizes
 	PROPERTY
-	OUTPUT_NAME "scala-utils-object-sizes")
+	OUTPUT_NAME "Holoyolo-utils-object-sizes")
 
 
 set(dns_checks_sources
   dns_checks.cpp
   )
 
-scala_add_executable(dns_checks
+Holoyolo_add_executable(dns_checks
   ${dns_checks_sources}
   ${dns_checks_private_headers})
 
@@ -90,5 +90,5 @@ target_link_libraries(dns_checks
 
 set_property(TARGET dns_checks
 	PROPERTY
-	OUTPUT_NAME "scala-utils-dns-checks")
+	OUTPUT_NAME "Holoyolo-utils-dns-checks")
 

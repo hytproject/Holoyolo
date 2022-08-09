@@ -42,8 +42,8 @@
 #include "transport.hpp"
 #include "messages/messages-common.pb.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "device.trezor.transport"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "device.trezor.transport"
 
 using namespace std;
 using json = rapidjson::Document;
@@ -817,11 +817,11 @@ namespace trezor{
 #  define TREZOR_LIBUSB_SET_DEBUG(ctx, level) libusb_set_debug(ctx, level)
 #endif
 
-    if (ELPP->vRegistry()->allowed(el::Level::Debug, SCALA_DEFAULT_LOG_CATEGORY))
+    if (ELPP->vRegistry()->allowed(el::Level::Debug, Holoyolo_DEFAULT_LOG_CATEGORY))
       TREZOR_LIBUSB_SET_DEBUG(ctx, 3);
-    else if (ELPP->vRegistry()->allowed(el::Level::Warning, SCALA_DEFAULT_LOG_CATEGORY))
+    else if (ELPP->vRegistry()->allowed(el::Level::Warning, Holoyolo_DEFAULT_LOG_CATEGORY))
       TREZOR_LIBUSB_SET_DEBUG(ctx, 2);
-    else if (ELPP->vRegistry()->allowed(el::Level::Error, SCALA_DEFAULT_LOG_CATEGORY))
+    else if (ELPP->vRegistry()->allowed(el::Level::Error, Holoyolo_DEFAULT_LOG_CATEGORY))
       TREZOR_LIBUSB_SET_DEBUG(ctx, 1);
 
 #undef TREZOR_LIBUSB_SET_DEBUG

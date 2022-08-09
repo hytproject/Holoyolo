@@ -27,8 +27,8 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef SCALA_PROTOCOL_H
-#define SCALA_PROTOCOL_H
+#ifndef Holoyolo_PROTOCOL_H
+#define Holoyolo_PROTOCOL_H
 
 #include "trezor_defs.hpp"
 #include "device/device_cold.hpp"
@@ -41,11 +41,11 @@ namespace trezor{
 namespace protocol{
 
   std::string key_to_string(const ::crypto::ec_point & key);
-  std::string key_to_string(const ::crypto::ec_scalar & key);
+  std::string key_to_string(const ::crypto::ec_Holoyolor & key);
   std::string key_to_string(const ::crypto::hash & key);
   std::string key_to_string(const ::rct::key & key);
 
-  void string_to_key(::crypto::ec_scalar & key, const std::string & str);
+  void string_to_key(::crypto::ec_Holoyolor & key, const std::string & str);
   void string_to_key(::crypto::ec_point & key, const std::string & str);
   void string_to_key(::rct::key & key, const std::string & str);
 
@@ -108,30 +108,30 @@ namespace chacha {
 // Cold Key image sync
 namespace ki {
 
-  using ScalaTransferDetails = messages::scala::ScalaKeyImageSyncStepRequest_ScalaTransferDetails;
-  using ScalaSubAddressIndicesList = messages::scala::ScalaKeyImageExportInitRequest_ScalaSubAddressIndicesList;
-  using ScalaExportedKeyImage = messages::scala::ScalaKeyImageSyncStepAck_ScalaExportedKeyImage;
+  using HoloyoloTransferDetails = messages::Holoyolo::HoloyoloKeyImageSyncStepRequest_HoloyoloTransferDetails;
+  using HoloyoloSubAddressIndicesList = messages::Holoyolo::HoloyoloKeyImageExportInitRequest_HoloyoloSubAddressIndicesList;
+  using HoloyoloExportedKeyImage = messages::Holoyolo::HoloyoloKeyImageSyncStepAck_HoloyoloExportedKeyImage;
   using exported_key_image = hw::device_cold::exported_key_image;
 
   /**
-   * Converts transfer details to the ScalaTransferDetails required for KI sync
+   * Converts transfer details to the HoloyoloTransferDetails required for KI sync
    */
   bool key_image_data(wallet_shim * wallet,
                       const std::vector<tools::wallet2::transfer_details> & transfers,
-                      std::vector<ScalaTransferDetails> & res,
+                      std::vector<HoloyoloTransferDetails> & res,
                       bool need_all_additionals=false);
 
   /**
-   * Computes a hash over ScalaTransferDetails. Commitment used in the KI sync.
+   * Computes a hash over HoloyoloTransferDetails. Commitment used in the KI sync.
    */
-  std::string compute_hash(const ScalaTransferDetails & rr);
+  std::string compute_hash(const HoloyoloTransferDetails & rr);
 
   /**
    * Generates KI sync request with commitments computed.
    */
-  void generate_commitment(std::vector<ScalaTransferDetails> & mtds,
+  void generate_commitment(std::vector<HoloyoloTransferDetails> & mtds,
                            const std::vector<tools::wallet2::transfer_details> & transfers,
-                           std::shared_ptr<messages::scala::ScalaKeyImageExportInitRequest> & req,
+                           std::shared_ptr<messages::Holoyolo::HoloyoloKeyImageExportInitRequest> & req,
                            bool need_subaddr_indices=false);
 
   /**
@@ -139,30 +139,30 @@ namespace ki {
    */
   void live_refresh_ack(const ::crypto::secret_key & view_key_priv,
                         const ::crypto::public_key& out_key,
-                        const std::shared_ptr<messages::scala::ScalaLiveRefreshStepAck> & ack,
+                        const std::shared_ptr<messages::Holoyolo::HoloyoloLiveRefreshStepAck> & ack,
                         ::cryptonote::keypair& in_ephemeral,
                         ::crypto::key_image& ki);
 }
 
 // Cold transaction signing
 namespace tx {
-  using TsxData = messages::scala::ScalaTransactionInitRequest_ScalaTransactionData;
-  using ScalaTransactionDestinationEntry = messages::scala::ScalaTransactionDestinationEntry;
-  using ScalaAccountPublicAddress = messages::scala::ScalaTransactionDestinationEntry_ScalaAccountPublicAddress;
-  using ScalaTransactionSourceEntry = messages::scala::ScalaTransactionSourceEntry;
-  using ScalaMultisigKLRki = messages::scala::ScalaTransactionSourceEntry_ScalaMultisigKLRki;
-  using ScalaOutputEntry = messages::scala::ScalaTransactionSourceEntry_ScalaOutputEntry;
-  using ScalaRctKey = messages::scala::ScalaTransactionSourceEntry_ScalaOutputEntry_ScalaRctKeyPublic;
-  using ScalaRsigData = messages::scala::ScalaTransactionRsigData;
+  using TsxData = messages::Holoyolo::HoloyoloTransactionInitRequest_HoloyoloTransactionData;
+  using HoloyoloTransactionDestinationEntry = messages::Holoyolo::HoloyoloTransactionDestinationEntry;
+  using HoloyoloAccountPublicAddress = messages::Holoyolo::HoloyoloTransactionDestinationEntry_HoloyoloAccountPublicAddress;
+  using HoloyoloTransactionSourceEntry = messages::Holoyolo::HoloyoloTransactionSourceEntry;
+  using HoloyoloMultisigKLRki = messages::Holoyolo::HoloyoloTransactionSourceEntry_HoloyoloMultisigKLRki;
+  using HoloyoloOutputEntry = messages::Holoyolo::HoloyoloTransactionSourceEntry_HoloyoloOutputEntry;
+  using HoloyoloRctKey = messages::Holoyolo::HoloyoloTransactionSourceEntry_HoloyoloOutputEntry_HoloyoloRctKeyPublic;
+  using HoloyoloRsigData = messages::Holoyolo::HoloyoloTransactionRsigData;
 
   using tx_construction_data = tools::wallet2::tx_construction_data;
   using unsigned_tx_set = tools::wallet2::unsigned_tx_set;
 
-  void translate_address(ScalaAccountPublicAddress * dst, const cryptonote::account_public_address * src);
-  void translate_dst_entry(ScalaTransactionDestinationEntry * dst, const cryptonote::tx_destination_entry * src);
-  void translate_klrki(ScalaMultisigKLRki * dst, const rct::multisig_kLRki * src);
-  void translate_rct_key(ScalaRctKey * dst, const rct::ctkey * src);
-  std::string hash_addr(const ScalaAccountPublicAddress * addr, boost::optional<uint64_t> amount = boost::none, boost::optional<bool> is_subaddr = boost::none);
+  void translate_address(HoloyoloAccountPublicAddress * dst, const cryptonote::account_public_address * src);
+  void translate_dst_entry(HoloyoloTransactionDestinationEntry * dst, const cryptonote::tx_destination_entry * src);
+  void translate_klrki(HoloyoloMultisigKLRki * dst, const rct::multisig_kLRki * src);
+  void translate_rct_key(HoloyoloRctKey * dst, const rct::ctkey * src);
+  std::string hash_addr(const HoloyoloAccountPublicAddress * addr, boost::optional<uint64_t> amount = boost::none, boost::optional<bool> is_subaddr = boost::none);
   std::string hash_addr(const std::string & spend_key, const std::string & view_key, boost::optional<uint64_t> amount = boost::none, boost::optional<bool> is_subaddr = boost::none);
   std::string hash_addr(const ::crypto::public_key * spend_key, const ::crypto::public_key * view_key, boost::optional<uint64_t> amount = boost::none, boost::optional<bool> is_subaddr = boost::none);
   ::crypto::secret_key compute_enc_key(const ::crypto::secret_key & private_view_key, const std::string & aux, const std::string & salt);
@@ -181,7 +181,7 @@ namespace tx {
     unsigned rsig_type;
     int bp_version;
     std::vector<uint64_t> grouping_vct;
-    std::shared_ptr<ScalaRsigData> rsig_param;
+    std::shared_ptr<HoloyoloRsigData> rsig_param;
     size_t cur_input_idx;
     size_t cur_output_idx;
     size_t cur_batch_idx;
@@ -248,43 +248,43 @@ namespace tx {
     void extract_payment_id();
     void compute_integrated_indices(TsxData * tsx_data);
     bool should_compute_bp_now() const;
-    void compute_bproof(messages::scala::ScalaTransactionRsigData & rsig_data);
+    void compute_bproof(messages::Holoyolo::HoloyoloTransactionRsigData & rsig_data);
     void process_bproof(rct::Bulletproof & bproof);
-    void set_tx_input(ScalaTransactionSourceEntry * dst, size_t idx, bool need_ring_keys=false, bool need_ring_indices=false);
+    void set_tx_input(HoloyoloTransactionSourceEntry * dst, size_t idx, bool need_ring_keys=false, bool need_ring_indices=false);
 
   public:
     Signer(wallet_shim * wallet2, const unsigned_tx_set * unsigned_tx, size_t tx_idx = 0, hw::tx_aux_data * aux_data = nullptr);
 
-    std::shared_ptr<messages::scala::ScalaTransactionInitRequest> step_init();
-    void step_init_ack(std::shared_ptr<const messages::scala::ScalaTransactionInitAck> ack);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionInitRequest> step_init();
+    void step_init_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionInitAck> ack);
 
-    std::shared_ptr<messages::scala::ScalaTransactionSetInputRequest> step_set_input(size_t idx);
-    void step_set_input_ack(std::shared_ptr<const messages::scala::ScalaTransactionSetInputAck> ack);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionSetInputRequest> step_set_input(size_t idx);
+    void step_set_input_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionSetInputAck> ack);
 
     void sort_ki();
-    std::shared_ptr<messages::scala::ScalaTransactionInputsPermutationRequest> step_permutation();
-    void step_permutation_ack(std::shared_ptr<const messages::scala::ScalaTransactionInputsPermutationAck> ack);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionInputsPermutationRequest> step_permutation();
+    void step_permutation_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionInputsPermutationAck> ack);
 
-    std::shared_ptr<messages::scala::ScalaTransactionInputViniRequest> step_set_vini_input(size_t idx);
-    void step_set_vini_input_ack(std::shared_ptr<const messages::scala::ScalaTransactionInputViniAck> ack);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionInputViniRequest> step_set_vini_input(size_t idx);
+    void step_set_vini_input_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionInputViniAck> ack);
 
-    std::shared_ptr<messages::scala::ScalaTransactionAllInputsSetRequest> step_all_inputs_set();
-    void step_all_inputs_set_ack(std::shared_ptr<const messages::scala::ScalaTransactionAllInputsSetAck> ack);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionAllInputsSetRequest> step_all_inputs_set();
+    void step_all_inputs_set_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionAllInputsSetAck> ack);
 
-    std::shared_ptr<messages::scala::ScalaTransactionSetOutputRequest> step_set_output(size_t idx);
-    void step_set_output_ack(std::shared_ptr<const messages::scala::ScalaTransactionSetOutputAck> ack);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionSetOutputRequest> step_set_output(size_t idx);
+    void step_set_output_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionSetOutputAck> ack);
 
-    std::shared_ptr<messages::scala::ScalaTransactionSetOutputRequest> step_rsig(size_t idx);
-    void step_set_rsig_ack(std::shared_ptr<const messages::scala::ScalaTransactionSetOutputAck> ack);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionSetOutputRequest> step_rsig(size_t idx);
+    void step_set_rsig_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionSetOutputAck> ack);
 
-    std::shared_ptr<messages::scala::ScalaTransactionAllOutSetRequest> step_all_outs_set();
-    void step_all_outs_set_ack(std::shared_ptr<const messages::scala::ScalaTransactionAllOutSetAck> ack, hw::device &hwdev);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionAllOutSetRequest> step_all_outs_set();
+    void step_all_outs_set_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionAllOutSetAck> ack, hw::device &hwdev);
 
-    std::shared_ptr<messages::scala::ScalaTransactionSignInputRequest> step_sign_input(size_t idx);
-    void step_sign_input_ack(std::shared_ptr<const messages::scala::ScalaTransactionSignInputAck> ack);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionSignInputRequest> step_sign_input(size_t idx);
+    void step_sign_input_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionSignInputAck> ack);
 
-    std::shared_ptr<messages::scala::ScalaTransactionFinalRequest> step_final();
-    void step_final_ack(std::shared_ptr<const messages::scala::ScalaTransactionFinalAck> ack);
+    std::shared_ptr<messages::Holoyolo::HoloyoloTransactionFinalRequest> step_final();
+    void step_final_ack(std::shared_ptr<const messages::Holoyolo::HoloyoloTransactionFinalAck> ack);
 
     std::string store_tx_aux_info();
 
@@ -332,14 +332,14 @@ namespace tx {
   // TX Key decryption
   void load_tx_key_data(hw::device_cold::tx_key_data_t & res, const std::string & data);
 
-  std::shared_ptr<messages::scala::ScalaGetTxKeyRequest> get_tx_key(
+  std::shared_ptr<messages::Holoyolo::HoloyoloGetTxKeyRequest> get_tx_key(
       const hw::device_cold::tx_key_data_t & tx_data);
 
   void get_tx_key_ack(
       std::vector<::crypto::secret_key> & tx_keys,
       const std::string & tx_prefix_hash,
       const ::crypto::secret_key & view_key_priv,
-      std::shared_ptr<const messages::scala::ScalaGetTxKeyAck> ack
+      std::shared_ptr<const messages::Holoyolo::HoloyoloGetTxKeyAck> ack
   );
 }
 
@@ -348,4 +348,4 @@ namespace tx {
 }
 
 
-#endif //SCALA_PROTOCOL_H
+#endif //Holoyolo_PROTOCOL_H

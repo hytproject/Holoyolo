@@ -38,8 +38,8 @@ extern "C"
 #include "rctOps.h"
 #include "multiexp.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "multiexp"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "multiexp"
 
 //#define MULTIEXP_PERF(x) x
 #define MULTIEXP_PERF(x)
@@ -164,7 +164,7 @@ rct::key bos_coster_heap_conv(std::vector<MultiexpData> data)
   for (size_t n = 0; n < points; ++n)
     heap[n] = n;
 
-  auto Comp = [&](size_t e0, size_t e1) { return data[e0].scalar < data[e1].scalar; };
+  auto Comp = [&](size_t e0, size_t e1) { return data[e0].Holoyolor < data[e1].Holoyolor; };
   std::make_heap(heap.begin(), heap.end(), Comp);
   MULTIEXP_PERF(PERF_TIMER_STOP(setup));
 
@@ -193,11 +193,11 @@ rct::key bos_coster_heap_conv(std::vector<MultiexpData> data)
     MULTIEXP_PERF(PERF_TIMER_PAUSE(add));
 
     MULTIEXP_PERF(PERF_TIMER_RESUME(sub));
-    sc_sub(data[index1].scalar.bytes, data[index1].scalar.bytes, data[index2].scalar.bytes);
+    sc_sub(data[index1].Holoyolor.bytes, data[index1].Holoyolor.bytes, data[index2].Holoyolor.bytes);
     MULTIEXP_PERF(PERF_TIMER_PAUSE(sub));
 
     MULTIEXP_PERF(PERF_TIMER_RESUME(push));
-    if (!(data[index1].scalar == rct::zero()))
+    if (!(data[index1].Holoyolor == rct::zero()))
     {
       heap.push_back(index1);
       std::push_heap(heap.begin(), heap.end(), Comp);
@@ -214,12 +214,12 @@ rct::key bos_coster_heap_conv(std::vector<MultiexpData> data)
   MULTIEXP_PERF(PERF_TIMER_STOP(loop));
 
   MULTIEXP_PERF(PERF_TIMER_START_UNIT(end, 1000000));
-  //return rct::scalarmultKey(data[index1].point, data[index1].scalar);
+  //return rct::HoloyolormultKey(data[index1].point, data[index1].Holoyolor);
   std::pop_heap(heap.begin(), heap.end(), Comp);
   size_t index1 = heap.back();
   heap.pop_back();
   ge_p2 p2;
-  ge_scalarmult(&p2, data[index1].scalar.bytes, &data[index1].point);
+  ge_Holoyolormult(&p2, data[index1].Holoyolor.bytes, &data[index1].point);
   rct::key res;
   ge_tobytes(res.bytes, &p2);
   return res;
@@ -235,14 +235,14 @@ rct::key bos_coster_heap_conv_robust(std::vector<MultiexpData> data)
   heap.reserve(points);
   for (size_t n = 0; n < points; ++n)
   {
-    if (!(data[n].scalar == rct::zero()) && !ge_p3_is_point_at_infinity(&data[n].point))
+    if (!(data[n].Holoyolor == rct::zero()) && !ge_p3_is_point_at_infinity(&data[n].point))
       heap.push_back(n);
   }
   points = heap.size();
   if (points == 0)
     return rct::identity();
 
-  auto Comp = [&](size_t e0, size_t e1) { return data[e0].scalar < data[e1].scalar; };
+  auto Comp = [&](size_t e0, size_t e1) { return data[e0].Holoyolor < data[e1].Holoyolor; };
   std::make_heap(heap.begin(), heap.end(), Comp);
 
   if (points < 2)
@@ -250,7 +250,7 @@ rct::key bos_coster_heap_conv_robust(std::vector<MultiexpData> data)
     std::pop_heap(heap.begin(), heap.end(), Comp);
     size_t index1 = heap.back();
     ge_p2 p2;
-    ge_scalarmult(&p2, data[index1].scalar.bytes, &data[index1].point);
+    ge_Holoyolormult(&p2, data[index1].Holoyolor.bytes, &data[index1].point);
     rct::key res;
     ge_tobytes(res.bytes, &p2);
     return res;
@@ -282,18 +282,18 @@ rct::key bos_coster_heap_conv_robust(std::vector<MultiexpData> data)
     MULTIEXP_PERF(PERF_TIMER_RESUME(div));
     while (1)
     {
-      rct::key s1_2 = div2(data[index1].scalar);
-      if (!(data[index2].scalar < s1_2))
+      rct::key s1_2 = div2(data[index1].Holoyolor);
+      if (!(data[index2].Holoyolor < s1_2))
        break;
-      if (data[index1].scalar.bytes[0] & 1)
+      if (data[index1].Holoyolor.bytes[0] & 1)
       {
         data.resize(data.size()+1);
-        data.back().scalar = rct::identity();
+        data.back().Holoyolor = rct::identity();
         data.back().point = data[index1].point;
         heap.push_back(data.size() - 1);
         std::push_heap(heap.begin(), heap.end(), Comp);
       }
-      data[index1].scalar = div2(data[index1].scalar);
+      data[index1].Holoyolor = div2(data[index1].Holoyolor);
       ge_p3_to_p2(&p2, &data[index1].point);
       ge_p2_dbl(&p1, &p2);
       ge_p1p1_to_p3(&data[index1].point, &p1);
@@ -307,11 +307,11 @@ rct::key bos_coster_heap_conv_robust(std::vector<MultiexpData> data)
     MULTIEXP_PERF(PERF_TIMER_PAUSE(add));
 
     MULTIEXP_PERF(PERF_TIMER_RESUME(sub));
-    sc_sub(data[index1].scalar.bytes, data[index1].scalar.bytes, data[index2].scalar.bytes);
+    sc_sub(data[index1].Holoyolor.bytes, data[index1].Holoyolor.bytes, data[index2].Holoyolor.bytes);
     MULTIEXP_PERF(PERF_TIMER_PAUSE(sub));
 
     MULTIEXP_PERF(PERF_TIMER_RESUME(push));
-    if (!(data[index1].scalar == rct::zero()))
+    if (!(data[index1].Holoyolor == rct::zero()))
     {
       heap.push_back(index1);
       std::push_heap(heap.begin(), heap.end(), Comp);
@@ -328,12 +328,12 @@ rct::key bos_coster_heap_conv_robust(std::vector<MultiexpData> data)
   MULTIEXP_PERF(PERF_TIMER_STOP(loop));
 
   MULTIEXP_PERF(PERF_TIMER_START_UNIT(end, 1000000));
-  //return rct::scalarmultKey(data[index1].point, data[index1].scalar);
+  //return rct::HoloyolormultKey(data[index1].point, data[index1].Holoyolor);
   std::pop_heap(heap.begin(), heap.end(), Comp);
   size_t index1 = heap.back();
   heap.pop_back();
   ge_p2 p2;
-  ge_scalarmult(&p2, data[index1].scalar.bytes, &data[index1].point);
+  ge_Holoyolormult(&p2, data[index1].Holoyolor.bytes, &data[index1].point);
   rct::key res;
   ge_tobytes(res.bytes, &p2);
   return res;
@@ -460,7 +460,7 @@ rct::key straus(const std::vector<MultiexpData> &data, const std::shared_ptr<str
   MULTIEXP_PERF(PERF_TIMER_START_UNIT(skip, 1000000));
   std::vector<uint8_t> skip(data.size());
   for (size_t i = 0; i < data.size(); ++i)
-    skip[i] = data[i].scalar == rct::zero() || ge_p3_is_point_at_infinity(&data[i].point);
+    skip[i] = data[i].Holoyolor == rct::zero() || ge_p3_is_point_at_infinity(&data[i].point);
   MULTIEXP_PERF(PERF_TIMER_STOP(skip));
 #endif
 
@@ -472,7 +472,7 @@ rct::key straus(const std::vector<MultiexpData> &data, const std::shared_ptr<str
 #endif
   for (size_t j = 0; j < data.size(); ++j)
   {
-    const unsigned char *bytes = data[j].scalar.bytes;
+    const unsigned char *bytes = data[j].Holoyolor.bytes;
 #if STRAUS_C==4
     unsigned int i;
     for (i = 0; i < 64; i += 2, bytes++)
@@ -482,13 +482,13 @@ rct::key straus(const std::vector<MultiexpData> &data, const std::shared_ptr<str
     }
 #elif 1
     unsigned char bytes33[33];
-    memcpy(bytes33,  data[j].scalar.bytes, 32);
+    memcpy(bytes33,  data[j].Holoyolor.bytes, 32);
     bytes33[32] = 0;
     bytes = bytes33;
     for (size_t i = 0; i < 256; ++i)
       digits[j*256+i] = ((bytes[i>>3] | (bytes[(i>>3)+1]<<8)) >> (i&7)) & mask;
 #else
-    rct::key shifted = data[j].scalar;
+    rct::key shifted = data[j].Holoyolor;
     for (size_t i = 0; i < 256; ++i)
     {
       digits[j*256+i] = shifted.bytes[0] & 0xf;
@@ -498,12 +498,12 @@ rct::key straus(const std::vector<MultiexpData> &data, const std::shared_ptr<str
   }
   MULTIEXP_PERF(PERF_TIMER_STOP(digits));
 
-  rct::key maxscalar = rct::zero();
+  rct::key maxHoloyolor = rct::zero();
   for (size_t i = 0; i < data.size(); ++i)
-    if (maxscalar < data[i].scalar)
-      maxscalar = data[i].scalar;
+    if (maxHoloyolor < data[i].Holoyolor)
+      maxHoloyolor = data[i].Holoyolor;
   size_t start_i = 0;
-  while (start_i < 256 && !(maxscalar < pow2(start_i)))
+  while (start_i < 256 && !(maxHoloyolor < pow2(start_i)))
     start_i += STRAUS_C;
   MULTIEXP_PERF(PERF_TIMER_STOP(setup));
 
@@ -621,14 +621,14 @@ rct::key pippenger(const std::vector<MultiexpData> &data, const std::shared_ptr<
   std::shared_ptr<pippenger_cached_data> local_cache = cache == NULL ? pippenger_init_cache(data) : cache;
   std::shared_ptr<pippenger_cached_data> local_cache_2 = data.size() > cache_size ? pippenger_init_cache(data, cache_size) : NULL;
 
-  rct::key maxscalar = rct::zero();
+  rct::key maxHoloyolor = rct::zero();
   for (size_t i = 0; i < data.size(); ++i)
   {
-    if (maxscalar < data[i].scalar)
-      maxscalar = data[i].scalar;
+    if (maxHoloyolor < data[i].Holoyolor)
+      maxHoloyolor = data[i].Holoyolor;
   }
   size_t groups = 0;
-  while (groups < 256 && !(maxscalar < pow2(groups)))
+  while (groups < 256 && !(maxHoloyolor < pow2(groups)))
     ++groups;
   groups = (groups + c - 1) / c;
 
@@ -650,12 +650,12 @@ rct::key pippenger(const std::vector<MultiexpData> &data, const std::shared_ptr<
     }
     memset(buckets_init, 0, 1u<<c);
 
-    // partition scalars into buckets
+    // partition Holoyolors into buckets
     for (size_t i = 0; i < data.size(); ++i)
     {
       unsigned int bucket = 0;
       for (size_t j = 0; j < c; ++j)
-        if (test(data[i].scalar, k*c+j))
+        if (test(data[i].Holoyolor, k*c+j))
           bucket |= 1<<j;
       if (bucket == 0)
         continue;

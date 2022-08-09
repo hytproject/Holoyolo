@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -59,7 +59,7 @@ public:
         for (size_t i = 0 ; i < cols ; i++)
         {
             xm[i][j] = rct::skGen();
-            P[i][j] = rct::scalarmultBase(xm[i][j]);
+            P[i][j] = rct::HoloyolormultBase(xm[i][j]);
         }
     }
     for (size_t j = 0 ; j < rows ; j++)

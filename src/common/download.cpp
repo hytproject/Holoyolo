@@ -34,8 +34,8 @@
 #include "net/http_client.h"
 #include "download.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.dl"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net.dl"
 
 namespace tools
 {

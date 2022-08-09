@@ -2,7 +2,7 @@
 #define SC_H
 
 /*
-The set of scalars is \Z/l
+The set of Holoyolors is \Z/l
 where l = 2^252 + 27742317777372353535851937790883648493.
 */
 

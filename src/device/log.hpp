@@ -70,7 +70,7 @@ namespace hw {
         cryptonote::account_keys decrypt(const cryptonote::account_keys& keys) ;
         crypto::secret_key decrypt(const crypto::secret_key &sec) ;
         rct::key  decrypt(const rct::key &sec);
-        crypto::ec_scalar decrypt(const crypto::ec_scalar &res);
+        crypto::ec_Holoyolor decrypt(const crypto::ec_Holoyolor &res);
         rct::keyV decrypt(const rct::keyV &keys);
 
         void check32(const std::string &msg, const std::string &info, const char *h, const char *d, bool crypted=false);

@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 #
 # All rights reserved.
 #
@@ -35,13 +35,13 @@ if (WIN32 OR STATIC)
   add_definitions(-DMINIUPNP_STATICLIB)
 endif ()
 
-function (scala_private_headers group)
+function (Holoyolo_private_headers group)
   source_group("${group}\\Private"
     FILES
       ${ARGN})
 endfunction ()
 
-function (scala_install_headers subdir)
+function (Holoyolo_install_headers subdir)
   install(
     FILES       ${ARGN}
     DESTINATION "include/${subdir}"
@@ -59,7 +59,7 @@ function (enable_stack_trace target)
   endif()
 endfunction()
 
-function (scala_add_executable name)
+function (Holoyolo_add_executable name)
   source_group("${name}"
     FILES
       ${ARGN})
@@ -78,31 +78,31 @@ function (scala_add_executable name)
   enable_stack_trace("${name}")
 endfunction ()
 
-function (scala_add_library name)
-    scala_add_library_with_deps(NAME "${name}" SOURCES ${ARGN})
+function (Holoyolo_add_library name)
+    Holoyolo_add_library_with_deps(NAME "${name}" SOURCES ${ARGN})
 endfunction()
 
-function (scala_add_library_with_deps)
-  cmake_parse_arguments(SCALA_ADD_LIBRARY "" "NAME" "DEPENDS;SOURCES" ${ARGN})
-  source_group("${SCALA_ADD_LIBRARY_NAME}" FILES ${SCALA_ADD_LIBRARY_SOURCES})
+function (Holoyolo_add_library_with_deps)
+  cmake_parse_arguments(Holoyolo_ADD_LIBRARY "" "NAME" "DEPENDS;SOURCES" ${ARGN})
+  source_group("${Holoyolo_ADD_LIBRARY_NAME}" FILES ${Holoyolo_ADD_LIBRARY_SOURCES})
 
   # Define a ("virtual") object library and an actual library that links those
   # objects together. The virtual libraries can be arbitrarily combined to link
   # any subset of objects into one library archive. This is used for releasing
   # libwallet, which combines multiple components.
-  set(objlib obj_${SCALA_ADD_LIBRARY_NAME})
-  add_library(${objlib} OBJECT ${SCALA_ADD_LIBRARY_SOURCES})
-  add_library("${SCALA_ADD_LIBRARY_NAME}" $<TARGET_OBJECTS:${objlib}>)
-  if (SCALA_ADD_LIBRARY_DEPENDS)
-    add_dependencies(${objlib} ${SCALA_ADD_LIBRARY_DEPENDS})
+  set(objlib obj_${Holoyolo_ADD_LIBRARY_NAME})
+  add_library(${objlib} OBJECT ${Holoyolo_ADD_LIBRARY_SOURCES})
+  add_library("${Holoyolo_ADD_LIBRARY_NAME}" $<TARGET_OBJECTS:${objlib}>)
+  if (Holoyolo_ADD_LIBRARY_DEPENDS)
+    add_dependencies(${objlib} ${Holoyolo_ADD_LIBRARY_DEPENDS})
   endif()
-  set_property(TARGET "${SCALA_ADD_LIBRARY_NAME}" PROPERTY FOLDER "libs")
+  set_property(TARGET "${Holoyolo_ADD_LIBRARY_NAME}" PROPERTY FOLDER "libs")
   target_compile_definitions(${objlib}
-    PRIVATE $<TARGET_PROPERTY:${SCALA_ADD_LIBRARY_NAME},INTERFACE_COMPILE_DEFINITIONS>)
+    PRIVATE $<TARGET_PROPERTY:${Holoyolo_ADD_LIBRARY_NAME},INTERFACE_COMPILE_DEFINITIONS>)
 endfunction ()
 
 include(Version)
-scala_add_library(version SOURCES ${CMAKE_BINARY_DIR}/version.cpp DEPENDS genversion)
+Holoyolo_add_library(version SOURCES ${CMAKE_BINARY_DIR}/version.cpp DEPENDS genversion)
 
 add_subdirectory(common)
 add_subdirectory(crypto)

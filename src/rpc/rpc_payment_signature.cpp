@@ -33,8 +33,8 @@
 #include "string_tools.h"
 #include "rpc_payment_signature.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "daemon.rpc.payment"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "daemon.rpc.payment"
 
 #define TIMESTAMP_LEEWAY (60 * 1000000) /* 60 seconds, in microseconds */
 

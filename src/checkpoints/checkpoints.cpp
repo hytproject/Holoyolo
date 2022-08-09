@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 //
 // All rights reserved.
 //
@@ -54,8 +54,8 @@ using namespace boost::property_tree;
 using namespace boost::algorithm;
 using namespace epee;
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "checkpoints"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "checkpoints"
 
 namespace cryptonote
 {
@@ -268,10 +268,10 @@ namespace cryptonote
   {
     std::vector<std::string> records;
 
-    // All four ScalaPulse domains have DNSSEC on and valid
-    static const std::vector<std::string> dns_urls = { "checkpointsdns.scalaproject.io" };
-    static const std::vector<std::string> testnet_dns_urls = { "testcheckpointsdns.scalaproject.io" };
-    static const std::vector<std::string> stagenet_dns_urls = { "stagecheckpointsdns.scalaproject.io" };
+    // All four HoloyoloPulse domains have DNSSEC on and valid
+    static const std::vector<std::string> dns_urls = { "checkpointsdns.holoyolo.com" };
+    static const std::vector<std::string> testnet_dns_urls = { "testcheckpointsdns.holoyolo.com" };
+    static const std::vector<std::string> stagenet_dns_urls = { "stagecheckpointsdns.holoyolo.com" };
 
     if (!tools::dns_utils::load_txt_records_from_dns(records, nettype == TESTNET ? testnet_dns_urls : nettype == STAGENET ? stagenet_dns_urls : dns_urls))
       return true; // why true ?

@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification, are
@@ -43,8 +43,8 @@
 #include "profile_tools.h"
 #include "ringct/rctOps.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "blockchain.db.lmdb"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "blockchain.db.lmdb"
 
 
 #if defined(__i386) || defined(__x86_64)
@@ -1470,7 +1470,7 @@ void BlockchainLMDB::open(const std::string& filename, const int db_flags)
         mdb_env_close(m_env);
         m_open = false;
         MFATAL("Existing lmdb database needs to be converted, which cannot be done on a read-only database.");
-        MFATAL("Please run scalad once to convert the database.");
+        MFATAL("Please run Holoyolod once to convert the database.");
         return;
       }
       // Note that there was a schema change within version 0 as well.

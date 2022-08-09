@@ -37,8 +37,8 @@
 #include "common/dns_utils.h"
 #include "version.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "debugtools.dnschecks"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "debugtools.dnschecks"
 
 namespace po = boost::program_options;
 
@@ -121,28 +121,28 @@ int main(int argc, char* argv[])
 
   if (command_line::get_arg(vm, command_line::arg_help))
   {
-    std::cout << "Scala '" << SCALA_RELEASE_NAME << "' (v" << SCALA_VERSION_FULL << ")" << ENDL << ENDL;
+    std::cout << "Holoyolo '" << Holoyolo_RELEASE_NAME << "' (v" << Holoyolo_VERSION_FULL << ")" << ENDL << ENDL;
     std::cout << desc_options << std::endl;
     return 1;
   }
 
   mlog_configure("", true);
-  mlog_set_categories("+" SCALA_DEFAULT_LOG_CATEGORY ":INFO");
+  mlog_set_categories("+" Holoyolo_DEFAULT_LOG_CATEGORY ":INFO");
 
-  lookup(LOOKUP_A, {"seeds.scalaseeds.se", "seeds.scalaseeds.ae.org", "seeds.scalaseeds.ch", "seeds.scalaseeds.li"});
+  lookup(LOOKUP_A, {"seeds.Holoyoloseeds.se", "seeds.Holoyoloseeds.ae.org", "seeds.Holoyoloseeds.ch", "seeds.Holoyoloseeds.li"});
 
-  lookup(LOOKUP_TXT, {"updates.scalapulse.org", "updates.scalapulse.net", "updates.scalapulse.co", "updates.scalapulse.se"});
+  lookup(LOOKUP_TXT, {"updates.Holoyolopulse.org", "updates.Holoyolopulse.net", "updates.Holoyolopulse.co", "updates.Holoyolopulse.se"});
 
-  lookup(LOOKUP_TXT, {"checkpoints.scalapulse.org", "checkpoints.scalapulse.net", "checkpoints.scalapulse.co", "checkpoints.scalapulse.se"});
+  lookup(LOOKUP_TXT, {"checkpoints.Holoyolopulse.org", "checkpoints.Holoyolopulse.net", "checkpoints.Holoyolopulse.co", "checkpoints.Holoyolopulse.se"});
 
   // those are in the code, but don't seem to actually exist
 #if 0
-  lookup(LOOKUP_TXT, {"testpoints.scalapulse.org", "testpoints.scalapulse.net", "testpoints.scalapulse.co", "testpoints.scalapulse.se");
+  lookup(LOOKUP_TXT, {"testpoints.Holoyolopulse.org", "testpoints.Holoyolopulse.net", "testpoints.Holoyolopulse.co", "testpoints.Holoyolopulse.se");
 
-  lookup(LOOKUP_TXT, {"stagenetpoints.scalapulse.org", "stagenetpoints.scalapulse.net", "stagenetpoints.scalapulse.co", "stagenetpoints.scalapulse.se"});
+  lookup(LOOKUP_TXT, {"stagenetpoints.Holoyolopulse.org", "stagenetpoints.Holoyolopulse.net", "stagenetpoints.Holoyolopulse.co", "stagenetpoints.Holoyolopulse.se"});
 #endif
 
-  lookup(LOOKUP_TXT, {"segheights.scalapulse.org", "segheights.scalapulse.net", "segheights.scalapulse.co", "segheights.scalapulse.se"});
+  lookup(LOOKUP_TXT, {"segheights.Holoyolopulse.org", "segheights.Holoyolopulse.net", "segheights.Holoyolopulse.co", "segheights.Holoyolopulse.se"});
 
   return 0;
   CATCH_ENTRY_L0("main", 1);

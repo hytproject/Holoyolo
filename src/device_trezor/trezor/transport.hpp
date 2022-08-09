@@ -27,8 +27,8 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef SCALA_TRANSPORT_H
-#define SCALA_TRANSPORT_H
+#ifndef Holoyolo_TRANSPORT_H
+#define Holoyolo_TRANSPORT_H
 
 
 #include <boost/asio.hpp>
@@ -51,7 +51,7 @@
 #include "messages/messages.pb.h"
 #include "messages/messages-common.pb.h"
 #include "messages/messages-management.pb.h"
-#include "messages/messages-scala.pb.h"
+#include "messages/messages-Holoyolo.pb.h"
 
 namespace hw {
 namespace trezor {
@@ -82,7 +82,7 @@ namespace trezor {
     t_serialize(out_struct, req_param);
 
     http::fields_list additional_params;
-    additional_params.push_back(std::make_pair("Origin","https://scala.trezor.io"));
+    additional_params.push_back(std::make_pair("Origin","https://Holoyolo.trezor.io"));
     additional_params.push_back(std::make_pair("Content-Type","application/json; charset=utf-8"));
 
     const http::http_response_info* pri = nullptr;
@@ -410,4 +410,4 @@ namespace trezor {
 }}
 
 
-#endif //SCALA_TRANSPORT_H
+#endif //Holoyolo_TRANSPORT_H

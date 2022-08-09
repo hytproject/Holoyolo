@@ -27,8 +27,8 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef SCALA_DEVICE_TREZOR_BASE_H
-#define SCALA_DEVICE_TREZOR_BASE_H
+#ifndef Holoyolo_DEVICE_TREZOR_BASE_H
+#define Holoyolo_DEVICE_TREZOR_BASE_H
 
 
 #include <cstddef>
@@ -242,7 +242,7 @@ namespace trezor {
 
     bool reset();
 
-    // Default derivation path for Scala
+    // Default derivation path for Holoyolo
     static const uint32_t DEFAULT_BIP44_PATH[2];
 
     std::shared_ptr<Transport> get_transport(){
@@ -339,4 +339,4 @@ namespace trezor {
 
 }
 }
-#endif //SCALA_DEVICE_TREZOR_BASE_H
+#endif //Holoyolo_DEVICE_TREZOR_BASE_H

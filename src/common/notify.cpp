@@ -33,8 +33,8 @@
 #include "spawn.h"
 #include "notify.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "notify"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "notify"
 
 namespace tools
 {

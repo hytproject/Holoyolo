@@ -818,98 +818,98 @@ TEST(Expect, EqualNoCopies)
 TEST(Expect, Macros) {
     EXPECT_TRUE(
         [] () -> ::common_error {
-            SCALA_PRECOND(true);
+            Holoyolo_PRECOND(true);
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidErrorCode
     );
     EXPECT_TRUE(
         [] () -> ::common_error {
-            SCALA_PRECOND(false);
+            Holoyolo_PRECOND(false);
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidArgument
     );
     EXPECT_TRUE(
         [] () -> std::error_code {
-            SCALA_PRECOND(true);
+            Holoyolo_PRECOND(true);
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidErrorCode
     );
     EXPECT_TRUE(
         [] () -> std::error_code {
-            SCALA_PRECOND(false);
+            Holoyolo_PRECOND(false);
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidArgument
     );
     EXPECT_TRUE(
         [] () -> expect<void> {
-            SCALA_PRECOND(true);
+            Holoyolo_PRECOND(true);
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidErrorCode
     );
     EXPECT_TRUE(
         [] () -> expect<void> {
-            SCALA_PRECOND(false);
+            Holoyolo_PRECOND(false);
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidArgument
     );
     EXPECT_TRUE(
         [] () -> expect<int> {
-            SCALA_PRECOND(true);
+            Holoyolo_PRECOND(true);
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidErrorCode
     );
     EXPECT_TRUE(
         [] () -> expect<int> {
-            SCALA_PRECOND(false);
+            Holoyolo_PRECOND(false);
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidArgument
     );
 
     EXPECT_TRUE(
         [] () -> std::error_code {
-            SCALA_CHECK(expect<void>{});
+            Holoyolo_CHECK(expect<void>{});
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidErrorCode
     );
     EXPECT_TRUE(
         [] () -> std::error_code {
-            SCALA_CHECK(expect<void>{common_error::kInvalidArgument});
+            Holoyolo_CHECK(expect<void>{common_error::kInvalidArgument});
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidArgument
     );
     EXPECT_TRUE(
         [] () -> expect<void> {
-            SCALA_CHECK(expect<void>{});
+            Holoyolo_CHECK(expect<void>{});
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidErrorCode
     );
     EXPECT_TRUE(
         [] () -> expect<void> {
-            SCALA_CHECK(expect<void>{common_error::kInvalidArgument});
+            Holoyolo_CHECK(expect<void>{common_error::kInvalidArgument});
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidArgument
     );
     EXPECT_TRUE(
         [] () -> expect<int> {
-            SCALA_CHECK(expect<void>{});
+            Holoyolo_CHECK(expect<void>{});
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidErrorCode
     );
     EXPECT_TRUE(
         [] () -> expect<int> {
-            SCALA_CHECK(expect<void>{common_error::kInvalidArgument});
+            Holoyolo_CHECK(expect<void>{common_error::kInvalidArgument});
             return {common_error::kInvalidErrorCode};
         } () == common_error::kInvalidArgument
     );
 
-    EXPECT_NO_THROW(SCALA_UNWRAP(success()));
-    EXPECT_NO_THROW(SCALA_UNWRAP(expect<void>{}));
-    EXPECT_NO_THROW(SCALA_UNWRAP(expect<int>{0}));
+    EXPECT_NO_THROW(Holoyolo_UNWRAP(success()));
+    EXPECT_NO_THROW(Holoyolo_UNWRAP(expect<void>{}));
+    EXPECT_NO_THROW(Holoyolo_UNWRAP(expect<int>{0}));
     EXPECT_THROW(
-        SCALA_UNWRAP(expect<void>{common_error::kInvalidArgument}), std::system_error
+        Holoyolo_UNWRAP(expect<void>{common_error::kInvalidArgument}), std::system_error
     );
     EXPECT_THROW(
-        SCALA_UNWRAP(expect<int>{common_error::kInvalidArgument}), std::system_error
+        Holoyolo_UNWRAP(expect<int>{common_error::kInvalidArgument}), std::system_error
     );
 }
 

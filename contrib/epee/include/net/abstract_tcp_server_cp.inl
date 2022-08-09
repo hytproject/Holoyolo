@@ -27,8 +27,8 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net"
 
 namespace epee
 {

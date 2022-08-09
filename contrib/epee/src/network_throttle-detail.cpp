@@ -1,9 +1,9 @@
 /// @file
-/// @author rfree (current maintainer in scala.cc project)
+/// @author rfree (current maintainer in Holoyolo.cc project)
 /// @brief implementaion for throttling of connection (count and rate-limit speed etc)
 
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -61,8 +61,8 @@
 // TODO:
 #include "net/network_throttle-detail.hpp"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.throttle"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net.throttle"
 
 // ################################################################################################
 // ################################################################################################

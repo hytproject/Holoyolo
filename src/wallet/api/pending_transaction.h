@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 //
 // All rights reserved.
 //
@@ -36,7 +36,7 @@
 #include <vector>
 
 
-namespace Scala {
+namespace Holoyolo {
 
 class WalletImpl;
 class PendingTransactionImpl : public PendingTransaction
@@ -75,4 +75,4 @@ private:
 
 }
 
-namespace Bitscala = Scala;
+namespace BitHoloyolo = Holoyolo;

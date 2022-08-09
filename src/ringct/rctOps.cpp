@@ -1,4 +1,4 @@
-// Copyright (c) 2016, Scala Research Labs
+// Copyright (c) 2016, Holoyolo Research Labs
 //
 // Author: Shen Noether <shen.noether@gmx.com>
 //
@@ -35,8 +35,8 @@
 using namespace crypto;
 using namespace std;
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "ringct"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "ringct"
 
 #define CHECK_AND_ASSERT_THROW_MES_L1(expr, message) {if(!(expr)) {MWARNING(message); throw std::runtime_error(message);}}
 
@@ -243,18 +243,18 @@ namespace rct {
         if (ge_frombytes_vartime(P, data))
             return false;
         ge_p2 R;
-        ge_scalarmult(&R, curveOrder().bytes, P);
+        ge_Holoyolormult(&R, curveOrder().bytes, P);
         key tmp;
         ge_tobytes(tmp.bytes, &R);
         return tmp == identity();
     }
 
-    //generates a random scalar which can be used as a secret key or mask
+    //generates a random Holoyolor which can be used as a secret key or mask
     void skGen(key &sk) {
         random32_unbiased(sk.bytes);
     }
 
-    //generates a random scalar which can be used as a secret key or mask
+    //generates a random Holoyolor which can be used as a secret key or mask
     key skGen() {
         key sk;
         skGen(sk);
@@ -276,20 +276,20 @@ namespace rct {
     //generates a random curve point (for testing)
     key  pkGen() {
         key sk = skGen();
-        key pk = scalarmultBase(sk);
+        key pk = HoloyolormultBase(sk);
         return pk;
     }
 
     //generates a random secret and corresponding public key
     void skpkGen(key &sk, key &pk) {
         skGen(sk);
-        scalarmultBase(pk, sk);
+        HoloyolormultBase(pk, sk);
     }
 
     //generates a random secret and corresponding public key
     tuple<key, key>  skpkGen() {
         key sk = skGen();
-        key pk = scalarmultBase(sk);
+        key pk = HoloyolormultBase(sk);
         return make_tuple(sk, pk);
     }
 
@@ -304,7 +304,7 @@ namespace rct {
         skpkGen(sk.dest, pk.dest);
         skpkGen(sk.mask, pk.mask);
         key am = d2h(amount);
-        key bH = scalarmultH(am);
+        key bH = HoloyolormultH(am);
         addKeys(pk.mask, pk.mask, bH);
         return make_tuple(sk, pk);
     }
@@ -329,7 +329,7 @@ namespace rct {
             return it->commitment;
         }
         key am = d2h(amount);
-        key bH = scalarmultH(am);
+        key bH = HoloyolormultH(am);
         return addKeys(G, bH);
     }
 
@@ -344,41 +344,41 @@ namespace rct {
         return h2d(skGen()) % (upperlimit);
     }
 
-    //Scalar multiplications of curve points
+    //Holoyolor multiplications of curve points
 
-    //does a * G where a is a scalar and G is the curve basepoint
-    void scalarmultBase(key &aG,const key &a) {
+    //does a * G where a is a Holoyolor and G is the curve basepoint
+    void HoloyolormultBase(key &aG,const key &a) {
         ge_p3 point;
         sc_reduce32copy(aG.bytes, a.bytes); //do this beforehand!
-        ge_scalarmult_base(&point, aG.bytes);
+        ge_Holoyolormult_base(&point, aG.bytes);
         ge_p3_tobytes(aG.bytes, &point);
     }
 
-    //does a * G where a is a scalar and G is the curve basepoint
-    key scalarmultBase(const key & a) {
+    //does a * G where a is a Holoyolor and G is the curve basepoint
+    key HoloyolormultBase(const key & a) {
         ge_p3 point;
         key aG;
         sc_reduce32copy(aG.bytes, a.bytes); //do this beforehand
-        ge_scalarmult_base(&point, aG.bytes);
+        ge_Holoyolormult_base(&point, aG.bytes);
         ge_p3_tobytes(aG.bytes, &point);
         return aG;
     }
 
-    //does a * P where a is a scalar and P is an arbitrary point
-    void scalarmultKey(key & aP, const key &P, const key &a) {
+    //does a * P where a is a Holoyolor and P is an arbitrary point
+    void HoloyolormultKey(key & aP, const key &P, const key &a) {
         ge_p3 A;
         ge_p2 R;
         CHECK_AND_ASSERT_THROW_MES_L1(ge_frombytes_vartime(&A, P.bytes) == 0, "ge_frombytes_vartime failed at "+boost::lexical_cast<std::string>(__LINE__));
-        ge_scalarmult(&R, a.bytes, &A);
+        ge_Holoyolormult(&R, a.bytes, &A);
         ge_tobytes(aP.bytes, &R);
     }
 
-    //does a * P where a is a scalar and P is an arbitrary point
-    key scalarmultKey(const key & P, const key & a) {
+    //does a * P where a is a Holoyolor and P is an arbitrary point
+    key HoloyolormultKey(const key & P, const key & a) {
         ge_p3 A;
         ge_p2 R;
         CHECK_AND_ASSERT_THROW_MES_L1(ge_frombytes_vartime(&A, P.bytes) == 0, "ge_frombytes_vartime failed at "+boost::lexical_cast<std::string>(__LINE__));
-        ge_scalarmult(&R, a.bytes, &A);
+        ge_Holoyolormult(&R, a.bytes, &A);
         key aP;
         ge_tobytes(aP.bytes, &R);
         return aP;
@@ -386,16 +386,16 @@ namespace rct {
 
 
     //Computes aH where H= toPoint(cn_fast_hash(G)), G the basepoint
-    key scalarmultH(const key & a) {
+    key HoloyolormultH(const key & a) {
         ge_p2 R;
-        ge_scalarmult(&R, a.bytes, &ge_p3_H);
+        ge_Holoyolormult(&R, a.bytes, &ge_p3_H);
         key aP;
         ge_tobytes(aP.bytes, &R);
         return aP;
     }
 
     //Computes 8P
-    key scalarmult8(const key & P) {
+    key Holoyolormult8(const key & P) {
         ge_p3 p3;
         CHECK_AND_ASSERT_THROW_MES_L1(ge_frombytes_vartime(&p3, P.bytes) == 0, "ge_frombytes_vartime failed at "+boost::lexical_cast<std::string>(__LINE__));
         ge_p2 p2;
@@ -409,7 +409,7 @@ namespace rct {
     }
 
     //Computes 8P without byte conversion
-    void scalarmult8(ge_p3 &res, const key &P)
+    void Holoyolormult8(ge_p3 &res, const key &P)
     {
         ge_p3 p3;
         CHECK_AND_ASSERT_THROW_MES_L1(ge_frombytes_vartime(&p3, P.bytes) == 0, "ge_frombytes_vartime failed at "+boost::lexical_cast<std::string>(__LINE__));
@@ -467,19 +467,19 @@ namespace rct {
     }
 
     //addKeys1
-    //aGB = aG + B where a is a scalar, G is the basepoint, and B is a point
+    //aGB = aG + B where a is a Holoyolor, G is the basepoint, and B is a point
     void addKeys1(key &aGB, const key &a, const key & B) {
-        key aG = scalarmultBase(a);
+        key aG = HoloyolormultBase(a);
         addKeys(aGB, aG, B);
     }
 
     //addKeys2
-    //aGbB = aG + bB where a, b are scalars, G is the basepoint and B is a point
+    //aGbB = aG + bB where a, b are Holoyolors, G is the basepoint and B is a point
     void addKeys2(key &aGbB, const key &a, const key &b, const key & B) {
         ge_p2 rv;
         ge_p3 B2;
         CHECK_AND_ASSERT_THROW_MES_L1(ge_frombytes_vartime(&B2, B.bytes) == 0, "ge_frombytes_vartime failed at "+boost::lexical_cast<std::string>(__LINE__));
-        ge_double_scalarmult_base_vartime(&rv, b.bytes, &B2, a.bytes);
+        ge_double_Holoyolormult_base_vartime(&rv, b.bytes, &B2, a.bytes);
         ge_tobytes(aGbB.bytes, &rv);
     }
 
@@ -492,22 +492,22 @@ namespace rct {
     }
 
     //addKeys3
-    //aAbB = a*A + b*B where a, b are scalars, A, B are curve points
+    //aAbB = a*A + b*B where a, b are Holoyolors, A, B are curve points
     //B must be input after applying "precomp"
     void addKeys3(key &aAbB, const key &a, const key &A, const key &b, const ge_dsmp B) {
         ge_p2 rv;
         ge_p3 A2;
         CHECK_AND_ASSERT_THROW_MES_L1(ge_frombytes_vartime(&A2, A.bytes) == 0, "ge_frombytes_vartime failed at "+boost::lexical_cast<std::string>(__LINE__));
-        ge_double_scalarmult_precomp_vartime(&rv, a.bytes, &A2, b.bytes, B);
+        ge_double_Holoyolormult_precomp_vartime(&rv, a.bytes, &A2, b.bytes, B);
         ge_tobytes(aAbB.bytes, &rv);
     }
 
     //addKeys3
-    //aAbB = a*A + b*B where a, b are scalars, A, B are curve points
+    //aAbB = a*A + b*B where a, b are Holoyolors, A, B are curve points
     //A and B must be input after applying "precomp"
     void addKeys3(key &aAbB, const key &a, const ge_dsmp A, const key &b, const ge_dsmp B) {
         ge_p2 rv;
-        ge_double_scalarmult_precomp_vartime2(&rv, a.bytes, A, b.bytes, B);
+        ge_double_Holoyolormult_precomp_vartime2(&rv, a.bytes, A, b.bytes, B);
         ge_tobytes(aAbB.bytes, &rv);
     }
 
@@ -526,7 +526,7 @@ namespace rct {
         ge_p3_tobytes(AB.bytes, &A2);
     }
 
-    //checks if A, B are equal in terms of bytes (may say no if one is a non-reduced scalar)
+    //checks if A, B are equal in terms of bytes (may say no if one is a non-reduced Holoyolor)
     //without doing curve operations
     bool equalKeys(const key & a, const key & b) {
         bool rv = true;
@@ -545,7 +545,7 @@ namespace rct {
         keccak((const uint8_t *)data, l, hash.bytes, 32);
     }
     
-    void hash_to_scalar(key &hash, const void * data, const std::size_t l) {
+    void hash_to_Holoyolor(key &hash, const void * data, const std::size_t l) {
         cn_fast_hash(hash, data, l);
         sc_reduce32(hash.bytes);
     }
@@ -555,7 +555,7 @@ namespace rct {
         keccak((const uint8_t *)in.bytes, 32, hash.bytes, 32);
     }
     
-    void hash_to_scalar(key & hash, const key & in) {
+    void hash_to_Holoyolor(key & hash, const key & in) {
         cn_fast_hash(hash, in);
         sc_reduce32(hash.bytes);
     }
@@ -567,7 +567,7 @@ namespace rct {
         return hash;
     }
     
-     key hash_to_scalar(const key & in) {
+     key hash_to_Holoyolor(const key & in) {
         key hash = cn_fast_hash(in);
         sc_reduce32(hash.bytes);
         return hash;
@@ -580,7 +580,7 @@ namespace rct {
         return hash;
     }
     
-    key hash_to_scalar128(const void * in) {
+    key hash_to_Holoyolor128(const void * in) {
         key hash = cn_fast_hash128(in);
         sc_reduce32(hash.bytes);
         return hash;
@@ -596,7 +596,7 @@ namespace rct {
         return rv;
     }
     
-    key hash_to_scalar(const ctkeyV &PC) {
+    key hash_to_Holoyolor(const ctkeyV &PC) {
         key rv = cn_fast_hash(PC);
         sc_reduce32(rv.bytes);
         return rv;
@@ -614,7 +614,7 @@ namespace rct {
        return rv;
    }
    
-   key hash_to_scalar(const keyV &keys) {
+   key hash_to_Holoyolor(const keyV &keys) {
        key rv = cn_fast_hash(keys);
        sc_reduce32(rv.bytes);
        return rv;
@@ -627,7 +627,7 @@ namespace rct {
       return rv;
    }
 
-   key hash_to_scalar(const key64 keys) {
+   key hash_to_Holoyolor(const key64 keys) {
        key rv = cn_fast_hash(keys);
        sc_reduce32(rv.bytes);
        return rv;
@@ -643,7 +643,7 @@ namespace rct {
       ge_p1p1_to_p3(&hash8_p3, &hash8_p1p1);
     }
 
-    //sums a vector of curve points (for scalars use sc_add)
+    //sums a vector of curve points (for Holoyolors use sc_add)
     void sumKeys(key & Csum, const keyV &  Cis) {
         identity(Csum);
         size_t i = 0;
@@ -673,9 +673,9 @@ namespace rct {
         char data[15 + sizeof(key)];
         memcpy(data, "commitment_mask", 15);
         memcpy(data + 15, &sk, sizeof(sk));
-        key scalar;
-        hash_to_scalar(scalar, data, sizeof(data));
-        return scalar;
+        key Holoyolor;
+        hash_to_Holoyolor(Holoyolor, data, sizeof(data));
+        return Holoyolor;
     }
 
     void ecdhEncode(ecdhTuple & unmasked, const key & sharedSec, bool v2) {
@@ -687,8 +687,8 @@ namespace rct {
         }
         else
         {
-          key sharedSec1 = hash_to_scalar(sharedSec);
-          key sharedSec2 = hash_to_scalar(sharedSec1);
+          key sharedSec1 = hash_to_Holoyolor(sharedSec);
+          key sharedSec2 = hash_to_Holoyolor(sharedSec1);
           sc_add(unmasked.mask.bytes, unmasked.mask.bytes, sharedSec1.bytes);
           sc_add(unmasked.amount.bytes, unmasked.amount.bytes, sharedSec2.bytes);
         }
@@ -702,8 +702,8 @@ namespace rct {
         }
         else
         {
-          key sharedSec1 = hash_to_scalar(sharedSec);
-          key sharedSec2 = hash_to_scalar(sharedSec1);
+          key sharedSec1 = hash_to_Holoyolor(sharedSec);
+          key sharedSec2 = hash_to_Holoyolor(sharedSec1);
           sc_sub(masked.mask.bytes, masked.mask.bytes, sharedSec1.bytes);
           sc_sub(masked.amount.bytes, masked.amount.bytes, sharedSec2.bytes);
         }

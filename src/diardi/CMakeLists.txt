@@ -1,4 +1,4 @@
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 #
 # All rights reserved.
 #
@@ -34,9 +34,9 @@ set(diardi_headers
 
 set(diardi_private_headers)
 
-scala_private_headers(diardi
+Holoyolo_private_headers(diardi
   ${hardforks_private_headers})
-scala_add_library(diardi
+Holoyolo_add_library(diardi
   ${diardi_sources}
   ${diardi_headers}
   ${diardi_private_headers})

@@ -1,4 +1,4 @@
-# Scala Blockchain Utilities
+# Holoyolo Blockchain Utilities
 
 Copyright (c) 2014-2019, The Monero Project
 
@@ -12,16 +12,16 @@ See also each utility's "--help" option.
 
 ### Export an existing blockchain database
 
-`$ scala-blockchain-export`
+`$ Holoyolo-blockchain-export`
 
-This loads the existing blockchain and exports it to `$SCALA_DATA_DIR/export/blockchain.raw`
+This loads the existing blockchain and exports it to `$Holoyolo_DATA_DIR/export/blockchain.raw`
 
 ### Import the exported file
 
-`$ scala-blockchain-import`
+`$ Holoyolo-blockchain-import`
 
-This imports blocks from `$SCALA_DATA_DIR/export/blockchain.raw` (exported using the
-`scala-blockchain-export` tool as described above) into the current database.
+This imports blocks from `$Holoyolo_DATA_DIR/export/blockchain.raw` (exported using the
+`Holoyolo-blockchain-export` tool as described above) into the current database.
 
 Defaults: `--batch on`, `--batch size 20000`, `--verify on`
 
@@ -30,14 +30,14 @@ Batch size refers to number of blocks and can be adjusted for performance based 
 Verification should only be turned off if importing from a trusted blockchain.
 
 If you encounter an error like "resizing not supported in batch mode", you can just re-run
-the `scala-blockchain-import` command again, and it will restart from where it left off.
+the `Holoyolo-blockchain-import` command again, and it will restart from where it left off.
 
 ```bash
 ## use default settings to import blockchain.raw into database
-$ scala-blockchain-import
+$ Holoyolo-blockchain-import
 
 ## fast import with large batch size, database mode "fastest", verification off
-$ scala-blockchain-import --batch-size 20000 --database lmdb#fastest --verify off
+$ Holoyolo-blockchain-import --batch-size 20000 --database lmdb#fastest --verify off
 
 ```
 
@@ -80,9 +80,9 @@ LMDB flags (more than one may be specified):
 ## Examples:
 
 ```bash
-$ scala-blockchain-import --database lmdb#fastest
+$ Holoyolo-blockchain-import --database lmdb#fastest
 
-$ scala-blockchain-import --database lmdb#nosync
+$ Holoyolo-blockchain-import --database lmdb#nosync
 
-$ scala-blockchain-import --database lmdb#nosync,nometasync
+$ Holoyolo-blockchain-import --database lmdb#nosync,nometasync
 ```

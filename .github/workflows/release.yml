@@ -21,7 +21,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Scala ${{ github.ref }}
+          release_name: Holoyolo ${{ github.ref }}
           draft: false
           prerelease: false
           body_path: CHANGELOG.md
@@ -90,22 +90,22 @@ jobs:
       with:
         name: ${{ matrix.toolchain.name }}
         path: |
-          /home/runner/work/Scala/Scala/build/${{ matrix.toolchain.host }}/release/bin/scala*
+          /home/runner/work/Holoyolo/Holoyolo/build/${{ matrix.toolchain.host }}/release/bin/Holoyolo*
     - name: Get latest release version number
       id: get_version
       uses: battila7/get-version-action@v2
     - name: Package for Windows
       if: ${{ matrix.toolchain.host == 'x86_64-w64-mingw32'}}
       run: |
-        zip -rj scala-${{ steps.get_version.outputs.version }}-win-x64.zip /home/runner/work/Scala/Scala/build/${{ matrix.toolchain.host }}/release/bin/scala*
+        zip -rj Holoyolo-${{ steps.get_version.outputs.version }}-win-x64.zip /home/runner/work/Holoyolo/Holoyolo/build/${{ matrix.toolchain.host }}/release/bin/Holoyolo*
     - name: Package for Linux
       if: ${{ matrix.toolchain.host == 'x86_64-unknown-linux-gnu'}}
       run: |
-        zip -rj scala-${{ steps.get_version.outputs.version }}-linux-x64.zip /home/runner/work/Scala/Scala/build/${{ matrix.toolchain.host }}/release/bin/scala*
+        zip -rj Holoyolo-${{ steps.get_version.outputs.version }}-linux-x64.zip /home/runner/work/Holoyolo/Holoyolo/build/${{ matrix.toolchain.host }}/release/bin/Holoyolo*
     - name: Package for macOS
       if: ${{ matrix.toolchain.host == 'x86_64-apple-darwin11'}}
       run: |
-        zip -rj scala-${{ steps.get_version.outputs.version }}-macOS-x64.zip /home/runner/work/Scala/Scala/build/${{ matrix.toolchain.host }}/release/bin/scala*
+        zip -rj Holoyolo-${{ steps.get_version.outputs.version }}-macOS-x64.zip /home/runner/work/Holoyolo/Holoyolo/build/${{ matrix.toolchain.host }}/release/bin/Holoyolo*
     - name: Release for Windows
       if: ${{ matrix.toolchain.host == 'x86_64-w64-mingw32'}}
       uses: actions/upload-release-asset@v1
@@ -113,8 +113,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./scala-${{ steps.get_version.outputs.version }}-win-x64.zip
-          asset_name: scala-${{ steps.get_version.outputs.version }}-win-x64.zip
+          asset_path: ./Holoyolo-${{ steps.get_version.outputs.version }}-win-x64.zip
+          asset_name: Holoyolo-${{ steps.get_version.outputs.version }}-win-x64.zip
           asset_content_type: application/zip
     - name: Release for Linux
       if: ${{ matrix.toolchain.host == 'x86_64-unknown-linux-gnu'}}
@@ -123,8 +123,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./scala-${{ steps.get_version.outputs.version }}-linux-x64.zip
-          asset_name: scala-${{ steps.get_version.outputs.version }}-linux-x64.zip
+          asset_path: ./Holoyolo-${{ steps.get_version.outputs.version }}-linux-x64.zip
+          asset_name: Holoyolo-${{ steps.get_version.outputs.version }}-linux-x64.zip
           asset_content_type: application/zip
     - name: Release for macOS
       if: ${{ matrix.toolchain.host == 'x86_64-apple-darwin11'}}
@@ -133,6 +133,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ./scala-${{ steps.get_version.outputs.version }}-macOS-x64.zip
-          asset_name: scala-${{ steps.get_version.outputs.version }}-macOS-x64.zip
+          asset_path: ./Holoyolo-${{ steps.get_version.outputs.version }}-macOS-x64.zip
+          asset_name: Holoyolo-${{ steps.get_version.outputs.version }}-macOS-x64.zip
           asset_content_type: application/zip

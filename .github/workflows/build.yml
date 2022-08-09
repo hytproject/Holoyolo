@@ -85,7 +85,7 @@ jobs:
       run: ${{env.APT_SET_CONF}}
     - name: update apt
       run: sudo apt update
-    - name: install scala dependencies
+    - name: install Holoyolo dependencies
       run: ${{env.APT_INSTALL_LINUX}}
     - name: build
       run: |
@@ -111,7 +111,7 @@ jobs:
       run: ${{env.APT_SET_CONF}}
     - name: update apt
       run: sudo apt update
-    - name: install scala dependencies
+    - name: install Holoyolo dependencies
       run: ${{env.APT_INSTALL_LINUX}}
     - name: build
       run: |

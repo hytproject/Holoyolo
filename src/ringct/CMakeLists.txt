@@ -39,9 +39,9 @@ set(ringct_basic_private_headers
   multiexp.h
   bulletproofs.h)
 
-scala_private_headers(ringct_basic
+Holoyolo_private_headers(ringct_basic
   ${crypto_private_headers})
-scala_add_library(ringct_basic
+Holoyolo_add_library(ringct_basic
   ${ringct_basic_sources}
   ${ringct_basic_private_headers})
 target_link_libraries(ringct_basic
@@ -62,9 +62,9 @@ set(ringct_private_headers
   rctSigs.h
 )
 
-scala_private_headers(ringct
+Holoyolo_private_headers(ringct
   ${crypto_private_headers})
-scala_add_library(ringct
+Holoyolo_add_library(ringct
   ${ringct_sources}
   ${ringct_headers}
   ${ringct_private_headers})

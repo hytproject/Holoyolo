@@ -61,7 +61,7 @@ Preconditions:
   a[31] <= 127
 */
 
-void ge_scalarmult_base(ge_p3 *h,const unsigned char *a)
+void ge_Holoyolormult_base(ge_p3 *h,const unsigned char *a)
 {
   signed char e[64];
   signed char carry;

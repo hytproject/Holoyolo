@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 #
 # All rights reserved.
 #
@@ -39,9 +39,9 @@ set(blockchain_db_private_headers
   lmdb/db_lmdb.h
   )
 
-scala_private_headers(blockchain_db
+Holoyolo_private_headers(blockchain_db
   ${crypto_private_headers})
-scala_add_library(blockchain_db
+Holoyolo_add_library(blockchain_db
   ${blockchain_db_sources}
   ${blockchain_db_headers}
   ${blockchain_db_private_headers})

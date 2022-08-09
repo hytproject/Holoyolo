@@ -68,8 +68,8 @@ typedef struct {
 #define ge_msub crypto_sign_ed25519_ref10_ge_msub
 #define ge_add crypto_sign_ed25519_ref10_ge_add
 #define ge_sub crypto_sign_ed25519_ref10_ge_sub
-#define ge_scalarmult_base crypto_sign_ed25519_ref10_ge_scalarmult_base
-#define ge_double_scalarmult_vartime crypto_sign_ed25519_ref10_ge_double_scalarmult_vartime
+#define ge_Holoyolormult_base crypto_sign_ed25519_ref10_ge_Holoyolormult_base
+#define ge_double_Holoyolormult_vartime crypto_sign_ed25519_ref10_ge_double_Holoyolormult_vartime
 
 extern void ge_tobytes(unsigned char *,const ge_p2 *);
 extern void ge_p3_tobytes(unsigned char *,const ge_p3 *);
@@ -89,7 +89,7 @@ extern void ge_madd(ge_p1p1 *,const ge_p3 *,const ge_precomp *);
 extern void ge_msub(ge_p1p1 *,const ge_p3 *,const ge_precomp *);
 extern void ge_add(ge_p1p1 *,const ge_p3 *,const ge_cached *);
 extern void ge_sub(ge_p1p1 *,const ge_p3 *,const ge_cached *);
-extern void ge_scalarmult_base(ge_p3 *,const unsigned char *);
-extern void ge_double_scalarmult_vartime(ge_p2 *,const unsigned char *,const ge_p3 *,const unsigned char *);
+extern void ge_Holoyolormult_base(ge_p3 *,const unsigned char *);
+extern void ge_double_Holoyolormult_vartime(ge_p2 *,const unsigned char *,const ge_p3 *,const unsigned char *);
 
 #endif

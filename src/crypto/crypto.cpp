@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -81,12 +81,12 @@ namespace crypto {
     return &reinterpret_cast<const unsigned char &>(point);
   }
 
-  static inline unsigned char *operator &(ec_scalar &scalar) {
-    return &reinterpret_cast<unsigned char &>(scalar);
+  static inline unsigned char *operator &(ec_Holoyolor &Holoyolor) {
+    return &reinterpret_cast<unsigned char &>(Holoyolor);
   }
 
-  static inline const unsigned char *operator &(const ec_scalar &scalar) {
-    return &reinterpret_cast<const unsigned char &>(scalar);
+  static inline const unsigned char *operator &(const ec_Holoyolor &Holoyolor) {
+    return &reinterpret_cast<const unsigned char &>(Holoyolor);
   }
 
   boost::mutex &get_random_lock()
@@ -131,11 +131,11 @@ namespace crypto {
     sc_reduce32(bytes);
   }
   /* generate a random 32-byte (256-bit) integer and copy it to res */
-  static inline void random_scalar(ec_scalar &res) {
+  static inline void random_Holoyolor(ec_Holoyolor &res) {
     random32_unbiased((unsigned char*)res.data);
   }
 
-  void hash_to_scalar(const void *data, size_t length, ec_scalar &res) {
+  void hash_to_Holoyolor(const void *data, size_t length, ec_Holoyolor &res) {
     cn_fast_hash(data, length, reinterpret_cast<hash &>(res));
     sc_reduce32(&res);
   }
@@ -156,12 +156,12 @@ namespace crypto {
     }
     else
     {
-      random_scalar(rng);
+      random_Holoyolor(rng);
     }
     sec = rng;
     sc_reduce32(&unwrap(sec));  // reduce in case second round of keys (sendkeys)
 
-    ge_scalarmult_base(&point, &unwrap(sec));
+    ge_Holoyolormult_base(&point, &unwrap(sec));
     ge_p3_tobytes(&pub, &point);
 
     return rng;
@@ -177,7 +177,7 @@ namespace crypto {
     if (sc_check(&unwrap(sec)) != 0) {
       return false;
     }
-    ge_scalarmult_base(&point, &unwrap(sec));
+    ge_Holoyolormult_base(&point, &unwrap(sec));
     ge_p3_tobytes(&pub, &point);
     return true;
   }
@@ -190,14 +190,14 @@ namespace crypto {
     if (ge_frombytes_vartime(&point, &key1) != 0) {
       return false;
     }
-    ge_scalarmult(&point2, &unwrap(key2), &point);
+    ge_Holoyolormult(&point2, &unwrap(key2), &point);
     ge_mul8(&point3, &point2);
     ge_p1p1_to_p2(&point2, &point3);
     ge_tobytes(&derivation, &point2);
     return true;
   }
 
-  void crypto_ops::derivation_to_scalar(const key_derivation &derivation, size_t output_index, ec_scalar &res) {
+  void crypto_ops::derivation_to_Holoyolor(const key_derivation &derivation, size_t output_index, ec_Holoyolor &res) {
     struct {
       key_derivation derivation;
       char output_index[(sizeof(size_t) * 8 + 6) / 7];
@@ -206,12 +206,12 @@ namespace crypto {
     buf.derivation = derivation;
     tools::write_varint(end, output_index);
     assert(end <= buf.output_index + sizeof buf.output_index);
-    hash_to_scalar(&buf, end - reinterpret_cast<char *>(&buf), res);
+    hash_to_Holoyolor(&buf, end - reinterpret_cast<char *>(&buf), res);
   }
 
   bool crypto_ops::derive_public_key(const key_derivation &derivation, size_t output_index,
     const public_key &base, public_key &derived_key) {
-    ec_scalar scalar;
+    ec_Holoyolor Holoyolor;
     ge_p3 point1;
     ge_p3 point2;
     ge_cached point3;
@@ -220,8 +220,8 @@ namespace crypto {
     if (ge_frombytes_vartime(&point1, &base) != 0) {
       return false;
     }
-    derivation_to_scalar(derivation, output_index, scalar);
-    ge_scalarmult_base(&point2, &scalar);
+    derivation_to_Holoyolor(derivation, output_index, Holoyolor);
+    ge_Holoyolormult_base(&point2, &Holoyolor);
     ge_p3_to_cached(&point3, &point2);
     ge_add(&point4, &point1, &point3);
     ge_p1p1_to_p2(&point5, &point4);
@@ -231,14 +231,14 @@ namespace crypto {
 
   void crypto_ops::derive_secret_key(const key_derivation &derivation, size_t output_index,
     const secret_key &base, secret_key &derived_key) {
-    ec_scalar scalar;
+    ec_Holoyolor Holoyolor;
     assert(sc_check(&base) == 0);
-    derivation_to_scalar(derivation, output_index, scalar);
-    sc_add(&unwrap(derived_key), &unwrap(base), &scalar);
+    derivation_to_Holoyolor(derivation, output_index, Holoyolor);
+    sc_add(&unwrap(derived_key), &unwrap(base), &Holoyolor);
   }
 
   bool crypto_ops::derive_subaddress_public_key(const public_key &out_key, const key_derivation &derivation, std::size_t output_index, public_key &derived_key) {
-    ec_scalar scalar;
+    ec_Holoyolor Holoyolor;
     ge_p3 point1;
     ge_p3 point2;
     ge_cached point3;
@@ -247,8 +247,8 @@ namespace crypto {
     if (ge_frombytes_vartime(&point1, &out_key) != 0) {
       return false;
     }
-    derivation_to_scalar(derivation, output_index, scalar);
-    ge_scalarmult_base(&point2, &scalar);
+    derivation_to_Holoyolor(derivation, output_index, Holoyolor);
+    ge_Holoyolormult_base(&point2, &Holoyolor);
     ge_p3_to_cached(&point3, &point2);
     ge_sub(&point4, &point1, &point3);
     ge_p1p1_to_p2(&point5, &point4);
@@ -271,14 +271,14 @@ namespace crypto {
 
   void crypto_ops::generate_signature(const hash &prefix_hash, const public_key &pub, const secret_key &sec, signature &sig) {
     ge_p3 tmp3;
-    ec_scalar k;
+    ec_Holoyolor k;
     s_comm buf;
 #if !defined(NDEBUG)
     {
       ge_p3 t;
       public_key t2;
       assert(sc_check(&sec) == 0);
-      ge_scalarmult_base(&t, &sec);
+      ge_Holoyolormult_base(&t, &sec);
       ge_p3_tobytes(&t2, &t);
       assert(pub == t2);
     }
@@ -286,10 +286,10 @@ namespace crypto {
     buf.h = prefix_hash;
     buf.key = pub;
   try_again:
-    random_scalar(k);
-    ge_scalarmult_base(&tmp3, &k);
+    random_Holoyolor(k);
+    ge_Holoyolormult_base(&tmp3, &k);
     ge_p3_tobytes(&buf.comm, &tmp3);
-    hash_to_scalar(&buf, sizeof(s_comm), sig.c);
+    hash_to_Holoyolor(&buf, sizeof(s_comm), sig.c);
     if (!sc_isnonzero((const unsigned char*)sig.c.data))
       goto try_again;
     sc_mulsub(&sig.r, &sig.c, &unwrap(sec), &k);
@@ -301,7 +301,7 @@ namespace crypto {
   bool crypto_ops::check_signature(const hash &prefix_hash, const public_key &pub, const signature &sig) {
     ge_p2 tmp2;
     ge_p3 tmp3;
-    ec_scalar c;
+    ec_Holoyolor c;
     s_comm buf;
     assert(check_key(pub));
     buf.h = prefix_hash;
@@ -312,12 +312,12 @@ namespace crypto {
     if (sc_check(&sig.c) != 0 || sc_check(&sig.r) != 0 || !sc_isnonzero(&sig.c)) {
       return false;
     }
-    ge_double_scalarmult_base_vartime(&tmp2, &sig.c, &tmp3, &sig.r);
+    ge_double_Holoyolormult_base_vartime(&tmp2, &sig.c, &tmp3, &sig.r);
     ge_tobytes(&buf.comm, &tmp2);
     static const ec_point infinity = {{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     if (memcmp(&buf.comm, &infinity, 32) == 0)
       return false;
-    hash_to_scalar(&buf, sizeof(s_comm), c);
+    hash_to_Holoyolor(&buf, sizeof(s_comm), c);
     sc_sub(&c, &c, &sig.c);
     return sc_isnonzero(&c) == 0;
   }
@@ -340,19 +340,19 @@ namespace crypto {
       if (B)
       {
         ge_p2 dbg_R_p2;
-        ge_scalarmult(&dbg_R_p2, &r, &B_p3);
+        ge_Holoyolormult(&dbg_R_p2, &r, &B_p3);
         ge_tobytes(&dbg_R, &dbg_R_p2);
       }
       else
       {
         ge_p3 dbg_R_p3;
-        ge_scalarmult_base(&dbg_R_p3, &r);
+        ge_Holoyolormult_base(&dbg_R_p3, &r);
         ge_p3_tobytes(&dbg_R, &dbg_R_p3);
       }
       assert(R == dbg_R);
       // check D == r*A
       ge_p2 dbg_D_p2;
-      ge_scalarmult(&dbg_D_p2, &r, &A_p3);
+      ge_Holoyolormult(&dbg_D_p2, &r, &A_p3);
       public_key dbg_D;
       ge_tobytes(&dbg_D, &dbg_D_p2);
       assert(D == dbg_D);
@@ -360,8 +360,8 @@ namespace crypto {
 #endif
 
     // pick random k
-    ec_scalar k;
-    random_scalar(k);
+    ec_Holoyolor k;
+    random_Holoyolor(k);
     
     s_comm_2 buf;
     buf.msg = prefix_hash;
@@ -371,24 +371,24 @@ namespace crypto {
     {
       // compute X = k*B
       ge_p2 X_p2;
-      ge_scalarmult(&X_p2, &k, &B_p3);
+      ge_Holoyolormult(&X_p2, &k, &B_p3);
       ge_tobytes(&buf.X, &X_p2);
     }
     else
     {
       // compute X = k*G
       ge_p3 X_p3;
-      ge_scalarmult_base(&X_p3, &k);
+      ge_Holoyolormult_base(&X_p3, &k);
       ge_p3_tobytes(&buf.X, &X_p3);
     }
     
     // compute Y = k*A
     ge_p2 Y_p2;
-    ge_scalarmult(&Y_p2, &k, &A_p3);
+    ge_Holoyolormult(&Y_p2, &k, &A_p3);
     ge_tobytes(&buf.Y, &Y_p2);
 
     // sig.c = Hs(Msg || D || X || Y)
-    hash_to_scalar(&buf, sizeof(buf), sig.c);
+    hash_to_Holoyolor(&buf, sizeof(buf), sig.c);
 
     // sig.r = k - sig.c*r
     sc_mulsub(&sig.r, &sig.c, &unwrap(r), &k);
@@ -412,7 +412,7 @@ namespace crypto {
     ge_p3 cR_p3;
     {
       ge_p2 cR_p2;
-      ge_scalarmult(&cR_p2, &sig.c, &R_p3);
+      ge_Holoyolormult(&cR_p2, &sig.c, &R_p3);
       public_key cR;
       ge_tobytes(&cR, &cR_p2);
       if (ge_frombytes_vartime(&cR_p3, &cR) != 0) return false;
@@ -423,7 +423,7 @@ namespace crypto {
     {
       // compute X = sig.c*R + sig.r*B
       ge_p2 rB_p2;
-      ge_scalarmult(&rB_p2, &sig.r, &B_p3);
+      ge_Holoyolormult(&rB_p2, &sig.r, &B_p3);
       public_key rB;
       ge_tobytes(&rB, &rB_p2);
       ge_p3 rB_p3;
@@ -436,7 +436,7 @@ namespace crypto {
     {
       // compute X = sig.c*R + sig.r*G
       ge_p3 rG_p3;
-      ge_scalarmult_base(&rG_p3, &sig.r);
+      ge_Holoyolormult_base(&rG_p3, &sig.r);
       ge_cached rG_cached;
       ge_p3_to_cached(&rG_cached, &rG_p3);
       ge_add(&X_p1p1, &cR_p3, &rG_cached);
@@ -446,11 +446,11 @@ namespace crypto {
 
     // compute sig.c*D
     ge_p2 cD_p2;
-    ge_scalarmult(&cD_p2, &sig.c, &D_p3);
+    ge_Holoyolormult(&cD_p2, &sig.c, &D_p3);
 
     // compute sig.r*A
     ge_p2 rA_p2;
-    ge_scalarmult(&rA_p2, &sig.r, &A_p3);
+    ge_Holoyolormult(&rA_p2, &sig.r, &A_p3);
 
     // compute Y = sig.c*D + sig.r*A
     public_key cD;
@@ -474,8 +474,8 @@ namespace crypto {
     buf.D = D;
     ge_tobytes(&buf.X, &X_p2);
     ge_tobytes(&buf.Y, &Y_p2);
-    ec_scalar c2;
-    hash_to_scalar(&buf, sizeof(s_comm_2), c2);
+    ec_Holoyolor c2;
+    hash_to_Holoyolor(&buf, sizeof(s_comm_2), c2);
 
     // test if c2 == sig.c
     sc_sub(&c2, &c2, &sig.c);
@@ -497,7 +497,7 @@ namespace crypto {
     ge_p2 point2;
     assert(sc_check(&sec) == 0);
     hash_to_ec(pub, point);
-    ge_scalarmult(&point2, &unwrap(sec), &point);
+    ge_Holoyolormult(&point2, &unwrap(sec), &point);
     ge_tobytes(&image, &point2);
   }
 
@@ -523,7 +523,7 @@ POP_WARNINGS
     size_t i;
     ge_p3 image_unp;
     ge_dsmp image_pre;
-    ec_scalar sum, k, h;
+    ec_Holoyolor sum, k, h;
     boost::shared_ptr<rs_comm> buf(reinterpret_cast<rs_comm *>(malloc(rs_comm_size(pubs_count))), free);
     if (!buf)
       local_abort("malloc failure");
@@ -534,7 +534,7 @@ POP_WARNINGS
       public_key t2;
       key_image t3;
       assert(sc_check(&sec) == 0);
-      ge_scalarmult_base(&t, &sec);
+      ge_Holoyolormult_base(&t, &sec);
       ge_p3_tobytes(&t2, &t);
       assert(*pubs[sec_index] == t2);
       generate_key_image(*pubs[sec_index], sec, t3);
@@ -554,28 +554,28 @@ POP_WARNINGS
       ge_p2 tmp2;
       ge_p3 tmp3;
       if (i == sec_index) {
-        random_scalar(k);
-        ge_scalarmult_base(&tmp3, &k);
+        random_Holoyolor(k);
+        ge_Holoyolormult_base(&tmp3, &k);
         ge_p3_tobytes(&buf->ab[i].a, &tmp3);
         hash_to_ec(*pubs[i], tmp3);
-        ge_scalarmult(&tmp2, &k, &tmp3);
+        ge_Holoyolormult(&tmp2, &k, &tmp3);
         ge_tobytes(&buf->ab[i].b, &tmp2);
       } else {
-        random_scalar(sig[i].c);
-        random_scalar(sig[i].r);
+        random_Holoyolor(sig[i].c);
+        random_Holoyolor(sig[i].r);
         if (ge_frombytes_vartime(&tmp3, &*pubs[i]) != 0) {
           memwipe(&k, sizeof(k));
           local_abort("invalid pubkey");
         }
-        ge_double_scalarmult_base_vartime(&tmp2, &sig[i].c, &tmp3, &sig[i].r);
+        ge_double_Holoyolormult_base_vartime(&tmp2, &sig[i].c, &tmp3, &sig[i].r);
         ge_tobytes(&buf->ab[i].a, &tmp2);
         hash_to_ec(*pubs[i], tmp3);
-        ge_double_scalarmult_precomp_vartime(&tmp2, &sig[i].r, &tmp3, &sig[i].c, image_pre);
+        ge_double_Holoyolormult_precomp_vartime(&tmp2, &sig[i].r, &tmp3, &sig[i].c, image_pre);
         ge_tobytes(&buf->ab[i].b, &tmp2);
         sc_add(&sum, &sum, &sig[i].c);
       }
     }
-    hash_to_scalar(buf.get(), rs_comm_size(pubs_count), h);
+    hash_to_Holoyolor(buf.get(), rs_comm_size(pubs_count), h);
     sc_sub(&sig[sec_index].c, &h, &sum);
     sc_mulsub(&sig[sec_index].r, &sig[sec_index].c, &unwrap(sec), &k);
 
@@ -588,7 +588,7 @@ POP_WARNINGS
     size_t i;
     ge_p3 image_unp;
     ge_dsmp image_pre;
-    ec_scalar sum, h;
+    ec_Holoyolor sum, h;
     boost::shared_ptr<rs_comm> buf(reinterpret_cast<rs_comm *>(malloc(rs_comm_size(pubs_count))), free);
     if (!buf)
       return false;
@@ -612,14 +612,14 @@ POP_WARNINGS
       if (ge_frombytes_vartime(&tmp3, &*pubs[i]) != 0) {
         return false;
       }
-      ge_double_scalarmult_base_vartime(&tmp2, &sig[i].c, &tmp3, &sig[i].r);
+      ge_double_Holoyolormult_base_vartime(&tmp2, &sig[i].c, &tmp3, &sig[i].r);
       ge_tobytes(&buf->ab[i].a, &tmp2);
       hash_to_ec(*pubs[i], tmp3);
-      ge_double_scalarmult_precomp_vartime(&tmp2, &sig[i].r, &tmp3, &sig[i].c, image_pre);
+      ge_double_Holoyolormult_precomp_vartime(&tmp2, &sig[i].r, &tmp3, &sig[i].c, image_pre);
       ge_tobytes(&buf->ab[i].b, &tmp2);
       sc_add(&sum, &sum, &sig[i].c);
     }
-    hash_to_scalar(buf.get(), rs_comm_size(pubs_count), h);
+    hash_to_Holoyolor(buf.get(), rs_comm_size(pubs_count), h);
     sc_sub(&h, &h, &sum);
     return sc_isnonzero(&h) == 0;
   }

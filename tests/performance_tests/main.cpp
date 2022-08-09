@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -251,15 +251,15 @@ int main(int argc, char** argv)
   TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_ge_add_raw);
   TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_ge_add_p3_p3);
   TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_addKeys);
-  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_scalarmultBase);
-  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_scalarmultKey);
-  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_scalarmultH);
-  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_scalarmult8);
-  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_scalarmult8_p3);
+  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_HoloyolormultBase);
+  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_HoloyolormultKey);
+  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_HoloyolormultH);
+  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_Holoyolormult8);
+  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_Holoyolormult8_p3);
   TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_ge_dsm_precomp);
-  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_ge_double_scalarmult_base_vartime);
-  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_ge_double_scalarmult_precomp_vartime);
-  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_ge_double_scalarmult_precomp_vartime2);
+  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_ge_double_Holoyolormult_base_vartime);
+  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_ge_double_Holoyolormult_precomp_vartime);
+  TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_ge_double_Holoyolormult_precomp_vartime2);
   TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_addKeys2);
   TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_addKeys3);
   TEST_PERFORMANCE1(filter, p, test_crypto_ops, op_addKeys3_2);

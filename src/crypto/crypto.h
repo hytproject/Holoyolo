@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -57,7 +57,7 @@ namespace crypto {
     char data[32];
   };
 
-  POD_CLASS ec_scalar {
+  POD_CLASS ec_Holoyolor {
     char data[32];
   };
 
@@ -65,7 +65,7 @@ namespace crypto {
     friend class crypto_ops;
   };
 
-  using secret_key = epee::mlocked<tools::scrubbed<ec_scalar>>;
+  using secret_key = epee::mlocked<tools::scrubbed<ec_Holoyolor>>;
 
   POD_CLASS public_keyV {
     std::vector<public_key> keys;
@@ -92,15 +92,15 @@ namespace crypto {
   };
 
   POD_CLASS signature {
-    ec_scalar c, r;
+    ec_Holoyolor c, r;
     friend class crypto_ops;
   };
 #pragma pack(pop)
 
-  void hash_to_scalar(const void *data, size_t length, ec_scalar &res);
+  void hash_to_Holoyolor(const void *data, size_t length, ec_Holoyolor &res);
   void random32_unbiased(unsigned char *bytes);
 
-  static_assert(sizeof(ec_point) == 32 && sizeof(ec_scalar) == 32 &&
+  static_assert(sizeof(ec_point) == 32 && sizeof(ec_Holoyolor) == 32 &&
     sizeof(public_key) == 32 && sizeof(secret_key) == 32 &&
     sizeof(key_derivation) == 32 && sizeof(key_image) == 32 &&
     sizeof(signature) == 64, "Invalid structure size");
@@ -119,8 +119,8 @@ namespace crypto {
     friend bool secret_key_to_public_key(const secret_key &, public_key &);
     static bool generate_key_derivation(const public_key &, const secret_key &, key_derivation &);
     friend bool generate_key_derivation(const public_key &, const secret_key &, key_derivation &);
-    static void derivation_to_scalar(const key_derivation &derivation, size_t output_index, ec_scalar &res);
-    friend void derivation_to_scalar(const key_derivation &derivation, size_t output_index, ec_scalar &res);
+    static void derivation_to_Holoyolor(const key_derivation &derivation, size_t output_index, ec_Holoyolor &res);
+    friend void derivation_to_Holoyolor(const key_derivation &derivation, size_t output_index, ec_Holoyolor &res);
     static bool derive_public_key(const key_derivation &, std::size_t, const public_key &, public_key &);
     friend bool derive_public_key(const key_derivation &, std::size_t, const public_key &, public_key &);
     static void derive_secret_key(const key_derivation &, std::size_t, const secret_key &, secret_key &);
@@ -222,8 +222,8 @@ namespace crypto {
     const public_key &base, public_key &derived_key) {
     return crypto_ops::derive_public_key(derivation, output_index, base, derived_key);
   }
-  inline void derivation_to_scalar(const key_derivation &derivation, size_t output_index, ec_scalar &res) {
-    return crypto_ops::derivation_to_scalar(derivation, output_index, res);
+  inline void derivation_to_Holoyolor(const key_derivation &derivation, size_t output_index, ec_Holoyolor &res) {
+    return crypto_ops::derivation_to_Holoyolor(derivation, output_index, res);
   }
   inline void derive_secret_key(const key_derivation &derivation, std::size_t output_index,
     const secret_key &base, secret_key &derived_key) {

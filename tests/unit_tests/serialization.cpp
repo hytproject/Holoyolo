@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -582,14 +582,14 @@ TEST(Serialization, serializes_ringct_types)
   rct::keyV amount_keys;
   //add output 500
   amounts.push_back(500);
-  amount_keys.push_back(rct::hash_to_scalar(rct::zero()));
+  amount_keys.push_back(rct::hash_to_Holoyolor(rct::zero()));
   rct::keyV destinations;
   rct::key Sk, Pk;
   rct::skpkGen(Sk, Pk);
   destinations.push_back(Pk);
   //add output for 12500
   amounts.push_back(12500);
-  amount_keys.push_back(rct::hash_to_scalar(rct::zero()));
+  amount_keys.push_back(rct::hash_to_Holoyolor(rct::zero()));
   rct::skpkGen(Sk, Pk);
   destinations.push_back(Pk);
   //compute rct data with mixin 3
@@ -740,7 +740,7 @@ TEST(Serialization, portability_wallet)
   }
 }
 
-#define OUTPUT_EXPORT_FILE_MAGIC "Scala output export\003"
+#define OUTPUT_EXPORT_FILE_MAGIC "Holoyolo output export\003"
 TEST(Serialization, portability_outputs)
 {
   // read file
@@ -867,10 +867,10 @@ inline void serialize(Archive &a, unsigned_tx_set &x, const boost::serialization
   a & x.txes;
   a & x.transfers;
 }
-#define UNSIGNED_TX_PREFIX "Scala unsigned tx set\003"
+#define UNSIGNED_TX_PREFIX "Holoyolo unsigned tx set\003"
 TEST(Serialization, portability_unsigned_tx)
 {
-  const boost::filesystem::path filename = unit_test::data_dir / "unsigned_scala_tx";
+  const boost::filesystem::path filename = unit_test::data_dir / "unsigned_Holoyolo_tx";
   std::string s;
   const cryptonote::network_type nettype = cryptonote::TESTNET;
   bool r = epee::file_io_utils::load_file_to_string(filename.string(), s);
@@ -1015,10 +1015,10 @@ TEST(Serialization, portability_unsigned_tx)
   ASSERT_TRUE(td2.m_pk_index == 0);
 }
 
-#define SIGNED_TX_PREFIX "Scala signed tx set\003"
+#define SIGNED_TX_PREFIX "Holoyolo signed tx set\003"
 TEST(Serialization, portability_signed_tx)
 {
-  const boost::filesystem::path filename = unit_test::data_dir / "signed_scala_tx";
+  const boost::filesystem::path filename = unit_test::data_dir / "signed_Holoyolo_tx";
   const cryptonote::network_type nettype = cryptonote::TESTNET;
   std::string s;
   bool r = epee::file_io_utils::load_file_to_string(filename.string(), s);

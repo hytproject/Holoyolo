@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -86,7 +86,7 @@ inline void getvar(std::istream &input, std::size_t length, void *res) {
 }
 
 template<typename T>
-typename std::enable_if<std::is_standard_layout<T>::value && !std::is_scalar<T>::value, void>::type
+typename std::enable_if<std::is_standard_layout<T>::value && !std::is_Holoyolor<T>::value, void>::type
 get(std::istream &input, T &res) {
   getvar(input, sizeof(T), &res);
 }

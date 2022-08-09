@@ -10,8 +10,8 @@
 #include "common/download.h"
 #include "diardi.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "diardi"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "diardi"
 
 namespace cryptonote {
 
@@ -41,7 +41,7 @@ namespace cryptonote {
         }
 
         std::string ipfs_path = fetch_dns_txt_ipfs_path(nettype);
-        std::string url = "https://scala.infura-ipfs.io/ipfs/" + ipfs_path;
+        std::string url = "https://Holoyolo.infura-ipfs.io/ipfs/" + ipfs_path;
 
         if (!tools::download(checkpoint_location, url)) {
             LOG_PRINT_L1("Error loading checkpoints from IPFS");
@@ -57,11 +57,11 @@ namespace cryptonote {
         static const char* dns_name;
         
         if(nettype == MAINNET) {
-            dns_name = "_dnslink.dynamic-checkpoints-mainnet.scalaproject.io";;
+            dns_name = "_dnslink.dynamic-checkpoints-mainnet.holoyolo.com";;
         } else if(nettype == TESTNET) {
-            dns_name = "_dnslink.dynamic-checkpoints-testnet.scalaproject.io";;
+            dns_name = "_dnslink.dynamic-checkpoints-testnet.holoyolo.com";;
         } else if(nettype == STAGENET) {
-            dns_name = "_dnslink.dynamic-checkpoints-stagenet.scalaproject.io";;
+            dns_name = "_dnslink.dynamic-checkpoints-stagenet.holoyolo.com";;
         } else {
             throw std::runtime_error("Invalid network type");
         }

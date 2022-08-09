@@ -1,9 +1,9 @@
 /// @file
-/// @author rfree (current maintainer/user in scala.cc project - most of code is from CryptoNote)
+/// @author rfree (current maintainer/user in Holoyolo.cc project - most of code is from CryptoNote)
 /// @brief This is the original cryptonote protocol network-events handler, modified by us
 
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 //
 // All rights reserved.
 //
@@ -46,8 +46,8 @@
 #include "common/pruning.h"
 #include "common/util.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.cn"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net.cn"
 
 #define MLOG_P2P_MESSAGE(x) MCINFO("net.p2p.msg", context << x)
 #define MLOGIF_P2P_MESSAGE(init, test, x) \
@@ -62,7 +62,7 @@
   } while(0)
 
 #define MLOG_PEER_STATE(x) \
-  MCINFO(SCALA_DEFAULT_LOG_CATEGORY, context << "[" << epee::string_tools::to_string_hex(context.m_pruning_seed) << "] state: " << x << " in state " << cryptonote::get_protocol_state_string(context.m_state))
+  MCINFO(Holoyolo_DEFAULT_LOG_CATEGORY, context << "[" << epee::string_tools::to_string_hex(context.m_pruning_seed) << "] state: " << x << " in state " << cryptonote::get_protocol_state_string(context.m_state))
 
 #define BLOCK_QUEUE_NSPANS_THRESHOLD 10 // chunks of N blocks
 #define BLOCK_QUEUE_SIZE_THRESHOLD (100*1024*1024) // MB
@@ -538,11 +538,11 @@ namespace cryptonote
       std::vector<tx_blob_entry> have_tx;
 
       // Instead of requesting missing transactions by hash like BTC, 
-      // we do it by index (thanks to a suggestion from scalamooo) because
+      // we do it by index (thanks to a suggestion from Holoyolomooo) because
       // we're way cooler .. and also because they're smaller than hashes.
       // 
       // Also, remember to pepper some whitespace changes around to bother
-      // scalamooo ... only because I <3 him. 
+      // Holoyolomooo ... only because I <3 him. 
       std::vector<uint64_t> need_tx_indices;
         
       transaction tx;
@@ -582,7 +582,7 @@ namespace cryptonote
           }
           
           // hijacking m_requested objects in connection context to patch up
-          // a possible DOS vector pointed out by @scala-moo where peers keep
+          // a possible DOS vector pointed out by @Holoyolo-moo where peers keep
           // sending (0...n-1) transactions.
           // If requested objects is not empty, then we must have asked for 
           // some missing transacionts, make sure that they're all there.
@@ -626,7 +626,7 @@ namespace cryptonote
             // future todo: 
             // tx should only not be added to pool if verification failed, but
             // maybe in the future could not be added for other reasons 
-            // according to scala-moo so keep track of these separately ..
+            // according to Holoyolo-moo so keep track of these separately ..
             //
           }
         }
@@ -1066,7 +1066,7 @@ namespace cryptonote
       auto time_from_epoh = point.time_since_epoch();
       auto sec = duration_cast< seconds >( time_from_epoh ).count();*/
 
-    //epee::net_utils::network_throttle_manager::get_global_throttle_inreq().logger_handle_net("log/dr-scala/net/req-all.data", sec, get_avg_block_size());
+    //epee::net_utils::network_throttle_manager::get_global_throttle_inreq().logger_handle_net("log/dr-Holoyolo/net/req-all.data", sec, get_avg_block_size());
 
     if(context.m_last_response_height > arg.current_blockchain_height)
     {
@@ -1236,7 +1236,7 @@ namespace cryptonote
     cryptonote::network_type nettype = m_core.get_nettype();
 
     // Don't simply use remaining number of blocks for the estimate but "sync weight" as provided by
-    // "cumulative_block_sync_weight" which knows about strongly varying Scala mainnet block sizes
+    // "cumulative_block_sync_weight" which knows about strongly varying Holoyolo mainnet block sizes
     uint64_t synced_weight = tools::cumulative_block_sync_weight(nettype, m_sync_start_height, current_blockchain_height - m_sync_start_height);
     float us_per_weight = (float)sync_time.total_microseconds() / (float)synced_weight;
     uint64_t remaining_weight = tools::cumulative_block_sync_weight(nettype, current_blockchain_height, target_blockchain_height - current_blockchain_height);
@@ -2173,7 +2173,7 @@ skip:
         context.m_last_request_time = boost::posix_time::microsec_clock::universal_time();
         MLOG_P2P_MESSAGE("-->>NOTIFY_REQUEST_GET_OBJECTS: blocks.size()=" << req.blocks.size()
             << "requested blocks count=" << count << " / " << count_limit << " from " << span.first << ", first hash " << req.blocks.front());
-        //epee::net_utils::network_throttle_manager::get_global_throttle_inreq().logger_handle_net("log/dr-scala/net/req-all.data", sec, get_avg_block_size());
+        //epee::net_utils::network_throttle_manager::get_global_throttle_inreq().logger_handle_net("log/dr-Holoyolo/net/req-all.data", sec, get_avg_block_size());
 
         MDEBUG("Asking for " << (req.prune ? "pruned" : "full") << " data, start/end "
           << tools::get_pruning_stripe(span.first, context.m_remote_blockchain_height, CRYPTONOTE_PRUNING_LOG_STRIPES)
@@ -2257,7 +2257,7 @@ skip:
 
       //std::string blob; // for calculate size of request
       //epee::serialization::store_t_to_binary(r, blob);
-      //epee::net_utils::network_throttle_manager::get_global_throttle_inreq().logger_handle_net("log/dr-scala/net/req-all.data", sec, get_avg_block_size());
+      //epee::net_utils::network_throttle_manager::get_global_throttle_inreq().logger_handle_net("log/dr-Holoyolo/net/req-all.data", sec, get_avg_block_size());
       //LOG_PRINT_CCONTEXT_L1("r = " << 200);
 
       context.m_last_request_time = boost::posix_time::microsec_clock::universal_time();
@@ -2317,7 +2317,7 @@ skip:
         }
       }
       MGINFO_YELLOW(ENDL << "**********************************************************************" << ENDL
-        << "You are now synchronized with the network. You may now start scala-wallet-cli." << ENDL
+        << "You are now synchronized with the network. You may now start Holoyolo-wallet-cli." << ENDL
         << ENDL
         << "Use the \"help\" command to see a simplified list of available commands." << ENDL
         << "Use the \"help_advanced\" command to see an advanced list of available commands." << ENDL
@@ -2640,7 +2640,7 @@ skip:
       m_core.set_target_blockchain_height(target);
       if (target == 0 && context.m_state > cryptonote_connection_context::state_before_handshake && !m_stopping)
       {
-        MCWARNING("global", "scalad is now disconnected from the network");
+        MCWARNING("global", "Holoyolod is now disconnected from the network");
         m_ask_for_txpool_complement = true;
       }
     }

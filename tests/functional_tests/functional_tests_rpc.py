@@ -34,17 +34,17 @@ try:
 except:
   tests = DEFAULT_TESTS
 
-N_SCALADS = 2
+N_HoloyoloDS = 2
 N_WALLETS = 4
 WALLET_DIRECTORY = builddir + "/functional-tests-directory"
 DIFFICULTY = 10
 
-scalad_base = [builddir + "/bin/scalad", "--regtest", "--fixed-difficulty", str(DIFFICULTY), "--offline", "--no-igd", "--p2p-bind-port", "scalad_p2p_port", "--rpc-bind-port", "scalad_rpc_port", "--zmq-rpc-bind-port", "scalad_zmq_port", "--non-interactive", "--disable-dns-checkpoints", "--check-updates", "disabled", "--rpc-ssl", "disabled", "--log-level", "1"]
-scalad_extra = [
+Holoyolod_base = [builddir + "/bin/Holoyolod", "--regtest", "--fixed-difficulty", str(DIFFICULTY), "--offline", "--no-igd", "--p2p-bind-port", "Holoyolod_p2p_port", "--rpc-bind-port", "Holoyolod_rpc_port", "--zmq-rpc-bind-port", "Holoyolod_zmq_port", "--non-interactive", "--disable-dns-checkpoints", "--check-updates", "disabled", "--rpc-ssl", "disabled", "--log-level", "1"]
+Holoyolod_extra = [
   [],
-  ["--rpc-payment-address", "44SKxxLQw929wRF6BA9paQ1EWFshNnKhXM3qz6Mo3JGDE2YG3xyzVutMStEicxbQGRfrYvAAYxH6Fe8rnD56EaNwUiqhcwR", "--rpc-payment-difficulty", str(DIFFICULTY), "--rpc-payment-credits", "5000", "--data-dir", builddir + "/functional-tests-directory/scalad1"],
+  ["--rpc-payment-address", "44SKxxLQw929wRF6BA9paQ1EWFshNnKhXM3qz6Mo3JGDE2YG3xyzVutMStEicxbQGRfrYvAAYxH6Fe8rnD56EaNwUiqhcwR", "--rpc-payment-difficulty", str(DIFFICULTY), "--rpc-payment-credits", "5000", "--data-dir", builddir + "/functional-tests-directory/Holoyolod1"],
 ]
-wallet_base = [builddir + "/bin/scala-wallet-rpc", "--wallet-dir", WALLET_DIRECTORY, "--rpc-bind-port", "wallet_port", "--disable-rpc-login", "--rpc-ssl", "disabled", "--daemon-ssl", "disabled", "--daemon-port", "18180", "--log-level", "1"]
+wallet_base = [builddir + "/bin/Holoyolo-wallet-rpc", "--wallet-dir", WALLET_DIRECTORY, "--rpc-bind-port", "wallet_port", "--disable-rpc-login", "--rpc-ssl", "disabled", "--daemon-ssl", "disabled", "--daemon-port", "18180", "--log-level", "1"]
 wallet_extra = [
 ]
 
@@ -53,11 +53,11 @@ processes = []
 outputs = []
 ports = []
 
-for i in range(N_SCALADS):
-  command_lines.append([str(18180+i) if x == "scalad_rpc_port" else str(18280+i) if x == "scalad_p2p_port" else str(18380+i) if x == "scalad_zmq_port" else x for x in scalad_base])
-  if i < len(scalad_extra):
-    command_lines[-1] += scalad_extra[i]
-  outputs.append(open(builddir + '/tests/functional_tests/scalad' + str(i) + '.log', 'a+'))
+for i in range(N_HoloyoloDS):
+  command_lines.append([str(18180+i) if x == "Holoyolod_rpc_port" else str(18280+i) if x == "Holoyolod_p2p_port" else str(18380+i) if x == "Holoyolod_zmq_port" else x for x in Holoyolod_base])
+  if i < len(Holoyolod_extra):
+    command_lines[-1] += Holoyolod_extra[i]
+  outputs.append(open(builddir + '/tests/functional_tests/Holoyolod' + str(i) + '.log', 'a+'))
   ports.append(18180+i)
 
 for i in range(N_WALLETS):

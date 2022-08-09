@@ -118,18 +118,18 @@ namespace lmdb
                 if (!txn)
                     return txn.error();
 
-                SCALA_PRECOND(*txn != nullptr);
+                Holoyolo_PRECOND(*txn != nullptr);
                 const auto wrote = f(*(*txn));
                 if (wrote)
                 {
-                    SCALA_CHECK(commit(std::move(*txn)));
+                    Holoyolo_CHECK(commit(std::move(*txn)));
                     return wrote;
                 }
                 if (wrote != lmdb::error(MDB_MAP_FULL))
                     return wrote;
 
                 txn->reset();
-                SCALA_CHECK(this->resize());
+                Holoyolo_CHECK(this->resize());
             }
             return {lmdb::error(MDB_MAP_FULL)};
         }

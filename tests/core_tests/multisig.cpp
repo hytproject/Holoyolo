@@ -108,7 +108,7 @@ void make_multisig_accounts(std::vector<cryptonote::account_base>& account, uint
     }
     account[msidx].make_multisig(view_skey, spend_skey[msidx], spend_pkey[msidx], multisig_keys[msidx]);
     for (const auto &k: multisig_keys[msidx]) {
-      all_multisig_keys.insert(rct::rct2pk(rct::scalarmultBase(rct::sk2rct(k))));
+      all_multisig_keys.insert(rct::rct2pk(rct::HoloyolormultBase(rct::sk2rct(k))));
     }
   }
 
@@ -412,7 +412,7 @@ bool gen_multisig_tx_validation_base::generate_with(std::vector<test_event_entry
       for (size_t n = 0; n < account_k[signer][tdidx].size(); ++n)
       {
         crypto::public_key L;
-        rct::scalarmultBase((rct::key&)L, rct::sk2rct(account_k[signer][tdidx][n]));
+        rct::HoloyolormultBase((rct::key&)L, rct::sk2rct(account_k[signer][tdidx][n]));
         if (used_L.find(L) != used_L.end())
         {
           sc_add(k.back().bytes, k.back().bytes, rct::sk2rct(account_k[signer][tdidx][n]).bytes);
@@ -450,10 +450,10 @@ bool gen_multisig_tx_validation_base::generate_with(std::vector<test_event_entry
       ++n_outs;
       CHECK_AND_ASSERT_MES(tx.vout[n].amount == 0, false, "Destination amount is not zero");
       rct::key Ctmp;
-      crypto::secret_key scalar1;
-      crypto::derivation_to_scalar(derivation, n, scalar1);
+      crypto::secret_key Holoyolor1;
+      crypto::derivation_to_Holoyolor(derivation, n, Holoyolor1);
       rct::ecdhTuple ecdh_info = tx.rct_signatures.ecdhInfo[n];
-      rct::ecdhDecode(ecdh_info, rct::sk2rct(scalar1), tx.rct_signatures.type == rct::RCTTypeBulletproof2);
+      rct::ecdhDecode(ecdh_info, rct::sk2rct(Holoyolor1), tx.rct_signatures.type == rct::RCTTypeBulletproof2);
       rct::key C = tx.rct_signatures.outPk[n].mask;
       rct::addKeys2(Ctmp, ecdh_info.mask, ecdh_info.amount, rct::H);
       CHECK_AND_ASSERT_MES(rct::equalKeys(C, Ctmp), false, "Failed to decode amount");

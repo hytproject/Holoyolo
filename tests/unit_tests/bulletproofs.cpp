@@ -113,7 +113,7 @@ TEST(bulletproofs, multi_splitting)
     {
       amount = rct::randXmrAmount(available);
       outamounts.push_back(amount);
-      amount_keys.push_back(rct::hash_to_scalar(rct::zero()));
+      amount_keys.push_back(rct::hash_to_Holoyolor(rct::zero()));
       rct::skpkGen(Sk, Pk);
       destinations.push_back(Pk);
       available -= amount;
@@ -126,7 +126,7 @@ TEST(bulletproofs, multi_splitting)
         if (j == 1)
           mixRing[i].push_back(pc[i]);
         else
-          mixRing[i].push_back({rct::scalarmultBase(rct::skGen()), rct::scalarmultBase(rct::skGen())});
+          mixRing[i].push_back({rct::HoloyolormultBase(rct::skGen()), rct::HoloyolormultBase(rct::skGen())});
       }
     }
 

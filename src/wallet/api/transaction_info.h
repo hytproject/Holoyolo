@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 //
 // All rights reserved.
 //
@@ -33,7 +33,7 @@
 #include <string>
 #include <ctime>
 
-namespace Scala {
+namespace Holoyolo {
 
 class TransactionHistoryImpl;
 
@@ -85,4 +85,4 @@ private:
 
 } // namespace
 
-namespace Bitscala = Scala;
+namespace BitHoloyolo = Holoyolo;

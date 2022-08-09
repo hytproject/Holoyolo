@@ -34,10 +34,10 @@ set(multisig_headers)
 set(multisig_private_headers
   multisig.h)
 
-scala_private_headers(multisig
+Holoyolo_private_headers(multisig
   ${multisig_private_headers})
 
-scala_add_library(multisig
+Holoyolo_add_library(multisig
   ${multisig_sources}
   ${multisig_headers}
   ${multisig_private_headers})

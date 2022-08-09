@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 //
 // All rights reserved.
 //
@@ -32,7 +32,7 @@
 #include "wallet/api/wallet2_api.h"
 #include <boost/thread/shared_mutex.hpp>
 
-namespace Scala {
+namespace Holoyolo {
 
 class WalletImpl;
 
@@ -57,5 +57,5 @@ private:
 
 }
 
-namespace Bitscala = Scala;
+namespace BitHoloyolo = Holoyolo;
 

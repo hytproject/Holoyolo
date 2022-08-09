@@ -42,8 +42,8 @@
 #include "util.h"
 #include "spawn.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "spawn"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "spawn"
 
 namespace tools
 {

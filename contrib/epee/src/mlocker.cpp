@@ -40,8 +40,8 @@
 
 #include <atomic>
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "mlocker"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "mlocker"
 
 // did an mlock operation previously fail? we only
 // want to log an error once and be done with it

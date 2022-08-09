@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -94,8 +94,8 @@ using namespace std;
 using namespace crypto;
 using namespace cryptonote;
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "wallet.wallet2"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "wallet.wallet2"
 
 // used to choose when to stop adding outputs to a tx
 #define APPROXIMATE_INPUT_BYTES 80
@@ -103,12 +103,12 @@ using namespace cryptonote;
 // used to target a given block weight (additional outputs may be added on top to build fee)
 #define TX_WEIGHT_TARGET(bytes) (bytes*2/3)
 
-#define UNSIGNED_TX_PREFIX "Scala unsigned tx set\004"
-#define SIGNED_TX_PREFIX "Scala signed tx set\004"
-#define MULTISIG_UNSIGNED_TX_PREFIX "Scala multisig unsigned tx set\001"
+#define UNSIGNED_TX_PREFIX "Holoyolo unsigned tx set\004"
+#define SIGNED_TX_PREFIX "Holoyolo signed tx set\004"
+#define MULTISIG_UNSIGNED_TX_PREFIX "Holoyolo multisig unsigned tx set\001"
 
 #define RECENT_OUTPUT_RATIO (0.5) // 50% of outputs are from the recent zone
-#define RECENT_OUTPUT_DAYS (1.8) // last 1.8 day makes up the recent zone (taken from scalalink.pdf, Miller et al)
+#define RECENT_OUTPUT_DAYS (1.8) // last 1.8 day makes up the recent zone (taken from Holoyololink.pdf, Miller et al)
 #define RECENT_OUTPUT_ZONE ((time_t)(RECENT_OUTPUT_DAYS * 86400))
 #define RECENT_OUTPUT_BLOCKS (RECENT_OUTPUT_DAYS * 720)
 
@@ -119,11 +119,11 @@ using namespace cryptonote;
 #define SUBADDRESS_LOOKAHEAD_MAJOR 50
 #define SUBADDRESS_LOOKAHEAD_MINOR 200
 
-#define KEY_IMAGE_EXPORT_FILE_MAGIC "Scala key image export\003"
+#define KEY_IMAGE_EXPORT_FILE_MAGIC "Holoyolo key image export\003"
 
-#define MULTISIG_EXPORT_FILE_MAGIC "Scala multisig export\001"
+#define MULTISIG_EXPORT_FILE_MAGIC "Holoyolo multisig export\001"
 
-#define OUTPUT_EXPORT_FILE_MAGIC "Scala output export\004"
+#define OUTPUT_EXPORT_FILE_MAGIC "Holoyolo output export\004"
 
 #define SEGREGATION_FORK_HEIGHT 99999999
 #define TESTNET_SEGREGATION_FORK_HEIGHT 99999999
@@ -145,7 +145,7 @@ using namespace cryptonote;
 static const std::string MULTISIG_SIGNATURE_MAGIC = "SigMultisigPkV1";
 static const std::string MULTISIG_EXTRA_INFO_MAGIC = "MultisigxV1";
 
-static const std::string ASCII_OUTPUT_MAGIC = "ScalaAsciiDataV1";
+static const std::string ASCII_OUTPUT_MAGIC = "HoloyoloAsciiDataV1";
 
 boost::mutex tools::wallet2::default_daemon_address_lock;
 std::string tools::wallet2::default_daemon_address = "";
@@ -155,7 +155,7 @@ namespace
   std::string get_default_ringdb_path()
   {
     boost::filesystem::path dir = tools::get_default_data_dir();
-    // remove .bitscala, replace with .shared-ringdb
+    // remove .bitHoloyolo, replace with .shared-ringdb
     dir = dir.remove_filename();
     dir /= ".shared-ringdb";
     return dir.string();
@@ -1756,8 +1756,8 @@ void wallet2::check_acc_out_precomp_once(const tx_out &o, const crypto::key_deri
 //----------------------------------------------------------------------------------------------------
 static uint64_t decodeRct(const rct::rctSig & rv, const crypto::key_derivation &derivation, unsigned int i, rct::key & mask, hw::device &hwdev)
 {
-  crypto::secret_key scalar1;
-  hwdev.derivation_to_scalar(derivation, i, scalar1);
+  crypto::secret_key Holoyolor1;
+  hwdev.derivation_to_Holoyolor(derivation, i, Holoyolor1);
   try
   {
     switch (rv.type)
@@ -1765,9 +1765,9 @@ static uint64_t decodeRct(const rct::rctSig & rv, const crypto::key_derivation &
     case rct::RCTTypeSimple:
     case rct::RCTTypeBulletproof:
     case rct::RCTTypeBulletproof2:
-      return rct::decodeRctSimple(rv, rct::sk2rct(scalar1), i, mask, hwdev);
+      return rct::decodeRctSimple(rv, rct::sk2rct(Holoyolor1), i, mask, hwdev);
     case rct::RCTTypeFull:
-      return rct::decodeRct(rv, rct::sk2rct(scalar1), i, mask, hwdev);
+      return rct::decodeRct(rv, rct::sk2rct(Holoyolor1), i, mask, hwdev);
     default:
       LOG_ERROR("Unsupported rct type: " << rv.type);
       return 0;
@@ -1792,8 +1792,8 @@ void wallet2::scan_output(const cryptonote::transaction &tx, bool miner_tx, cons
     if (!m_encrypt_keys_after_refresh)
     {
       boost::optional<epee::wipeable_string> pwd = m_callback->on_get_password(pool ? "output found in pool" : "output received");
-      THROW_WALLET_EXCEPTION_IF(!pwd, error::password_needed, tr("Password is needed to compute key image for incoming scala"));
-      THROW_WALLET_EXCEPTION_IF(!verify_password(*pwd), error::password_needed, tr("Invalid password: password is needed to compute key image for incoming scala"));
+      THROW_WALLET_EXCEPTION_IF(!pwd, error::password_needed, tr("Password is needed to compute key image for incoming Holoyolo"));
+      THROW_WALLET_EXCEPTION_IF(!verify_password(*pwd), error::password_needed, tr("Invalid password: password is needed to compute key image for incoming Holoyolo"));
       decrypt_keys(*pwd);
       m_encrypt_keys_after_refresh = *pwd;
     }
@@ -3275,8 +3275,8 @@ void wallet2::refresh(bool trusted_daemon, uint64_t start_height, uint64_t & blo
 
   if(m_light_wallet) {
 
-    // MyScala get_address_info needs to be called occasionally to trigger wallet sync.
-    // This call is not really needed for other purposes and can be removed if myscala changes their backend.
+    // MyHoloyolo get_address_info needs to be called occasionally to trigger wallet sync.
+    // This call is not really needed for other purposes and can be removed if myHoloyolo changes their backend.
     tools::COMMAND_RPC_GET_ADDRESS_INFO::response res;
 
     // Get basic info
@@ -5033,7 +5033,7 @@ std::string wallet2::exchange_multisig_keys(const epee::wipeable_string &passwor
         signers.push_back(local_signer);
         for (const auto &msk: get_account().get_multisig_keys())
         {
-            derivations.insert(rct::rct2pk(rct::scalarmultBase(rct::sk2rct(msk))));
+            derivations.insert(rct::rct2pk(rct::HoloyolormultBase(rct::sk2rct(msk))));
         }
     }
 
@@ -6454,7 +6454,7 @@ void wallet2::commit_tx(pending_tx& ptx)
       const boost::lock_guard<boost::recursive_mutex> lock{m_daemon_rpc_mutex};
       bool r = epee::net_utils::invoke_http_json("/submit_raw_tx", oreq, ores, *m_http_client, rpc_timeout, "POST");
       THROW_WALLET_EXCEPTION_IF(!r, error::no_connection_to_daemon, "submit_raw_tx");
-      // MyScala and OpenScala use different status strings
+      // MyHoloyolo and OpenHoloyolo use different status strings
       THROW_WALLET_EXCEPTION_IF(ores.status != "OK" && ores.status != "success" , error::tx_rejected, ptx.tx, get_rpc_status(ores.status), ores.error);
     }
   }
@@ -7714,7 +7714,7 @@ void wallet2::light_wallet_get_outs(std::vector<std::vector<tools::wallet2::get_
   size_t light_wallet_requested_outputs_count = (size_t)((fake_outputs_count + 1) * 1.5 + 1);
   
   // Amounts to ask for
-  // MyScala api handle amounts and fees as strings
+  // MyHoloyolo api handle amounts and fees as strings
   for(size_t idx: selected_transfers) {
     const uint64_t ask_amount = m_transfers[idx].is_rct() ? 0 : m_transfers[idx].amount();
     std::ostringstream amount_ss;
@@ -8276,7 +8276,7 @@ void wallet2::get_outs(std::vector<std::vector<tools::wallet2::get_outs_entry>> 
           [](const get_outputs_out &a, const get_outputs_out &b) { return a.index < b.index; });
     }
 
-    if (ELPP->vRegistry()->allowed(el::Level::Debug, SCALA_DEFAULT_LOG_CATEGORY))
+    if (ELPP->vRegistry()->allowed(el::Level::Debug, Holoyolo_DEFAULT_LOG_CATEGORY))
     {
       std::map<uint64_t, std::set<uint64_t>> outs;
       for (const auto &i: req.outputs)
@@ -9021,7 +9021,7 @@ bool wallet2::light_wallet_login(bool &new_address)
   m_daemon_rpc_mutex.lock();
   bool connected = invoke_http_json("/login", request, response, rpc_timeout, "POST");
   m_daemon_rpc_mutex.unlock();
-  // MyScala doesn't send any status message. OpenScala does. 
+  // MyHoloyolo doesn't send any status message. OpenHoloyolo does. 
   m_light_wallet_connected  = connected && (response.status.empty() || response.status == "success");
   new_address = response.new_address;
   MDEBUG("Status: " << response.status);
@@ -9062,9 +9062,9 @@ void wallet2::light_wallet_get_unspent_outs()
   oreq.amount = "0";
   oreq.address = get_account().get_public_address_str(m_nettype);
   oreq.view_key = string_tools::pod_to_hex(get_account().get_keys().m_view_secret_key);
-  // openScala specific
+  // openHoloyolo specific
   oreq.dust_threshold = boost::lexical_cast<std::string>(::config::DEFAULT_DUST_THRESHOLD);
-  // below are required by openScala api - but are not used.
+  // below are required by openHoloyolo api - but are not used.
   oreq.mixin = 0;
   oreq.use_dust = true;
 
@@ -9235,7 +9235,7 @@ void wallet2::light_wallet_get_address_txs()
   bool r = invoke_http_json("/get_address_txs", ireq, ires, rpc_timeout, "POST");
   m_daemon_rpc_mutex.unlock();
   THROW_WALLET_EXCEPTION_IF(!r, error::no_connection_to_daemon, "get_address_txs");
-  //OpenScala sends status=success, Myscala doesn't. 
+  //OpenHoloyolo sends status=success, MyHoloyolo doesn't. 
   THROW_WALLET_EXCEPTION_IF((!ires.status.empty() && ires.status != "success"), error::no_connection_to_daemon, "get_address_txs");
 
   
@@ -9403,7 +9403,7 @@ void wallet2::light_wallet_get_address_txs()
 
   // Calculate wallet balance
   m_light_wallet_balance = ires.total_received-wallet_total_sent;
-  // MyScala doesn't send unlocked balance
+  // MyHoloyolo doesn't send unlocked balance
   if(ires.total_received_unlocked > 0)
     m_light_wallet_unlocked_balance = ires.total_received_unlocked-wallet_total_sent;
   else
@@ -9428,9 +9428,9 @@ bool wallet2::light_wallet_parse_rct_str(const std::string& rct_string, const cr
     crypto::key_derivation derivation;
     bool r = generate_key_derivation(tx_pub_key, get_account().get_keys().m_view_secret_key, derivation);
     THROW_WALLET_EXCEPTION_IF(!r, error::wallet_internal_error, "Failed to generate key derivation");
-    crypto::secret_key scalar;
-    crypto::derivation_to_scalar(derivation, internal_output_index, scalar);
-    sc_sub(decrypted_mask.bytes,encrypted_mask.bytes,rct::hash_to_scalar(rct::sk2rct(scalar)).bytes);
+    crypto::secret_key Holoyolor;
+    crypto::derivation_to_Holoyolor(derivation, internal_output_index, Holoyolor);
+    sc_sub(decrypted_mask.bytes,encrypted_mask.bytes,rct::hash_to_Holoyolor(rct::sk2rct(Holoyolor)).bytes);
   }
   return true;
 }
@@ -9452,7 +9452,7 @@ bool wallet2::light_wallet_key_image_is_ours(const crypto::key_image& key_image,
   crypto::key_image calculated_key_image;
   cryptonote::keypair in_ephemeral;
   
-  // Subaddresses aren't supported in myscala/openscala yet. Roll out the original scheme:
+  // Subaddresses aren't supported in myHoloyolo/openHoloyolo yet. Roll out the original scheme:
   //   compute D = a*R
   //   compute P = Hs(D || i)*G + B
   //   compute x = Hs(D || i) + b      (and check if P==x*G)
@@ -11146,10 +11146,10 @@ void wallet2::check_tx_key_helper(const cryptonote::transaction &tx, const crypt
       }
       else
       {
-        crypto::secret_key scalar1;
-        crypto::derivation_to_scalar(found_derivation, n, scalar1);
+        crypto::secret_key Holoyolor1;
+        crypto::derivation_to_Holoyolor(found_derivation, n, Holoyolor1);
         rct::ecdhTuple ecdh_info = tx.rct_signatures.ecdhInfo[n];
-        rct::ecdhDecode(ecdh_info, rct::sk2rct(scalar1), tx.rct_signatures.type == rct::RCTTypeBulletproof2);
+        rct::ecdhDecode(ecdh_info, rct::sk2rct(Holoyolor1), tx.rct_signatures.type == rct::RCTTypeBulletproof2);
         const rct::key C = tx.rct_signatures.outPk[n].mask;
         rct::key Ctmp;
         THROW_WALLET_EXCEPTION_IF(sc_check(ecdh_info.mask.bytes) != 0, error::wallet_internal_error, "Bad ECDH input mask");
@@ -11292,12 +11292,12 @@ std::string wallet2::get_tx_proof(const cryptonote::transaction &tx, const crypt
     shared_secret.resize(num_sigs);
     sig.resize(num_sigs);
 
-    hwdev.scalarmultKey(aP, rct::pk2rct(address.m_view_public_key), rct::sk2rct(tx_key));
+    hwdev.HoloyolormultKey(aP, rct::pk2rct(address.m_view_public_key), rct::sk2rct(tx_key));
     shared_secret[0] = rct::rct2pk(aP);
     crypto::public_key tx_pub_key;
     if (is_subaddress)
     {
-      hwdev.scalarmultKey(aP, rct::pk2rct(address.m_spend_public_key), rct::sk2rct(tx_key));
+      hwdev.HoloyolormultKey(aP, rct::pk2rct(address.m_spend_public_key), rct::sk2rct(tx_key));
       tx_pub_key = rct2pk(aP);
       hwdev.generate_tx_proof(prefix_hash, tx_pub_key, address.m_view_public_key, address.m_spend_public_key, shared_secret[0], tx_key, sig[0]);
     }
@@ -11308,11 +11308,11 @@ std::string wallet2::get_tx_proof(const cryptonote::transaction &tx, const crypt
     }
     for (size_t i = 1; i < num_sigs; ++i)
     {
-      hwdev.scalarmultKey(aP, rct::pk2rct(address.m_view_public_key), rct::sk2rct(additional_tx_keys[i - 1]));
+      hwdev.HoloyolormultKey(aP, rct::pk2rct(address.m_view_public_key), rct::sk2rct(additional_tx_keys[i - 1]));
       shared_secret[i] = rct::rct2pk(aP);
       if (is_subaddress)
       {
-        hwdev.scalarmultKey(aP, rct::pk2rct(address.m_spend_public_key), rct::sk2rct(additional_tx_keys[i - 1]));
+        hwdev.HoloyolormultKey(aP, rct::pk2rct(address.m_spend_public_key), rct::sk2rct(additional_tx_keys[i - 1]));
         tx_pub_key = rct2pk(aP);
         hwdev.generate_tx_proof(prefix_hash, tx_pub_key, address.m_view_public_key, address.m_spend_public_key, shared_secret[i], additional_tx_keys[i - 1], sig[i]);
       }
@@ -11335,7 +11335,7 @@ std::string wallet2::get_tx_proof(const cryptonote::transaction &tx, const crypt
     sig.resize(num_sigs);
 
     const crypto::secret_key& a = m_account.get_keys().m_view_secret_key;
-    hwdev.scalarmultKey(aP, rct::pk2rct(tx_pub_key), rct::sk2rct(a));
+    hwdev.HoloyolormultKey(aP, rct::pk2rct(tx_pub_key), rct::sk2rct(a));
     shared_secret[0] =  rct2pk(aP);
     if (is_subaddress)
     {
@@ -11347,7 +11347,7 @@ std::string wallet2::get_tx_proof(const cryptonote::transaction &tx, const crypt
     }
     for (size_t i = 1; i < num_sigs; ++i)
     {
-      hwdev.scalarmultKey(aP,rct::pk2rct(additional_tx_pub_keys[i - 1]), rct::sk2rct(a));
+      hwdev.HoloyolormultKey(aP,rct::pk2rct(additional_tx_pub_keys[i - 1]), rct::sk2rct(a));
       shared_secret[i] = rct2pk(aP);
       if (is_subaddress)
       {
@@ -11511,7 +11511,7 @@ bool wallet2::check_tx_proof(const cryptonote::transaction &tx, const cryptonote
 
   if (std::any_of(good_signature.begin(), good_signature.end(), [](int i) { return i > 0; }))
   {
-    // obtain key derivation by multiplying scalar 1 to the shared secret
+    // obtain key derivation by multiplying Holoyolor 1 to the shared secret
     crypto::key_derivation derivation;
     if (good_signature[0])
       THROW_WALLET_EXCEPTION_IF(!crypto::generate_key_derivation(shared_secret[0], rct::rct2sk(rct::I), derivation), error::wallet_internal_error, "Failed to generate key derivation");
@@ -11592,7 +11592,7 @@ std::string wallet2::get_reserve_proof(const boost::optional<std::pair<uint32_t,
     const crypto::public_key *tx_pub_key_used = &tx_pub_key;
     for (int i = 0; i < 2; ++i)
     {
-      proof.shared_secret = rct::rct2pk(rct::scalarmultKey(rct::pk2rct(*tx_pub_key_used), rct::sk2rct(m_account.get_keys().m_view_secret_key)));
+      proof.shared_secret = rct::rct2pk(rct::HoloyolormultKey(rct::pk2rct(*tx_pub_key_used), rct::sk2rct(m_account.get_keys().m_view_secret_key)));
       crypto::key_derivation derivation;
       THROW_WALLET_EXCEPTION_IF(!crypto::generate_key_derivation(proof.shared_secret, rct::rct2sk(rct::I), derivation),
         error::wallet_internal_error, "Failed to generate key derivation");
@@ -11764,7 +11764,7 @@ bool wallet2::check_reserve_proof(const cryptonote::account_public_address &addr
     {
       // decode rct
       crypto::secret_key shared_secret;
-      crypto::derivation_to_scalar(derivation, proof.index_in_tx, shared_secret);
+      crypto::derivation_to_Holoyolor(derivation, proof.index_in_tx, shared_secret);
       rct::ecdhTuple ecdh_info = tx.rct_signatures.ecdhInfo[proof.index_in_tx];
       rct::ecdhDecode(ecdh_info, rct::sk2rct(shared_secret), tx.rct_signatures.type == rct::RCTTypeBulletproof2);
       amount = rct::h2d(ecdh_info.amount);
@@ -12243,7 +12243,7 @@ uint64_t wallet2::import_key_images(const std::vector<std::pair<crypto::key_imag
     {
       std::vector<const crypto::public_key*> pkeys;
       pkeys.push_back(&pkey);
-      THROW_WALLET_EXCEPTION_IF(!(rct::scalarmultKey(rct::ki2rct(key_image), rct::curveOrder()) == rct::identity()),
+      THROW_WALLET_EXCEPTION_IF(!(rct::HoloyolormultKey(rct::ki2rct(key_image), rct::curveOrder()) == rct::identity()),
           error::wallet_internal_error, "Key image out of validity domain: input " + boost::lexical_cast<std::string>(n + offset) + "/"
           + boost::lexical_cast<std::string>(signed_key_images.size()) + ", key image " + epee::string_tools::pod_to_hex(key_image));
 
@@ -12797,7 +12797,7 @@ rct::key wallet2::get_multisig_k(size_t idx, const std::unordered_set<rct::key> 
   for (const auto &k: m_transfers[idx].m_multisig_k)
   {
     rct::key L;
-    rct::scalarmultBase(L, k);
+    rct::HoloyolormultBase(L, k);
     if (used_L.find(L) != used_L.end())
       return k;
   }
@@ -13151,7 +13151,7 @@ std::string wallet2::make_uri(const std::string &address, const std::string &pay
     }
   }
 
-  std::string uri = "scala:" + address;
+  std::string uri = "Holoyolo:" + address;
   unsigned int n_fields = 0;
 
   if (!payment_id.empty())
@@ -13180,9 +13180,9 @@ std::string wallet2::make_uri(const std::string &address, const std::string &pay
 //----------------------------------------------------------------------------------------------------
 bool wallet2::parse_uri(const std::string &uri, std::string &address, std::string &payment_id, uint64_t &amount, std::string &tx_description, std::string &recipient_name, std::vector<std::string> &unknown_parameters, std::string &error)
 {
-  if (uri.substr(0, 7) != "scala:")
+  if (uri.substr(0, 7) != "Holoyolo:")
   {
-    error = std::string("URI has wrong scheme (expected \"scala:\"): ") + uri;
+    error = std::string("URI has wrong scheme (expected \"Holoyolo:\"): ") + uri;
     return false;
   }
 
@@ -13454,12 +13454,12 @@ uint64_t wallet2::get_segregation_fork_height() const
 
   if (m_use_dns && !m_offline)
   {
-    // All four ScalaPulse domains have DNSSEC on and valid
+    // All four HoloyoloPulse domains have DNSSEC on and valid
     static const std::vector<std::string> dns_urls = {
-        "segheights.scalapulse.org",
-        "segheights.scalapulse.net",
-        "segheights.scalapulse.co",
-        "segheights.scalapulse.se"
+        "segheights.Holoyolopulse.org",
+        "segheights.Holoyolopulse.net",
+        "segheights.Holoyolopulse.co",
+        "segheights.Holoyolopulse.se"
     };
 
     const uint64_t current_height = get_blockchain_current_height();
@@ -13506,7 +13506,7 @@ mms::multisig_wallet_state wallet2::get_multisig_wallet_state() const
   state.num_transfer_details = m_transfers.size();
   if (state.multisig)
   {
-    THROW_WALLET_EXCEPTION_IF(!m_original_keys_available, error::wallet_internal_error, "MMS use not possible because own original Scala address not available");
+    THROW_WALLET_EXCEPTION_IF(!m_original_keys_available, error::wallet_internal_error, "MMS use not possible because own original Holoyolo address not available");
     state.address = m_original_address;
     state.view_secret_key = m_original_view_secret_key;
   }

@@ -2,7 +2,7 @@
 
 if [ ! -d "$SNAP_USER_DATA/etc" ]; then
   mkdir $SNAP_USER_DATA/etc/
-  cp -R $SNAP/etc/scalad.conf $SNAP_USER_DATA/etc/scalad.conf
+  cp -R $SNAP/etc/Holoyolod.conf $SNAP_USER_DATA/etc/Holoyolod.conf
 fi
 
-exec "$SNAP/bin/scalad" "$@"
+exec "$SNAP/bin/Holoyolod" "$@"

@@ -32,8 +32,8 @@
 #include <atlutil.h>
 #pragma comment(lib, "Wininet.lib")
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.http"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net.http"
 
 namespace epee
 {

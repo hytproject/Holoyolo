@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 #
 # All rights reserved.
 #
@@ -63,9 +63,9 @@ set(daemon_private_headers
   ../p2p/p2p_protocol_defs.h
   ../p2p/stdafx.h)
 
-scala_private_headers(daemon
+Holoyolo_private_headers(daemon
   ${daemon_private_headers})
-scala_add_executable(daemon
+Holoyolo_add_executable(daemon
   ${daemon_sources}
   ${daemon_headers}
   ${daemon_private_headers})
@@ -123,5 +123,5 @@ endif()
 ### end of the fix
 set_property(TARGET daemon
   PROPERTY
-    OUTPUT_NAME "scalad")
+    OUTPUT_NAME "Holoyolod")
 install(TARGETS daemon DESTINATION bin)

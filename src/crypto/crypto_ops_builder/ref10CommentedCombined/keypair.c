@@ -15,7 +15,7 @@ int crypto_sign_keypair(unsigned char *pk,unsigned char *sk)
   az[31] &= 63;
   az[31] |= 64;
 
-  ge_scalarmult_base(&A,az);
+  ge_Holoyolormult_base(&A,az);
   ge_p3_tobytes(pk,&A);
 
   memmove(sk + 32,pk,32);

@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 //
 // All rights reserved.
 //
@@ -293,10 +293,10 @@ namespace nodetool
 
   private:
     const std::vector<std::string> m_seed_nodes_list =
-    { "seeds.scalaseeds.se"
-    , "seeds.scalaseeds.ae.org"
-    , "seeds.scalaseeds.ch"
-    , "seeds.scalaseeds.li"
+    { "seeds.Holoyoloseeds.se"
+    , "seeds.Holoyoloseeds.ae.org"
+    , "seeds.Holoyoloseeds.ch"
+    , "seeds.Holoyoloseeds.li"
     };
 
     bool islimitup=false;

@@ -35,8 +35,8 @@
 namespace hw {
   namespace io {
  
-    #undef SCALA_DEFAULT_LOG_CATEGORY
-    #define SCALA_DEFAULT_LOG_CATEGORY "device.io"
+    #undef Holoyolo_DEFAULT_LOG_CATEGORY
+    #define Holoyolo_DEFAULT_LOG_CATEGORY "device.io"
  
     #define ASSERT_X(exp,msg)    CHECK_AND_ASSERT_THROW_MES(exp, msg); 
 

@@ -141,7 +141,7 @@ int main(int argc, char* argv[])
     const uint8_t initial_hf =  (uint8_t)get_env_long("TEST_MIN_HF", 12);
     const uint8_t max_hf = (uint8_t)get_env_long("TEST_MAX_HF", 12);
     auto sync_test = get_env_long("TEST_KI_SYNC", 1);
-    MINFO("Test versions " << SCALA_RELEASE_NAME << "' (v" << SCALA_VERSION_FULL << ")");
+    MINFO("Test versions " << Holoyolo_RELEASE_NAME << "' (v" << Holoyolo_VERSION_FULL << ")");
     MINFO("Testing hardforks [" << (int)initial_hf << ", " << (int)max_hf << "], sync-test: " << sync_test);
 
     cryptonote::core core_obj(nullptr);
@@ -1150,7 +1150,7 @@ bool gen_trezor_base::verify_tx_key(const ::crypto::secret_key & tx_priv, const 
 
   for(const auto & elem : subs)
   {
-    tx_pub_c = rct::rct2pk(rct::scalarmultKey(rct::pk2rct(elem.first), rct::sk2rct(tx_priv)));
+    tx_pub_c = rct::rct2pk(rct::HoloyolormultKey(rct::pk2rct(elem.first), rct::sk2rct(tx_priv)));
     if (tx_pub == tx_pub_c)
       return true;
   }
@@ -1591,23 +1591,23 @@ bool gen_trezor_live_refresh::generate(std::vector<test_event_entry>& events)
 
     ::crypto::random32_unbiased((unsigned char*)r.data);
     ::crypto::secret_key_to_public_key(r, R);
-    memcpy(D.data, rct::scalarmultKey(rct::pk2rct(R), rct::sk2rct(m_alice_account.get_keys().m_view_secret_key)).bytes, 32);
+    memcpy(D.data, rct::HoloyolormultKey(rct::pk2rct(R), rct::sk2rct(m_alice_account.get_keys().m_view_secret_key)).bytes, 32);
 
-    ::crypto::secret_key scalar_step1;
-    ::crypto::secret_key scalar_step2;
-    ::crypto::derive_secret_key(D, i, m_alice_account.get_keys().m_spend_secret_key, scalar_step1);
+    ::crypto::secret_key Holoyolor_step1;
+    ::crypto::secret_key Holoyolor_step2;
+    ::crypto::derive_secret_key(D, i, m_alice_account.get_keys().m_spend_secret_key, Holoyolor_step1);
     if (i == 0)
     {
-      scalar_step2 = scalar_step1;
+      Holoyolor_step2 = Holoyolor_step1;
     }
     else
     {
       ::crypto::secret_key subaddr_sk = sw_device.get_subaddress_secret_key(m_alice_account.get_keys().m_view_secret_key, subaddr);
-      sw_device.sc_secret_add(scalar_step2, scalar_step1, subaddr_sk);
+      sw_device.sc_secret_add(Holoyolor_step2, Holoyolor_step1, subaddr_sk);
     }
 
-    ::crypto::secret_key_to_public_key(scalar_step2, pub_ver);
-    ::crypto::generate_key_image(pub_ver, scalar_step2, ki);
+    ::crypto::secret_key_to_public_key(Holoyolor_step2, pub_ver);
+    ::crypto::generate_key_image(pub_ver, Holoyolor_step2, ki);
 
     cryptonote::keypair in_ephemeral;
     ::crypto::key_image ki2;
@@ -1836,26 +1836,26 @@ bool wallet_api_tests::generate(std::vector<test_event_entry>& events)
   init();
   test_setup(events);
   const std::string wallet_path = (m_wallet_dir / "wallet").string();
-  const auto api_net_type = m_network_type == TESTNET ? Scala::TESTNET : Scala::MAINNET;
+  const auto api_net_type = m_network_type == TESTNET ? Holoyolo::TESTNET : Holoyolo::MAINNET;
 
-  Scala::WalletManager *wmgr = Scala::WalletManagerFactory::getWalletManager();
-  std::unique_ptr<Scala::Wallet> w{wmgr->createWalletFromDevice(wallet_path, "", api_net_type, m_trezor_path, 1)};
+  Holoyolo::WalletManager *wmgr = Holoyolo::WalletManagerFactory::getWalletManager();
+  std::unique_ptr<Holoyolo::Wallet> w{wmgr->createWalletFromDevice(wallet_path, "", api_net_type, m_trezor_path, 1)};
   CHECK_AND_ASSERT_THROW_MES(w->init(daemon()->rpc_addr(), 0), "Wallet init fail");
   CHECK_AND_ASSERT_THROW_MES(w->refresh(), "Refresh fail");
   uint64_t balance = w->balance(0);
   MDEBUG("Balance: " << balance);
-  CHECK_AND_ASSERT_THROW_MES(w->status() == Scala::PendingTransaction::Status_Ok, "Status nok");
+  CHECK_AND_ASSERT_THROW_MES(w->status() == Holoyolo::PendingTransaction::Status_Ok, "Status nok");
 
   auto addr = get_address(m_eve_account);
   auto recepient_address = cryptonote::get_account_address_as_str(m_network_type, false, addr);
-  Scala::PendingTransaction * transaction = w->createTransaction(recepient_address,
+  Holoyolo::PendingTransaction * transaction = w->createTransaction(recepient_address,
                                                                   "",
                                                                   MK_COINS(10),
                                                                   TREZOR_TEST_MIXIN,
-                                                                  Scala::PendingTransaction::Priority_Medium,
+                                                                  Holoyolo::PendingTransaction::Priority_Medium,
                                                                   0,
                                                                   std::set<uint32_t>{});
-  CHECK_AND_ASSERT_THROW_MES(transaction->status() == Scala::PendingTransaction::Status_Ok, "Status nok");
+  CHECK_AND_ASSERT_THROW_MES(transaction->status() == Holoyolo::PendingTransaction::Status_Ok, "Status nok");
   w->refresh();
 
   CHECK_AND_ASSERT_THROW_MES(w->balance(0) == balance, "Err");

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, Scala Research Labs
+// Copyright (c) 2016, Holoyolo Research Labs
 //
 // Author: Shen Noether <shen.noether@gmx.com>
 //
@@ -62,7 +62,7 @@ extern "C" {
 #define DP(x)
 #endif
 
-//atomic units of scalas
+//atomic units of Holoyolos
 #define ATOMS 64
 
 //for printing large ints

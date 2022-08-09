@@ -30,7 +30,7 @@ int crypto_sign(
   memmove(sm + 32,pk,32);
 
   sc_reduce(nonce);
-  ge_scalarmult_base(&R,nonce);
+  ge_Holoyolormult_base(&R,nonce);
   ge_p3_tobytes(sm,&R);
 
   crypto_hash_sha512(hram,sm,mlen + 64);

@@ -27,8 +27,8 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef SCALA_DEBUG_LINK_H
-#define SCALA_DEBUG_LINK_H
+#ifndef Holoyolo_DEBUG_LINK_H
+#define Holoyolo_DEBUG_LINK_H
 
 #include "transport.hpp"
 #include "messages/messages-debug.pb.h"
@@ -90,4 +90,4 @@ namespace trezor {
 }
 }
 
-#endif //SCALA_DEBUG_LINK_H
+#endif //Holoyolo_DEBUG_LINK_H

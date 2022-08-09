@@ -32,7 +32,7 @@ int crypto_sign_open(
   crypto_hash_sha512(h,m,smlen);
   sc_reduce(h);
 
-  ge_double_scalarmult_vartime(&R,h,&A,scopy);
+  ge_double_Holoyolormult_vartime(&R,h,&A,scopy);
   ge_tobytes(rcheck,&R);
   if (crypto_verify_32(rcheck,rcopy) == 0) {
     memmove(m,m + 64,smlen - 64);

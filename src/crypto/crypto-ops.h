@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -74,13 +74,13 @@ typedef struct {
 
 void ge_add(ge_p1p1 *, const ge_p3 *, const ge_cached *);
 
-/* From ge_double_scalarmult.c, modified */
+/* From ge_double_Holoyolormult.c, modified */
 
 typedef ge_cached ge_dsmp[8];
 extern const ge_precomp ge_Bi[8];
 void ge_dsm_precomp(ge_dsmp r, const ge_p3 *s);
-void ge_double_scalarmult_base_vartime(ge_p2 *, const unsigned char *, const ge_p3 *, const unsigned char *);
-void ge_double_scalarmult_base_vartime_p3(ge_p3 *, const unsigned char *, const ge_p3 *, const unsigned char *);
+void ge_double_Holoyolormult_base_vartime(ge_p2 *, const unsigned char *, const ge_p3 *, const unsigned char *);
+void ge_double_Holoyolormult_base_vartime_p3(ge_p3 *, const unsigned char *, const ge_p3 *, const unsigned char *);
 
 /* From ge_frombytes.c, modified */
 
@@ -113,10 +113,10 @@ void ge_p3_to_p2(ge_p2 *, const ge_p3 *);
 
 void ge_p3_tobytes(unsigned char *, const ge_p3 *);
 
-/* From ge_scalarmult_base.c */
+/* From ge_Holoyolormult_base.c */
 
 extern const ge_precomp ge_base[32][8];
-void ge_scalarmult_base(ge_p3 *, const unsigned char *);
+void ge_Holoyolormult_base(ge_p3 *, const unsigned char *);
 
 /* From ge_tobytes.c */
 
@@ -128,11 +128,11 @@ void sc_reduce(unsigned char *);
 
 /* New code */
 
-void ge_scalarmult(ge_p2 *, const unsigned char *, const ge_p3 *);
-void ge_scalarmult_p3(ge_p3 *, const unsigned char *, const ge_p3 *);
-void ge_double_scalarmult_precomp_vartime(ge_p2 *, const unsigned char *, const ge_p3 *, const unsigned char *, const ge_dsmp);
-void ge_double_scalarmult_precomp_vartime2(ge_p2 *, const unsigned char *, const ge_dsmp, const unsigned char *, const ge_dsmp);
-void ge_double_scalarmult_precomp_vartime2_p3(ge_p3 *, const unsigned char *, const ge_dsmp, const unsigned char *, const ge_dsmp);
+void ge_Holoyolormult(ge_p2 *, const unsigned char *, const ge_p3 *);
+void ge_Holoyolormult_p3(ge_p3 *, const unsigned char *, const ge_p3 *);
+void ge_double_Holoyolormult_precomp_vartime(ge_p2 *, const unsigned char *, const ge_p3 *, const unsigned char *, const ge_dsmp);
+void ge_double_Holoyolormult_precomp_vartime2(ge_p2 *, const unsigned char *, const ge_dsmp, const unsigned char *, const ge_dsmp);
+void ge_double_Holoyolormult_precomp_vartime2_p3(ge_p3 *, const unsigned char *, const ge_dsmp, const unsigned char *, const ge_dsmp);
 void ge_mul8(ge_p1p1 *, const ge_p2 *);
 extern const fe fe_ma2;
 extern const fe fe_ma;

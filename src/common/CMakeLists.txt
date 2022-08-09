@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 #
 # All rights reserved.
 #
@@ -89,9 +89,9 @@ set(common_private_headers
   timings.h
   combinator.h)
 
-scala_private_headers(common
+Holoyolo_private_headers(common
   ${common_private_headers})
-scala_add_library(common
+Holoyolo_add_library(common
   ${common_sources}
   ${common_headers}
   ${common_private_headers}
@@ -111,5 +111,5 @@ target_link_libraries(common
     ${OPENSSL_LIBRARIES}
     ${EXTRA_LIBRARIES})
 
-#scala_install_headers(common
+#Holoyolo_install_headers(common
 #  ${common_headers})

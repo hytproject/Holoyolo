@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -46,8 +46,8 @@ using namespace std;
 using namespace crypto;
 typedef crypto::hash chash;
 
-bool operator !=(const ec_scalar &a, const ec_scalar &b) {
-  return 0 != memcmp(&a, &b, sizeof(ec_scalar));
+bool operator !=(const ec_Holoyolor &a, const ec_Holoyolor &b) {
+  return 0 != memcmp(&a, &b, sizeof(ec_Holoyolor));
 }
 
 bool operator !=(const ec_point &a, const ec_point &b) {
@@ -79,26 +79,26 @@ int main(int argc, char *argv[]) {
       break;
     }
     input.exceptions(ios_base::badbit | ios_base::failbit | ios_base::eofbit);
-    if (cmd == "check_scalar") {
-      ec_scalar scalar;
+    if (cmd == "check_Holoyolor") {
+      ec_Holoyolor Holoyolor;
       bool expected, actual;
-      get(input, scalar, expected);
-      actual = check_scalar(scalar);
+      get(input, Holoyolor, expected);
+      actual = check_Holoyolor(Holoyolor);
       if (expected != actual) {
         goto error;
       }
-    } else if (cmd == "random_scalar") {
-      ec_scalar expected, actual;
+    } else if (cmd == "random_Holoyolor") {
+      ec_Holoyolor expected, actual;
       get(input, expected);
-      random_scalar(actual);
+      random_Holoyolor(actual);
       if (expected != actual) {
         goto error;
       }
-    } else if (cmd == "hash_to_scalar") {
+    } else if (cmd == "hash_to_Holoyolor") {
       vector<char> data;
-      ec_scalar expected, actual;
+      ec_Holoyolor expected, actual;
       get(input, data, expected);
-      crypto::hash_to_scalar(data.data(), data.size(), actual);
+      crypto::hash_to_Holoyolor(data.data(), data.size(), actual);
       if (expected != actual) {
         goto error;
       }

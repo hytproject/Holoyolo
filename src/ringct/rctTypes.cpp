@@ -1,4 +1,4 @@
-// Copyright (c) 2016, Scala Research Labs
+// Copyright (c) 2016, Holoyolo Research Labs
 //
 // Author: Shen Noether <shen.noether@gmx.com>
 // 
@@ -35,8 +35,8 @@
 using namespace crypto;
 using namespace std;
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "ringct"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "ringct"
 
 namespace rct {
 

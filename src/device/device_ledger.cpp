@@ -43,8 +43,8 @@ namespace hw {
 
   #ifdef WITH_DEVICE_LEDGER
 
-    #undef SCALA_DEFAULT_LOG_CATEGORY
-    #define SCALA_DEFAULT_LOG_CATEGORY "device.ledger"
+    #undef Holoyolo_DEFAULT_LOG_CATEGORY
+    #define Holoyolo_DEFAULT_LOG_CATEGORY "device.ledger"
 
     /* ===================================================================== */
     /* ===                           Debug                              ==== */
@@ -273,7 +273,7 @@ namespace hw {
 
     #define INS_SECRET_KEY_TO_PUBLIC_KEY        0x30
     #define INS_GEN_KEY_DERIVATION              0x32
-    #define INS_DERIVATION_TO_SCALAR            0x34
+    #define INS_DERIVATION_TO_HoloyoloR            0x34
     #define INS_DERIVE_PUBLIC_KEY               0x36
     #define INS_DERIVE_SECRET_KEY               0x38
     #define INS_GEN_KEY_IMAGE                   0x3A
@@ -451,10 +451,10 @@ namespace hw {
     bool device_ledger::reset() {
       reset_buffer();
       int offset = set_command_header_noopt(INS_RESET);
-      const size_t verlen = strlen(SCALA_VERSION);
-      ASSERT_X(offset + verlen <= BUFFER_SEND_SIZE, "SCALA_VERSION is too long")
-      memmove(this->buffer_send+offset, SCALA_VERSION, verlen);
-      offset += strlen(SCALA_VERSION);
+      const size_t verlen = strlen(Holoyolo_VERSION);
+      ASSERT_X(offset + verlen <= BUFFER_SEND_SIZE, "Holoyolo_VERSION is too long")
+      memmove(this->buffer_send+offset, Holoyolo_VERSION, verlen);
+      offset += strlen(Holoyolo_VERSION);
       this->buffer_send[4] = offset-5;
       this->length_send = offset;
       this->exchange();
@@ -907,17 +907,17 @@ namespace hw {
         return verified == 1;
     }
 
-    bool device_ledger::scalarmultKey(rct::key & aP, const rct::key &P, const rct::key &a) {
+    bool device_ledger::HoloyolormultKey(rct::key & aP, const rct::key &P, const rct::key &a) {
         AUTO_LOCK_CMD();
 
         #ifdef DEBUG_HWDEVICE
         const rct::key P_x    =  P;
         const rct::key a_x    =  hw::ledger::decrypt(a);
         rct::key aP_x;
-        log_hexbuffer("scalarmultKey: [[IN]]  P ", (char*)P_x.bytes, 32);       
-        log_hexbuffer("scalarmultKey: [[IN]]  a ", (char*)a_x.bytes, 32);       
-        this->controle_device->scalarmultKey(aP_x, P_x, a_x);
-        log_hexbuffer("scalarmultKey: [[OUT]] aP", (char*)aP_x.bytes, 32);       
+        log_hexbuffer("HoloyolormultKey: [[IN]]  P ", (char*)P_x.bytes, 32);       
+        log_hexbuffer("HoloyolormultKey: [[IN]]  a ", (char*)a_x.bytes, 32);       
+        this->controle_device->HoloyolormultKey(aP_x, P_x, a_x);
+        log_hexbuffer("HoloyolormultKey: [[OUT]] aP", (char*)aP_x.bytes, 32);       
         #endif
 
         int offset = set_command_header_noopt(INS_SECRET_SCAL_MUL_KEY);
@@ -935,21 +935,21 @@ namespace hw {
         memmove(aP.bytes, &this->buffer_recv[0], 32);
 
         #ifdef DEBUG_HWDEVICE
-        hw::ledger::check32("scalarmultKey", "mulkey", (char*)aP_x.bytes, (char*)aP.bytes);
+        hw::ledger::check32("HoloyolormultKey", "mulkey", (char*)aP_x.bytes, (char*)aP.bytes);
         #endif
 
         return true;
     }
 
-    bool device_ledger::scalarmultBase(rct::key &aG, const rct::key &a) {
+    bool device_ledger::HoloyolormultBase(rct::key &aG, const rct::key &a) {
         AUTO_LOCK_CMD();
 
         #ifdef DEBUG_HWDEVICE
         const rct::key a_x    =  hw::ledger::decrypt(a);
         rct::key aG_x;
-        log_hexbuffer("scalarmultKey: [[IN]]  a ", (char*)a_x.bytes, 32);       
-        this->controle_device->scalarmultBase(aG_x, a_x);
-        log_hexbuffer("scalarmultKey: [[OUT]] aG", (char*)aG_x.bytes, 32);       
+        log_hexbuffer("HoloyolormultKey: [[IN]]  a ", (char*)a_x.bytes, 32);       
+        this->controle_device->HoloyolormultBase(aG_x, a_x);
+        log_hexbuffer("HoloyolormultKey: [[OUT]] aG", (char*)aG_x.bytes, 32);       
         #endif
 
         int offset = set_command_header_noopt(INS_SECRET_SCAL_MUL_BASE);
@@ -964,7 +964,7 @@ namespace hw {
         memmove(aG.bytes, &this->buffer_recv[0], 32);
 
         #ifdef DEBUG_HWDEVICE
-        hw::ledger::check32("scalarmultBase", "mulkey", (char*)aG_x.bytes, (char*)aG.bytes);
+        hw::ledger::check32("HoloyolormultBase", "mulkey", (char*)aG_x.bytes, (char*)aG.bytes);
         #endif
 
         return true;
@@ -1117,20 +1117,20 @@ namespace hw {
       return this->generate_key_derivation(*pkey,  crypto::null_skey, derivation);
     } 
 
-    bool device_ledger::derivation_to_scalar(const crypto::key_derivation &derivation, const size_t output_index, crypto::ec_scalar &res) {
+    bool device_ledger::derivation_to_Holoyolor(const crypto::key_derivation &derivation, const size_t output_index, crypto::ec_Holoyolor &res) {
         AUTO_LOCK_CMD();
 
         #ifdef DEBUG_HWDEVICE
         const crypto::key_derivation derivation_x = hw::ledger::decrypt(derivation);
         const size_t output_index_x               = output_index;
-        crypto::ec_scalar res_x;
-        log_hexbuffer("derivation_to_scalar: [[IN]]  derivation    ", derivation_x.data, 32);
-        log_message  ("derivation_to_scalar: [[IN]]  output_index  ", std::to_string(output_index_x));
-        this->controle_device->derivation_to_scalar(derivation_x, output_index_x, res_x);
-        log_hexbuffer("derivation_to_scalar: [[OUT]] res          ", res_x.data, 32);
+        crypto::ec_Holoyolor res_x;
+        log_hexbuffer("derivation_to_Holoyolor: [[IN]]  derivation    ", derivation_x.data, 32);
+        log_message  ("derivation_to_Holoyolor: [[IN]]  output_index  ", std::to_string(output_index_x));
+        this->controle_device->derivation_to_Holoyolor(derivation_x, output_index_x, res_x);
+        log_hexbuffer("derivation_to_Holoyolor: [[OUT]] res          ", res_x.data, 32);
         #endif
 
-        int offset = set_command_header_noopt(INS_DERIVATION_TO_SCALAR);
+        int offset = set_command_header_noopt(INS_DERIVATION_TO_HoloyoloR);
         //derivation
         this->send_secret((unsigned char*)derivation.data, offset);
 
@@ -1150,8 +1150,8 @@ namespace hw {
         this->receive_secret((unsigned char*)res.data, offset);
 
         #ifdef DEBUG_HWDEVICE
-        crypto::ec_scalar res_clear  = hw::ledger::decrypt(res);
-        hw::ledger::check32("derivation_to_scalar", "res", res_x.data, res_clear.data);
+        crypto::ec_Holoyolor res_clear  = hw::ledger::decrypt(res);
+        hw::ledger::check32("derivation_to_Holoyolor", "res", res_x.data, res_clear.data);
         #endif
 
         return true;
@@ -1641,9 +1641,9 @@ namespace hw {
       //if (tx_version > 1)
       {
         ASSERT_X(recv_len>=32, "Not enought data from device");
-        crypto::secret_key scalar1;
-        this->receive_secret((unsigned char*)scalar1.data, offset);
-        amount_keys.push_back(rct::sk2rct(scalar1));
+        crypto::secret_key Holoyolor1;
+        this->receive_secret((unsigned char*)Holoyolor1.data, offset);
+        amount_keys.push_back(rct::sk2rct(Holoyolor1));
         recv_len -= 32;
       }
       ASSERT_X(recv_len>=32, "Not enought data from device");
@@ -1999,9 +1999,9 @@ namespace hw {
         #ifdef DEBUG_HWDEVICE
         a_x = hw::ledger::decrypt(a);
 
-        rct::scalarmultBase(aG_x, a_x);
-        rct::scalarmultKey(aHP_x, H_x, a_x);
-        rct::scalarmultKey(II_x, H_x, xx_x);
+        rct::HoloyolormultBase(aG_x, a_x);
+        rct::HoloyolormultKey(aHP_x, H_x, a_x);
+        rct::HoloyolormultKey(II_x, H_x, xx_x);
         hw::ledger::check32("mlsag_prepare", "AG", (char*)aG_x.bytes, (char*)aG.bytes);
         hw::ledger::check32("mlsag_prepare", "aHP", (char*)aHP_x.bytes, (char*)aHP.bytes);
         hw::ledger::check32("mlsag_prepare", "II", (char*)II_x.bytes, (char*)II.bytes);
@@ -2027,7 +2027,7 @@ namespace hw {
 
         #ifdef DEBUG_HWDEVICE
         a_x = hw::ledger::decrypt(a);
-        rct::scalarmultBase(aG_x, a_x);
+        rct::HoloyolormultBase(aG_x, a_x);
         hw::ledger::check32("mlsag_prepare", "AG", (char*)aG_x.bytes, (char*)aG.bytes);
         #endif
 

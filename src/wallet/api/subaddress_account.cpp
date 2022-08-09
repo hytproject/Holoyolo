@@ -34,7 +34,7 @@
 
 #include <vector>
 
-namespace Scala {
+namespace Holoyolo {
   
 SubaddressAccount::~SubaddressAccount() {}
   

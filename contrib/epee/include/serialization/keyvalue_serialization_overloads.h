@@ -34,8 +34,8 @@
 #include <boost/mpl/contains_fwd.hpp>
 #include <boost/mpl/size.hpp>
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "serialization"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "serialization"
 
 namespace epee
 {

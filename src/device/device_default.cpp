@@ -49,11 +49,11 @@ namespace hw {
         /* ===================================================================== */
         /* ===                        Misc                                ==== */
         /* ===================================================================== */
-        static inline unsigned char *operator &(crypto::ec_scalar &scalar) {
-            return &reinterpret_cast<unsigned char &>(scalar);
+        static inline unsigned char *operator &(crypto::ec_Holoyolor &Holoyolor) {
+            return &reinterpret_cast<unsigned char &>(Holoyolor);
         }
-        static inline const unsigned char *operator &(const crypto::ec_scalar &scalar) {
-            return &reinterpret_cast<const unsigned char &>(scalar);
+        static inline const unsigned char *operator &(const crypto::ec_Holoyolor &Holoyolor) {
+            return &reinterpret_cast<const unsigned char &>(Holoyolor);
         }
 
         /* ======================================================================= */
@@ -163,7 +163,7 @@ namespace hw {
                 crypto::secret_key m = get_subaddress_secret_key(keys.m_view_secret_key, index);
 
                 // M = m*G
-                ge_scalarmult_base(&p3, (const unsigned char*)m.data);
+                ge_Holoyolormult_base(&p3, (const unsigned char*)m.data);
 
                 // D = B + M
                 crypto::public_key D;
@@ -184,7 +184,7 @@ namespace hw {
             crypto::public_key D = get_subaddress_spend_public_key(keys, index);
 
             // C = a*D
-            crypto::public_key C = rct::rct2pk(rct::scalarmultKey(rct::pk2rct(D), rct::sk2rct(keys.m_view_secret_key)));
+            crypto::public_key C = rct::rct2pk(rct::HoloyolormultKey(rct::pk2rct(D), rct::sk2rct(keys.m_view_secret_key)));
 
             // result: (C, D)
             cryptonote::account_public_address address;
@@ -202,7 +202,7 @@ namespace hw {
             idx = SWAP32LE(index.minor);
             memcpy(data + sizeof(config::HASH_KEY_SUBADDRESS) + sizeof(crypto::secret_key) + sizeof(uint32_t), &idx, sizeof(uint32_t));
             crypto::secret_key m;
-            crypto::hash_to_scalar(data, sizeof(data), m);
+            crypto::hash_to_Holoyolor(data, sizeof(data), m);
             return m;
         }
 
@@ -216,13 +216,13 @@ namespace hw {
             return r && public_key == calculated_pub;
         }
 
-        bool device_default::scalarmultKey(rct::key & aP, const rct::key &P, const rct::key &a) {
-            rct::scalarmultKey(aP, P,a);
+        bool device_default::HoloyolormultKey(rct::key & aP, const rct::key &P, const rct::key &a) {
+            rct::HoloyolormultKey(aP, P,a);
             return true;
         }
 
-        bool device_default::scalarmultBase(rct::key &aG, const rct::key &a) {
-            rct::scalarmultBase(aG,a);
+        bool device_default::HoloyolormultBase(rct::key &aG, const rct::key &a) {
+            rct::HoloyolormultBase(aG,a);
             return true;
         }
 
@@ -239,8 +239,8 @@ namespace hw {
             return crypto::generate_key_derivation(key1, key2, derivation);
         }
 
-        bool device_default::derivation_to_scalar(const crypto::key_derivation &derivation, const size_t output_index, crypto::ec_scalar &res){
-            crypto::derivation_to_scalar(derivation,output_index, res);
+        bool device_default::derivation_to_Holoyolor(const crypto::key_derivation &derivation, const size_t output_index, crypto::ec_Holoyolor &res){
+            crypto::derivation_to_Holoyolor(derivation,output_index, res);
             return true;
         }
 
@@ -300,9 +300,9 @@ namespace hw {
             {
                 additional_txkey.sec = additional_tx_keys[output_index];
                 if (dst_entr.is_subaddress)
-                    additional_txkey.pub = rct::rct2pk(rct::scalarmultKey(rct::pk2rct(dst_entr.addr.m_spend_public_key), rct::sk2rct(additional_txkey.sec)));
+                    additional_txkey.pub = rct::rct2pk(rct::HoloyolormultKey(rct::pk2rct(dst_entr.addr.m_spend_public_key), rct::sk2rct(additional_txkey.sec)));
                 else
-                    additional_txkey.pub = rct::rct2pk(rct::scalarmultBase(rct::sk2rct(additional_txkey.sec)));
+                    additional_txkey.pub = rct::rct2pk(rct::HoloyolormultBase(rct::sk2rct(additional_txkey.sec)));
             }
 
             bool r;
@@ -326,9 +326,9 @@ namespace hw {
 
             if (tx_version > 1)
             {
-                crypto::secret_key scalar1;
-                derivation_to_scalar(derivation, output_index, scalar1);
-                amount_keys.push_back(rct::sk2rct(scalar1));
+                crypto::secret_key Holoyolor1;
+                derivation_to_Holoyolor(derivation, output_index, Holoyolor1);
+                amount_keys.push_back(rct::sk2rct(Holoyolor1));
             }
             r = derive_public_key(derivation, output_index, dst_entr.addr.m_spend_public_key, out_eph_public_key);
             CHECK_AND_ASSERT_MES(r, false, "at creation outs: failed to derive_public_key(" << derivation << ", " << output_index << ", "<< dst_entr.addr.m_spend_public_key << ")");
@@ -371,8 +371,8 @@ namespace hw {
         bool device_default::mlsag_prepare(const rct::key &H, const rct::key &xx,
                                          rct::key &a, rct::key &aG, rct::key &aHP, rct::key &II) {
             rct::skpkGen(a, aG);
-            rct::scalarmultKey(aHP, H, a);
-            rct::scalarmultKey(II, H, xx);
+            rct::HoloyolormultKey(aHP, H, a);
+            rct::HoloyolormultKey(II, H, xx);
             return true;
         }
         bool  device_default::mlsag_prepare(rct::key &a, rct::key &aG) {
@@ -386,7 +386,7 @@ namespace hw {
 
 
         bool device_default::mlsag_hash(const rct::keyV &toHash, rct::key &c_old) {
-            c_old = rct::hash_to_scalar(toHash);
+            c_old = rct::hash_to_Holoyolor(toHash);
             return true;
         }
 

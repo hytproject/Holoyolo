@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 # 
 # All rights reserved.
 # 
@@ -75,8 +75,8 @@ file(COPY
   data/wallet_9svHk1.keys
   data/wallet_9svHk1
   data/outputs
-  data/unsigned_scala_tx
-  data/signed_scala_tx
+  data/unsigned_Holoyolo_tx
+  data/signed_Holoyolo_tx
   DESTINATION data)
 
 add_subdirectory(core_tests)

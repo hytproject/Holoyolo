@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -61,7 +61,7 @@ TEST(ringct, Borromean)
 
             xv[j] = skGen();
             if ( (int)indi[j] == 0 ) {
-                scalarmultBase(P1v[j], xv[j]);
+                HoloyolormultBase(P1v[j], xv[j]);
             } else {
                 addKeys1(P1v[j], xv[j], H2[j]);
             }
@@ -106,7 +106,7 @@ TEST(ringct, MG_sigs)
             for (i = 0 ; i < N ; i++)
             {
                 xm[i][j] = skGen();
-                P[i][j] = scalarmultBase(xm[i][j]);
+                P[i][j] = HoloyolormultBase(xm[i][j]);
             }
         }
         for (j = 0 ; j < R ; j++) {
@@ -129,7 +129,7 @@ TEST(ringct, MG_sigs)
             for (i = 0 ; i < N ; i++)
             {
                 xx[i][j] = skGen();
-                P[i][j] = scalarmultBase(xx[i][j]);
+                P[i][j] = HoloyolormultBase(xx[i][j]);
             }
             sk[j] = xx[ind][j];
         }
@@ -162,7 +162,7 @@ TEST(ringct, range_proofs)
 
         //add output 500
         amounts.push_back(500);
-        amount_keys.push_back(rct::hash_to_scalar(rct::zero()));
+        amount_keys.push_back(rct::hash_to_Holoyolor(rct::zero()));
         keyV destinations;
         key Sk, Pk;
         skpkGen(Sk, Pk);
@@ -171,7 +171,7 @@ TEST(ringct, range_proofs)
 
         //add output for 12500
         amounts.push_back(12500);
-        amount_keys.push_back(rct::hash_to_scalar(rct::zero()));
+        amount_keys.push_back(rct::hash_to_Holoyolor(rct::zero()));
         skpkGen(Sk, Pk);
         destinations.push_back(Pk);
 
@@ -234,7 +234,7 @@ TEST(ringct, range_proofs_with_fee)
 
         //add output 500
         amounts.push_back(500);
-        amount_keys.push_back(rct::hash_to_scalar(rct::zero()));
+        amount_keys.push_back(rct::hash_to_Holoyolor(rct::zero()));
         keyV destinations;
         key Sk, Pk;
         skpkGen(Sk, Pk);
@@ -242,7 +242,7 @@ TEST(ringct, range_proofs_with_fee)
 
         //add output for 12500
         amounts.push_back(12500);
-        amount_keys.push_back(hash_to_scalar(zero()));
+        amount_keys.push_back(hash_to_Holoyolor(zero()));
         skpkGen(Sk, Pk);
         destinations.push_back(Pk);
 
@@ -306,7 +306,7 @@ TEST(ringct, simple)
 
         //add output 5000
         outamounts.push_back(5000);
-        amount_keys.push_back(rct::hash_to_scalar(rct::zero()));
+        amount_keys.push_back(rct::hash_to_Holoyolor(rct::zero()));
         //add the corresponding destination pubkey
         key Sk, Pk;
         skpkGen(Sk, Pk);
@@ -314,7 +314,7 @@ TEST(ringct, simple)
 
         //add output 999
         outamounts.push_back(999);
-        amount_keys.push_back(rct::hash_to_scalar(rct::zero()));
+        amount_keys.push_back(rct::hash_to_Holoyolor(rct::zero()));
         //add the corresponding destination pubkey
         skpkGen(Sk, Pk);
         destinations.push_back(Pk);
@@ -355,7 +355,7 @@ static rct::rctSig make_sample_rct_sig(int n_inputs, const uint64_t input_amount
         if (n < n_outputs - 1 || !last_is_fee)
         {
           destinations.push_back(Pk);
-          amount_keys.push_back(rct::hash_to_scalar(rct::zero()));
+          amount_keys.push_back(rct::hash_to_Holoyolor(rct::zero()));
         }
     }
 
@@ -381,7 +381,7 @@ static rct::rctSig make_sample_simple_rct_sig(int n_inputs, const uint64_t input
 
     for (int n = 0; n < n_outputs; ++n) {
         outamounts.push_back(output_amounts[n]);
-        amount_keys.push_back(hash_to_scalar(zero()));
+        amount_keys.push_back(hash_to_Holoyolor(zero()));
         skpkGen(Sk, Pk);
         destinations.push_back(Pk);
     }
@@ -787,7 +787,7 @@ TEST(ringct, range_proofs_accept_very_long_simple)
 
 TEST(ringct, HPow2)
 {
-  key G = scalarmultBase(d2h(1));
+  key G = HoloyolormultBase(d2h(1));
 
   // Note that H is computed differently than standard hashing
   // This method is not guaranteed to return a curvepoint for all inputs
@@ -1044,8 +1044,8 @@ TEST(ringct, zeroCommmit)
 {
   static const uint64_t amount = crypto::rand<uint64_t>();
   const rct::key z = rct::zeroCommit(amount);
-  const rct::key a = rct::scalarmultBase(rct::identity());
-  const rct::key b = rct::scalarmultH(rct::d2h(amount));
+  const rct::key a = rct::HoloyolormultBase(rct::identity());
+  const rct::key b = rct::HoloyolormultH(rct::d2h(amount));
   const rct::key manual = rct::addKeys(a, b);
   ASSERT_EQ(z, manual);
 }
@@ -1053,7 +1053,7 @@ TEST(ringct, zeroCommmit)
 static rct::key uncachedZeroCommit(uint64_t amount)
 {
   const rct::key am = rct::d2h(amount);
-  const rct::key bH = rct::scalarmultH(am);
+  const rct::key bH = rct::HoloyolormultH(am);
   return rct::addKeys(rct::G, bH);
 }
 
@@ -1080,15 +1080,15 @@ TEST(ringct, mul8)
 {
   ge_p3 p3;
   rct::key key;
-  ASSERT_EQ(rct::scalarmult8(rct::identity()), rct::identity());
-  rct::scalarmult8(p3,rct::identity());
+  ASSERT_EQ(rct::Holoyolormult8(rct::identity()), rct::identity());
+  rct::Holoyolormult8(p3,rct::identity());
   ge_p3_tobytes(key.bytes, &p3);
   ASSERT_EQ(key, rct::identity());
-  ASSERT_EQ(rct::scalarmult8(rct::H), rct::scalarmultKey(rct::H, rct::EIGHT));
-  rct::scalarmult8(p3,rct::H);
+  ASSERT_EQ(rct::Holoyolormult8(rct::H), rct::HoloyolormultKey(rct::H, rct::EIGHT));
+  rct::Holoyolormult8(p3,rct::H);
   ge_p3_tobytes(key.bytes, &p3);
-  ASSERT_EQ(key, rct::scalarmultKey(rct::H, rct::EIGHT));
-  ASSERT_EQ(rct::scalarmultKey(rct::scalarmultKey(rct::H, rct::INV_EIGHT), rct::EIGHT), rct::H);
+  ASSERT_EQ(key, rct::HoloyolormultKey(rct::H, rct::EIGHT));
+  ASSERT_EQ(rct::HoloyolormultKey(rct::HoloyolormultKey(rct::H, rct::INV_EIGHT), rct::EIGHT), rct::H);
 }
 
 TEST(ringct, aggregated)

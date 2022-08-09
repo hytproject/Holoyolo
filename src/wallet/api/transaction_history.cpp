@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 //
 // All rights reserved.
 //
@@ -43,7 +43,7 @@
 
 using namespace epee;
 
-namespace Scala {
+namespace Holoyolo {
 
 TransactionHistory::~TransactionHistory() {}
 
@@ -246,4 +246,4 @@ void TransactionHistoryImpl::refresh()
 
 } // namespace
 
-namespace Bitscala = Scala;
+namespace BitHoloyolo = Holoyolo;

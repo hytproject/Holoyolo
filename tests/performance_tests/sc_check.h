@@ -37,16 +37,16 @@ public:
 
   bool init()
   {
-    m_scalar = crypto::rand<crypto::ec_scalar>();
+    m_Holoyolor = crypto::rand<crypto::ec_Holoyolor>();
     return true;
   }
 
   bool test()
   {
-    sc_check((unsigned char*)m_scalar.data);
+    sc_check((unsigned char*)m_Holoyolor.data);
     return true;
   }
 
 private:
-  crypto::ec_scalar m_scalar;
+  crypto::ec_Holoyolor m_Holoyolor;
 };

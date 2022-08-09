@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 #
 # All rights reserved.
 #
@@ -54,9 +54,9 @@ set(wallet_private_headers
   message_transporter.h
   wallet_rpc_helpers.h)
 
-scala_private_headers(wallet
+Holoyolo_private_headers(wallet
   ${wallet_private_headers})
-scala_add_library(wallet
+Holoyolo_add_library(wallet
   ${wallet_sources}
   ${wallet_private_headers})
 target_link_libraries(wallet
@@ -87,9 +87,9 @@ if(NOT IOS)
   set(wallet_rpc_private_headers
     wallet_rpc_server.h)
 
-  scala_private_headers(wallet_rpc_server
+  Holoyolo_private_headers(wallet_rpc_server
     ${wallet_rpc_private_headers})
-  scala_add_executable(wallet_rpc_server
+  Holoyolo_add_executable(wallet_rpc_server
     ${wallet_rpc_sources}
     ${wallet_rpc_headers}
     ${wallet_rpc_private_headers})
@@ -112,7 +112,7 @@ if(NOT IOS)
       ${EXTRA_LIBRARIES})
   set_property(TARGET wallet_rpc_server
     PROPERTY
-      OUTPUT_NAME "scala-wallet-rpc")
+      OUTPUT_NAME "Holoyolo-wallet-rpc")
   install(TARGETS wallet_rpc_server DESTINATION bin)
 endif()
 

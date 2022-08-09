@@ -1,7 +1,7 @@
-// Word list created by Scala contributor sammy007
+// Word list created by Holoyolo contributor sammy007
 // 
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 

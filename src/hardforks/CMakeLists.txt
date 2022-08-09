@@ -1,5 +1,5 @@
 # Copyright (c) 2014-2019, The Monero Project
-# Copyright (c) 2018-2020, The Scala Network
+# Copyright (c) 2018-2020, The Holoyolo Network
 #
 # All rights reserved.
 #
@@ -35,9 +35,9 @@ set(hardforks_headers
 
 set(hardforks_private_headers)
 
-scala_private_headers(hardforks
+Holoyolo_private_headers(hardforks
   ${hardforks_private_headers})
-scala_add_library(hardforks
+Holoyolo_add_library(hardforks
   ${hardforks_sources}
   ${hardforks_headers}
   ${hardforks_private_headers})

@@ -34,8 +34,8 @@ namespace trezor {
 
 #ifdef WITH_DEVICE_TREZOR
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "device.trezor"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "device.trezor"
 
 #define HW_TREZOR_NAME "Trezor"
 
@@ -212,7 +212,7 @@ namespace trezor {
     /*                              TREZOR PROTOCOL                            */
     /* ======================================================================= */
 
-    std::shared_ptr<messages::scala::ScalaAddress> device_trezor::get_address(
+    std::shared_ptr<messages::Holoyolo::HoloyoloAddress> device_trezor::get_address(
         const boost::optional<cryptonote::subaddress_index> & subaddress,
         const boost::optional<crypto::hash8> & payment_id,
         bool show_address,
@@ -224,8 +224,8 @@ namespace trezor {
       device_state_initialize_unsafe();
       require_initialized();
 
-      auto req = std::make_shared<messages::scala::ScalaGetAddress>();
-      this->set_msg_addr<messages::scala::ScalaGetAddress>(req.get(), path, network_type);
+      auto req = std::make_shared<messages::Holoyolo::HoloyoloGetAddress>();
+      this->set_msg_addr<messages::Holoyolo::HoloyoloGetAddress>(req.get(), path, network_type);
       req->set_show_display(show_address);
       if (subaddress){
         req->set_account(subaddress->major);
@@ -235,12 +235,12 @@ namespace trezor {
         req->set_payment_id(std::string(payment_id->data, 8));
       }
 
-      auto response = this->client_exchange<messages::scala::ScalaAddress>(req);
+      auto response = this->client_exchange<messages::Holoyolo::HoloyoloAddress>(req);
       MTRACE("Get address response received");
       return response;
     }
 
-    std::shared_ptr<messages::scala::ScalaWatchKey> device_trezor::get_view_key(
+    std::shared_ptr<messages::Holoyolo::HoloyoloWatchKey> device_trezor::get_view_key(
         const boost::optional<std::vector<uint32_t>> & path,
         const boost::optional<cryptonote::network_type> & network_type){
       TREZOR_AUTO_LOCK_CMD();
@@ -248,10 +248,10 @@ namespace trezor {
       device_state_initialize_unsafe();
       require_initialized();
 
-      auto req = std::make_shared<messages::scala::ScalaGetWatchKey>();
-      this->set_msg_addr<messages::scala::ScalaGetWatchKey>(req.get(), path, network_type);
+      auto req = std::make_shared<messages::Holoyolo::HoloyoloGetWatchKey>();
+      this->set_msg_addr<messages::Holoyolo::HoloyoloGetWatchKey>(req.get(), path, network_type);
 
-      auto response = this->client_exchange<messages::scala::ScalaWatchKey>(req);
+      auto response = this->client_exchange<messages::Holoyolo::HoloyoloWatchKey>(req);
       MTRACE("Get watch key response received");
       return response;
     }
@@ -278,9 +278,9 @@ namespace trezor {
       require_initialized();
 
       auto req = protocol::tx::get_tx_key(tx_aux_data);
-      this->set_msg_addr<messages::scala::ScalaGetTxKeyRequest>(req.get());
+      this->set_msg_addr<messages::Holoyolo::HoloyoloGetTxKeyRequest>(req.get());
 
-      auto response = this->client_exchange<messages::scala::ScalaGetTxKeyAck>(req);
+      auto response = this->client_exchange<messages::Holoyolo::HoloyoloGetTxKeyAck>(req);
       MTRACE("Get TX key response received");
 
       protocol::tx::get_tx_key_ack(tx_keys, tx_aux_data.tx_prefix_hash, view_key_priv, response);
@@ -297,21 +297,21 @@ namespace trezor {
       device_state_initialize_unsafe();
       require_initialized();
 
-      std::shared_ptr<messages::scala::ScalaKeyImageExportInitRequest> req;
+      std::shared_ptr<messages::Holoyolo::HoloyoloKeyImageExportInitRequest> req;
 
-      std::vector<protocol::ki::ScalaTransferDetails> mtds;
-      std::vector<protocol::ki::ScalaExportedKeyImage> kis;
+      std::vector<protocol::ki::HoloyoloTransferDetails> mtds;
+      std::vector<protocol::ki::HoloyoloExportedKeyImage> kis;
       protocol::ki::key_image_data(wallet, transfers, mtds, client_version() <= 1);
       protocol::ki::generate_commitment(mtds, transfers, req, client_version() <= 1);
 
       EVENT_PROGRESS(0.);
-      this->set_msg_addr<messages::scala::ScalaKeyImageExportInitRequest>(req.get());
-      auto ack1 = this->client_exchange<messages::scala::ScalaKeyImageExportInitAck>(req);
+      this->set_msg_addr<messages::Holoyolo::HoloyoloKeyImageExportInitRequest>(req.get());
+      auto ack1 = this->client_exchange<messages::Holoyolo::HoloyoloKeyImageExportInitAck>(req);
 
       const auto batch_size = 10;
       const auto num_batches = (mtds.size() + batch_size - 1) / batch_size;
       for(uint64_t cur = 0; cur < num_batches; ++cur){
-        auto step_req = std::make_shared<messages::scala::ScalaKeyImageSyncStepRequest>();
+        auto step_req = std::make_shared<messages::Holoyolo::HoloyoloKeyImageSyncStepRequest>();
         auto idx_finish = std::min(static_cast<uint64_t>((cur + 1) * batch_size), static_cast<uint64_t>(mtds.size()));
         for(uint64_t idx = cur * batch_size; idx < idx_finish; ++idx){
           auto added_tdis = step_req->add_tdis();
@@ -319,7 +319,7 @@ namespace trezor {
           *added_tdis = mtds[idx];
         }
 
-        auto step_ack = this->client_exchange<messages::scala::ScalaKeyImageSyncStepAck>(step_req);
+        auto step_ack = this->client_exchange<messages::Holoyolo::HoloyoloKeyImageSyncStepAck>(step_req);
         auto kis_size = step_ack->kis_size();
         kis.reserve(static_cast<size_t>(kis_size));
         for(int i = 0; i < kis_size; ++i){
@@ -332,8 +332,8 @@ namespace trezor {
       }
       EVENT_PROGRESS(1.);
 
-      auto final_req = std::make_shared<messages::scala::ScalaKeyImageSyncFinalRequest>();
-      auto final_ack = this->client_exchange<messages::scala::ScalaKeyImageSyncFinalAck>(final_req);
+      auto final_req = std::make_shared<messages::Holoyolo::HoloyoloKeyImageSyncFinalRequest>();
+      auto final_ack = this->client_exchange<messages::Holoyolo::HoloyoloKeyImageSyncFinalAck>(final_req);
       ski.reserve(kis.size());
 
       for(auto & sub : kis){
@@ -389,9 +389,9 @@ namespace trezor {
       device_state_initialize_unsafe();
       require_initialized();
 
-      auto req = std::make_shared<messages::scala::ScalaLiveRefreshStartRequest>();
-      this->set_msg_addr<messages::scala::ScalaLiveRefreshStartRequest>(req.get());
-      this->client_exchange<messages::scala::ScalaLiveRefreshStartAck>(req);
+      auto req = std::make_shared<messages::Holoyolo::HoloyoloLiveRefreshStartRequest>();
+      this->set_msg_addr<messages::Holoyolo::HoloyoloLiveRefreshStartRequest>(req.get());
+      this->client_exchange<messages::Holoyolo::HoloyoloLiveRefreshStartAck>(req);
       m_live_refresh_in_progress = true;
       m_last_live_refresh_time = std::chrono::steady_clock::now();
     }
@@ -416,21 +416,21 @@ namespace trezor {
 
       m_last_live_refresh_time = std::chrono::steady_clock::now();
 
-      auto req = std::make_shared<messages::scala::ScalaLiveRefreshStepRequest>();
+      auto req = std::make_shared<messages::Holoyolo::HoloyoloLiveRefreshStepRequest>();
       req->set_out_key(out_key.data, 32);
       req->set_recv_deriv(recv_derivation.data, 32);
       req->set_real_out_idx(real_output_index);
       req->set_sub_addr_major(received_index.major);
       req->set_sub_addr_minor(received_index.minor);
 
-      auto ack = this->client_exchange<messages::scala::ScalaLiveRefreshStepAck>(req);
+      auto ack = this->client_exchange<messages::Holoyolo::HoloyoloLiveRefreshStepAck>(req);
       protocol::ki::live_refresh_ack(view_key_priv, out_key, ack, in_ephemeral, ki);
     }
 
     void device_trezor::live_refresh_finish_unsafe()
     {
-      auto req = std::make_shared<messages::scala::ScalaLiveRefreshFinalRequest>();
-      this->client_exchange<messages::scala::ScalaLiveRefreshFinalAck>(req);
+      auto req = std::make_shared<messages::Holoyolo::HoloyoloLiveRefreshFinalRequest>();
+      this->client_exchange<messages::Holoyolo::HoloyoloLiveRefreshFinalAck>(req);
       m_live_refresh_in_progress = false;
     }
 
@@ -600,13 +600,13 @@ namespace trezor {
       transaction_pre_check(init_msg);
       EVENT_PROGRESS(1, 1, 1);
 
-      auto response = this->client_exchange<messages::scala::ScalaTransactionInitAck>(init_msg);
+      auto response = this->client_exchange<messages::Holoyolo::HoloyoloTransactionInitAck>(init_msg);
       signer->step_init_ack(response);
 
       // Step: Set transaction inputs
       for(size_t cur_src = 0; cur_src < num_sources; ++cur_src){
         auto src = signer->step_set_input(cur_src);
-        auto ack = this->client_exchange<messages::scala::ScalaTransactionSetInputAck>(src);
+        auto ack = this->client_exchange<messages::Holoyolo::HoloyoloTransactionSetInputAck>(src);
         signer->step_set_input_ack(ack);
         EVENT_PROGRESS(2, cur_src, num_sources);
       }
@@ -614,7 +614,7 @@ namespace trezor {
       // Step: sort
       auto perm_req = signer->step_permutation();
       if (perm_req){
-        auto perm_ack = this->client_exchange<messages::scala::ScalaTransactionInputsPermutationAck>(perm_req);
+        auto perm_ack = this->client_exchange<messages::Holoyolo::HoloyoloTransactionInputsPermutationAck>(perm_req);
         signer->step_permutation_ack(perm_ack);
       }
       EVENT_PROGRESS(3, 1, 1);
@@ -622,27 +622,27 @@ namespace trezor {
       // Step: input_vini
       for(size_t cur_src = 0; cur_src < num_sources; ++cur_src){
         auto src = signer->step_set_vini_input(cur_src);
-        auto ack = this->client_exchange<messages::scala::ScalaTransactionInputViniAck>(src);
+        auto ack = this->client_exchange<messages::Holoyolo::HoloyoloTransactionInputViniAck>(src);
         signer->step_set_vini_input_ack(ack);
         EVENT_PROGRESS(4, cur_src, num_sources);
       }
 
       // Step: all inputs set
       auto all_inputs_set = signer->step_all_inputs_set();
-      auto ack_all_inputs = this->client_exchange<messages::scala::ScalaTransactionAllInputsSetAck>(all_inputs_set);
+      auto ack_all_inputs = this->client_exchange<messages::Holoyolo::HoloyoloTransactionAllInputsSetAck>(all_inputs_set);
       signer->step_all_inputs_set_ack(ack_all_inputs);
       EVENT_PROGRESS(5, 1, 1);
 
       // Step: outputs
       for(size_t cur_dst = 0; cur_dst < num_outputs; ++cur_dst){
         auto src = signer->step_set_output(cur_dst);
-        auto ack = this->client_exchange<messages::scala::ScalaTransactionSetOutputAck>(src);
+        auto ack = this->client_exchange<messages::Holoyolo::HoloyoloTransactionSetOutputAck>(src);
         signer->step_set_output_ack(ack);
 
         // If BP is offloaded to host, another step with computed BP may be needed.
         auto offloaded_bp = signer->step_rsig(cur_dst);
         if (offloaded_bp){
-          auto bp_ack = this->client_exchange<messages::scala::ScalaTransactionSetOutputAck>(offloaded_bp);
+          auto bp_ack = this->client_exchange<messages::Holoyolo::HoloyoloTransactionSetOutputAck>(offloaded_bp);
           signer->step_set_rsig_ack(ack);
         }
 
@@ -651,21 +651,21 @@ namespace trezor {
 
       // Step: all outs set
       auto all_out_set = signer->step_all_outs_set();
-      auto ack_all_out_set = this->client_exchange<messages::scala::ScalaTransactionAllOutSetAck>(all_out_set);
+      auto ack_all_out_set = this->client_exchange<messages::Holoyolo::HoloyoloTransactionAllOutSetAck>(all_out_set);
       signer->step_all_outs_set_ack(ack_all_out_set, *this);
       EVENT_PROGRESS(7, 1, 1);
 
       // Step: sign each input
       for(size_t cur_src = 0; cur_src < num_sources; ++cur_src){
         auto src = signer->step_sign_input(cur_src);
-        auto ack_sign = this->client_exchange<messages::scala::ScalaTransactionSignInputAck>(src);
+        auto ack_sign = this->client_exchange<messages::Holoyolo::HoloyoloTransactionSignInputAck>(src);
         signer->step_sign_input_ack(ack_sign);
         EVENT_PROGRESS(8, cur_src, num_sources);
       }
 
       // Step: final
       auto final_msg = signer->step_final();
-      auto ack_final = this->client_exchange<messages::scala::ScalaTransactionFinalAck>(final_msg);
+      auto ack_final = this->client_exchange<messages::Holoyolo::HoloyoloTransactionFinalAck>(final_msg);
       signer->step_final_ack(ack_final);
       EVENT_PROGRESS(9, 1, 1);
 #undef EVENT_PROGRESS
@@ -709,7 +709,7 @@ namespace trezor {
       aux_data.client_version = cversion;
     }
 
-    void device_trezor::transaction_pre_check(std::shared_ptr<messages::scala::ScalaTransactionInitRequest> init_msg)
+    void device_trezor::transaction_pre_check(std::shared_ptr<messages::Holoyolo::HoloyoloTransactionInitRequest> init_msg)
     {
       CHECK_AND_ASSERT_THROW_MES(init_msg, "TransactionInitRequest is empty");
       CHECK_AND_ASSERT_THROW_MES(init_msg->has_tsx_data(), "TransactionInitRequest has no transaction data");

@@ -1,4 +1,4 @@
-// Copyright (c) 2016, Scala Research Labs
+// Copyright (c) 2016, Holoyolo Research Labs
 //
 // Author: Shen Noether <shen.noether@gmx.com>
 // 
@@ -40,8 +40,8 @@
 using namespace crypto;
 using namespace std;
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "ringct"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "ringct"
 
 #define CHECK_AND_ASSERT_MES_L1(expr, ret, message) {if(!(expr)) {MCERROR("verify", message); return ret;}}
 
@@ -116,14 +116,14 @@ namespace rct {
         for (ii = 0 ; ii < 64 ; ii++) {
             naught = indices[ii]; prime = (indices[ii] + 1) % 2;
             skGen(alpha[ii]);
-            scalarmultBase(L[naught][ii], alpha[ii]);
+            HoloyolormultBase(L[naught][ii], alpha[ii]);
             if (naught == 0) {
                 skGen(bb.s1[ii]);
-                c = hash_to_scalar(L[naught][ii]);
+                c = hash_to_Holoyolor(L[naught][ii]);
                 addKeys2(L[prime][ii], bb.s1[ii], c, P2[ii]);
             }
         }
-        bb.ee = hash_to_scalar(L[1]); //or L[1]..
+        bb.ee = hash_to_Holoyolor(L[1]); //or L[1]..
         key LL, cc;
         for (jj = 0 ; jj < 64 ; jj++) {
             if (!indices[jj]) {
@@ -131,7 +131,7 @@ namespace rct {
             } else {
                 skGen(bb.s0[jj]);
                 addKeys2(LL, bb.s0[jj], bb.ee, P1[jj]); //different L0
-                cc = hash_to_scalar(LL);
+                cc = hash_to_Holoyolor(LL);
                 sc_mulsub(bb.s1[jj].bytes, x[jj].bytes, cc.bytes, alpha[jj].bytes);
             }
         }
@@ -145,14 +145,14 @@ namespace rct {
         ge_p2 p2;
         for (ii = 0 ; ii < 64 ; ii++) {
             // equivalent of: addKeys2(LL, bb.s0[ii], bb.ee, P1[ii]);
-            ge_double_scalarmult_base_vartime(&p2, bb.ee.bytes, &P1[ii], bb.s0[ii].bytes);
+            ge_double_Holoyolormult_base_vartime(&p2, bb.ee.bytes, &P1[ii], bb.s0[ii].bytes);
             ge_tobytes(LL.bytes, &p2);
-            chash = hash_to_scalar(LL);
+            chash = hash_to_Holoyolor(LL);
             // equivalent of: addKeys2(Lv1[ii], bb.s1[ii], chash, P2[ii]);
-            ge_double_scalarmult_base_vartime(&p2, chash.bytes, &P2[ii], bb.s1[ii].bytes);
+            ge_double_Holoyolormult_base_vartime(&p2, chash.bytes, &P2[ii], bb.s1[ii].bytes);
             ge_tobytes(Lv1[ii].bytes, &p2);
         }
-        key eeComputed = hash_to_scalar(Lv1); //hash function fine
+        key eeComputed = hash_to_Holoyolor(Lv1); //hash function fine
         return equalKeys(eeComputed, bb.ee);
     }
 
@@ -277,15 +277,15 @@ namespace rct {
           CHECK_AND_ASSERT_MES(pk[i].size() == rows, false, "Bad public key matrix dimensions");
         }
         CHECK_AND_ASSERT_MES(rv.II.size() == dsRows, false, "Wrong number of key images present");
-        CHECK_AND_ASSERT_MES(rv.ss.size() == cols, false, "Bad scalar matrix dimensions");
+        CHECK_AND_ASSERT_MES(rv.ss.size() == cols, false, "Bad Holoyolor matrix dimensions");
         for (size_t i = 0; i < cols; ++i) {
-          CHECK_AND_ASSERT_MES(rv.ss[i].size() == rows, false, "Bad scalar matrix dimensions");
+          CHECK_AND_ASSERT_MES(rv.ss[i].size() == rows, false, "Bad Holoyolor matrix dimensions");
         }
         CHECK_AND_ASSERT_MES(dsRows <= rows, false, "Non-double-spend rows cannot exceed total rows");
 
         for (size_t i = 0; i < rv.ss.size(); ++i) {
           for (size_t j = 0; j < rv.ss[i].size(); ++j) {
-            CHECK_AND_ASSERT_MES(sc_check(rv.ss[i][j].bytes) == 0, false, "Bad signature scalar");
+            CHECK_AND_ASSERT_MES(sc_check(rv.ss[i][j].bytes) == 0, false, "Bad signature Holoyolor");
           }
         }
         CHECK_AND_ASSERT_MES(sc_check(rv.cc.bytes) == 0, false, "Bad initial signature hash");
@@ -311,7 +311,7 @@ namespace rct {
                 ge_p3 hash8_p3;
                 hash_to_p3(hash8_p3, pk[i][j]);
                 ge_p2 R_p2;
-                ge_double_scalarmult_precomp_vartime(&R_p2, rv.ss[i][j].bytes, &hash8_p3, c_old.bytes, Ip[j].k);
+                ge_double_Holoyolormult_precomp_vartime(&R_p2, rv.ss[i][j].bytes, &hash8_p3, c_old.bytes, Ip[j].k);
                 ge_tobytes(R.bytes, &R_p2);
 
                 toHash[3 * j + 1] = pk[i][j];
@@ -323,7 +323,7 @@ namespace rct {
                 toHash[ndsRows + 2 * ii + 1] = pk[i][j];
                 toHash[ndsRows + 2 * ii + 2] = L;
             }
-            c = hash_to_scalar(toHash);
+            c = hash_to_Holoyolor(toHash);
             CHECK_AND_ASSERT_MES(!(c == rct::zero()), false, "Bad signature hash");
             copy(c_old, c);
             i = (i + 1);
@@ -353,7 +353,7 @@ namespace rct {
         for (i = 0; i < ATOMS; i++) {
             skGen(ai[i]);
             if (b[i] == 0) {
-                scalarmultBase(sig.Ci[i], ai[i]);
+                HoloyolormultBase(sig.Ci[i], ai[i]);
             }
             if (b[i] == 1) {
                 addKeys1(sig.Ci[i], ai[i], H2[i]);
@@ -738,7 +738,7 @@ namespace rct {
         {
           rv.txnFee = 0;
         }
-        key txnFeeKey = scalarmultH(d2h(rv.txnFee));
+        key txnFeeKey = HoloyolormultH(d2h(rv.txnFee));
 
         rv.mixRing = mixRing;
         if (msout)
@@ -820,7 +820,7 @@ namespace rct {
                 }
                 for (i = 0; i < outamounts.size(); ++i)
                 {
-                    rv.outPk[i].mask = rct::scalarmult8(C[i]);
+                    rv.outPk[i].mask = rct::Holoyolormult8(C[i]);
                     outSk[i].mask = masks[i];
                 }
             }
@@ -849,7 +849,7 @@ namespace rct {
                 }
                 for (i = 0; i < batch_size; ++i)
                 {
-                  rv.outPk[i + amounts_proved].mask = rct::scalarmult8(C[i]);
+                  rv.outPk[i + amounts_proved].mask = rct::Holoyolormult8(C[i]);
                   outSk[i + amounts_proved].mask = masks[i];
                 }
                 amounts_proved += batch_size;
@@ -870,7 +870,7 @@ namespace rct {
         //set txn fee
         rv.txnFee = txnFee;
 //        TODO: unused ??
-//        key txnFeeKey = scalarmultH(d2h(rv.txnFee));
+//        key txnFeeKey = HoloyolormultH(d2h(rv.txnFee));
         rv.mixRing = mixRing;
         keyV &pseudoOuts = bulletproof ? rv.p.pseudoOuts : rv.pseudoOuts;
         pseudoOuts.resize(inamounts.size());
@@ -954,7 +954,7 @@ namespace rct {
 
           if (!semantics) {
             //compute txn fee
-            key txnFeeKey = scalarmultH(d2h(rv.txnFee));
+            key txnFeeKey = HoloyolormultH(d2h(rv.txnFee));
             bool mgVerd = verRctMG(rv.p.MGs[0], rv.mixRing, rv.outPk, txnFeeKey, get_pre_mlsag_hash(rv, hw::get_device("default")));
             DP("mg sig verified?");
             DP(mgVerd);
@@ -1030,7 +1030,7 @@ namespace rct {
           }
           key sumOutpks = addKeys(masks);
           DP(sumOutpks);
-          const key txnFeeKey = scalarmultH(d2h(rv.txnFee));
+          const key txnFeeKey = HoloyolormultH(d2h(rv.txnFee));
           addKeys(sumOutpks, txnFeeKey, sumOutpks);
 
           key sumPseudoOuts = addKeys(pseudoOuts);

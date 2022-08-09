@@ -1,33 +1,33 @@
 [Unit]
-Description=Scala Full Node
+Description=Holoyolo Full Node
 After=network.target
 
 [Service]
-User=scala
-Group=scala
+User=Holoyolo
+Group=Holoyolo
 WorkingDirectory=~
-RuntimeDirectory=scala
+RuntimeDirectory=Holoyolo
 
 # Clearnet config
 #
 Type=forking
-PIDFile=/run/scala/scalad.pid
-ExecStart=/usr/bin/scalad --config-file /etc/scalad.conf \
-    --detach --pidfile /run/scala/scalad.pid
+PIDFile=/run/Holoyolo/Holoyolod.pid
+ExecStart=/usr/bin/Holoyolod --config-file /etc/Holoyolod.conf \
+    --detach --pidfile /run/Holoyolo/Holoyolod.pid
 
 # Tor config
 #
 ## We have to use simple, not forking, because we cannot pass --detach
 ## because stderr/stdout is not available when detached, but torsocks
 ## attempts to write to it, and fails with 'invalid argument', causing
-## scalad to fail.
+## Holoyolod to fail.
 #Type=simple
 #Environment=DNS_PUBLIC=tcp
 ## The following is needed only when accessing wallet from a different
 ## host in the LAN, VPN, etc, the RPC must bind to 0.0.0.0, but
 ## by default torsocks only allows binding to localhost.
 #Environment=TORSOCKS_ALLOW_INBOUND=1
-#ExecStart=/usr/bin/torsocks /usr/bin/scalad --config-file /etc/scalad.conf \
+#ExecStart=/usr/bin/torsocks /usr/bin/Holoyolod --config-file /etc/Holoyolod.conf \
 #    --non-interactive
 
 Restart=always

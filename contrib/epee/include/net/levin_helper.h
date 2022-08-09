@@ -32,8 +32,8 @@
 #include "serializeble_struct_helper.h"
 #include "int-util.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net"
 
 namespace epee
 {

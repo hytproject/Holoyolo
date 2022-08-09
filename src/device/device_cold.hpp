@@ -27,8 +27,8 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef SCALA_DEVICE_COLD_H
-#define SCALA_DEVICE_COLD_H
+#ifndef Holoyolo_DEVICE_COLD_H
+#define Holoyolo_DEVICE_COLD_H
 
 #include "wallet/wallet2.h"
 #include <boost/optional/optional.hpp>
@@ -165,4 +165,4 @@ namespace hw {
   };
 }
 
-#endif //SCALA_DEVICE_COLD_H
+#endif //Holoyolo_DEVICE_COLD_H

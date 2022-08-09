@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -88,8 +88,8 @@ using namespace epee;
 #include <boost/format.hpp>
 #include <openssl/sha.h>
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "util"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "util"
 
 namespace
 {
@@ -677,10 +677,10 @@ std::string get_nix_version_display_string()
   {
     ub_ctx *ctx = ub_ctx_create();
     if (!ctx) return false; // cheat a bit, should not happen unless OOM
-    char *scala = strdup("scala"), *unbound = strdup("unbound");
-    ub_ctx_zone_add(ctx, scala, unbound); // this calls ub_ctx_finalize first, then errors out with UB_SYNTAX
+    char *Holoyolo = strdup("Holoyolo"), *unbound = strdup("unbound");
+    ub_ctx_zone_add(ctx, Holoyolo, unbound); // this calls ub_ctx_finalize first, then errors out with UB_SYNTAX
     free(unbound);
-    free(scala);
+    free(Holoyolo);
     // if no threads, bails out early with UB_NOERROR, otherwise fails with UB_AFTERFINAL id already finalized
     bool with_threads = ub_ctx_async(ctx, 1) != 0; // UB_AFTERFINAL is not defined in public headers, check any error
     ub_ctx_delete(ctx);
@@ -1107,7 +1107,7 @@ std::string get_nix_version_display_string()
   std::string get_human_readable_bytes(uint64_t bytes)
   {
     // Use 1024 for "kilo", 1024*1024 for "mega" and so on instead of the more modern and standard-conforming
-    // 1000, 1000*1000 and so on, to be consistent with other Scala code that also uses base 2 units
+    // 1000, 1000*1000 and so on, to be consistent with other Holoyolo code that also uses base 2 units
     struct byte_map
     {
         const char* const format;
@@ -1308,7 +1308,7 @@ std::string get_nix_version_display_string()
       return num_blocks;
     }
 
-    // The following is a table of average blocks sizes in bytes over the Scala mainnet
+    // The following is a table of average blocks sizes in bytes over the Holoyolo mainnet
     // blockchain, where the block size is averaged over ranges of 10,000 blocks
     // (about 2 weeks worth of blocks each).
     // The first array entry of 442 thus means "The average byte size of the blocks

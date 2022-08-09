@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -137,7 +137,7 @@ namespace boost
     {
       const size_t length = std::strlen(na.host_str());
       if (length > 255)
-        SCALA_THROW(net::error::invalid_tor_address, "Tor address too long");
+        Holoyolo_THROW(net::error::invalid_tor_address, "Tor address too long");
 
       const uint16_t port{na.port()};
       const uint8_t len = length;
@@ -151,7 +151,7 @@ namespace boost
     {
       const size_t length = std::strlen(na.host_str());
       if (length > 255)
-        SCALA_THROW(net::error::invalid_i2p_address, "i2p address too long");
+        Holoyolo_THROW(net::error::invalid_i2p_address, "i2p address too long");
 
       const uint16_t port{na.port()};
       const uint8_t len = length;
@@ -170,7 +170,7 @@ namespace boost
 
       const size_t buffer_size = net::tor_address::buffer_size();
       if (length > buffer_size)
-        SCALA_THROW(net::error::invalid_tor_address, "Tor address too long");
+        Holoyolo_THROW(net::error::invalid_tor_address, "Tor address too long");
 
       char host[buffer_size] = {0};
       a.load_binary(host, length);
@@ -179,7 +179,7 @@ namespace boost
       if (std::strcmp(host, net::tor_address::unknown_str()) == 0)
         na = net::tor_address::unknown();
       else
-        na = SCALA_UNWRAP(net::tor_address::make(host, port));
+        na = Holoyolo_UNWRAP(net::tor_address::make(host, port));
     }
 
     template <class Archive, class ver_type>
@@ -192,7 +192,7 @@ namespace boost
 
       const size_t buffer_size = net::i2p_address::buffer_size();
       if (length > buffer_size)
-        SCALA_THROW(net::error::invalid_i2p_address, "i2p address too long");
+        Holoyolo_THROW(net::error::invalid_i2p_address, "i2p address too long");
 
       char host[buffer_size] = {0};
       a.load_binary(host, length);
@@ -201,7 +201,7 @@ namespace boost
       if (std::strcmp(host, net::i2p_address::unknown_str()) == 0)
         na = net::i2p_address::unknown();
       else
-        na = SCALA_UNWRAP(net::i2p_address::make(host, port));
+        na = Holoyolo_UNWRAP(net::i2p_address::make(host, port));
     }
 
     template <class Archive, class ver_type>

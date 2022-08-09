@@ -1,7 +1,7 @@
 #assumes you have gnu sed, osx sed might need slight syntax changeo
 #c.f. https://unix.stackexchange.com/questions/112023/how-can-i-replace-a-string-in-a-files
 
-#written by shen-noether scala research labs
+#written by shen-noether Holoyolo research labs
 
 import os #for copying and sed etc.
 import glob #for copy files
@@ -16,7 +16,7 @@ a = ""
 
 license = textwrap.dedent("""\
     //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
     // 
     // All rights reserved.
     // 
@@ -90,13 +90,13 @@ sc_comments = textwrap.dedent("""\
      * sc code
      *
      *
-    The set of scalars is \Z/l
+    The set of Holoyolors is \Z/l
     where l = 2^252 + 27742317777372353535851937790883648493.
 
     This is the order of the curve ed25519. 
-    The point is that if a is a scalar and P is a point,
+    The point is that if a is a Holoyolor and P is a point,
     and b is congruent to a mod l, then aP = bP.
-    Thus, reducing mod l can possibly give you a smaller scalar,
+    Thus, reducing mod l can possibly give you a smaller Holoyolor,
     so your elliptic curve operations take less time
     */
     """)
@@ -169,48 +169,48 @@ if a == "m":
     print(fe_comments)
     fe = glob.glob("fe*.c")
     for g in fe:
-        os.system("cp "+g+" "+g.replace("fe", "fe.scala."))
-    qhasmToC("fe_pow22523.c", "pow22523.h", "fe.scala._pow22523.c")
-    qhasmToC("fe_invert.c", "pow225521.h", "fe.scala._invert.c")
-    os.system("rm fe.scala._isnonzero.c") #since it's modified, it's in xlaSpecificOld
-    os.system("cat fe.scala.*.c | grep -v '^#include' > fe.scala.c")
+        os.system("cp "+g+" "+g.replace("fe", "fe.Holoyolo."))
+    qhasmToC("fe_pow22523.c", "pow22523.h", "fe.Holoyolo._pow22523.c")
+    qhasmToC("fe_invert.c", "pow225521.h", "fe.Holoyolo._invert.c")
+    os.system("rm fe.Holoyolo._isnonzero.c") #since it's modified, it's in xlaSpecificOld
+    os.system("cat fe.Holoyolo.*.c | grep -v '^#include' > fe.Holoyolo.c")
 
     #sc things
     print("\nmaking sc.c")
     print(sc_comments)
     #so you don't get multiple "loads"
-    os.system("tail -n +24 sc_reduce.c > sc.scala._reduce.c") #also good on linux
-    os.system("tail -n +24 sc_muladd.c > sc.scala._muladd.c")
-    os.system("tail -n +31 sc_sub.xla.c > sc.scala._sub.xla.c") #careful with the tails if you change these files!
-    os.system("cat sc.scala.*.c | grep -v '^#include' > sc.scala.c")
+    os.system("tail -n +24 sc_reduce.c > sc.Holoyolo._reduce.c") #also good on linux
+    os.system("tail -n +24 sc_muladd.c > sc.Holoyolo._muladd.c")
+    os.system("tail -n +31 sc_sub.xla.c > sc.Holoyolo._sub.xla.c") #careful with the tails if you change these files!
+    os.system("cat sc.Holoyolo.*.c | grep -v '^#include' > sc.Holoyolo.c")
 
     #ge stuff
     print("making ge.c")
     ge = glob.glob("ge*.c")
     for g in ge:
-        os.system("cp "+g+" "+g.replace("ge", "ge.scala."))
+        os.system("cp "+g+" "+g.replace("ge", "ge.Holoyolo."))
     print(ge_comments)
     #need to substitute the below lines for their .h files in the appropriate places
-    qhasmToC("ge_add.c", "ge_add.h", "ge.scala._add.c")
-    qhasmToC("ge_madd.c", "ge_madd.h", "ge.scala._madd.c")
-    qhasmToC("ge_sub.c", "ge_sub.h", "ge.scala._sub.c")
-    qhasmToC("ge_msub.c", "ge_msub.h", "ge.scala._msub.c")
-    qhasmToC("ge_p2_dbl.c", "ge_p2_dbl.h", "ge.scala._p2_dbl.c")
-    qhasmToC("ge_frombytes.c", "d.h", "ge.scala._frombytes.c")
-    qhasmToC("ge.scala._frombytes.c", "sqrtm1.h", "ge.scala._frombytes.c")
-    qhasmToC("ge_p3_to_cached.c", "d2.h", "ge.scala._p3_to_cached.c")
+    qhasmToC("ge_add.c", "ge_add.h", "ge.Holoyolo._add.c")
+    qhasmToC("ge_madd.c", "ge_madd.h", "ge.Holoyolo._madd.c")
+    qhasmToC("ge_sub.c", "ge_sub.h", "ge.Holoyolo._sub.c")
+    qhasmToC("ge_msub.c", "ge_msub.h", "ge.Holoyolo._msub.c")
+    qhasmToC("ge_p2_dbl.c", "ge_p2_dbl.h", "ge.Holoyolo._p2_dbl.c")
+    qhasmToC("ge_frombytes.c", "d.h", "ge.Holoyolo._frombytes.c")
+    qhasmToC("ge.Holoyolo._frombytes.c", "sqrtm1.h", "ge.Holoyolo._frombytes.c")
+    qhasmToC("ge_p3_to_cached.c", "d2.h", "ge.Holoyolo._p3_to_cached.c")
 
 
 
-    #also ge_double_scalarmult needs base2.h for ge_precomp Bi
+    #also ge_double_Holoyolormult needs base2.h for ge_precomp Bi
     #note, base2.h is a large file!
-    #also in ge_scalarmult_base ge_precomp base needs base.h included
+    #also in ge_Holoyolormult_base ge_precomp base needs base.h included
 
-    qhasmToC("ge_double_scalarmult.c", "base2.h", "ge.scala._double_scalarmult.c")
-    qhasmToC("ge_scalarmult_base.c", "base.h", "ge.scala._scalarmult_base.c")
-    #qhasmToC("ge.scala._scalarmult_base.c", "base.h", "ge.scala._scalarmult_base.c")
-    os.system("sed -i 's/ cmov/ ge_precomp_cmov/g' ge.scala._scalarmult_base.c")
-    os.system("cat ge.scala.*.c | grep -v '^#include' > ge.scala.c")
+    qhasmToC("ge_double_Holoyolormult.c", "base2.h", "ge.Holoyolo._double_Holoyolormult.c")
+    qhasmToC("ge_Holoyolormult_base.c", "base.h", "ge.Holoyolo._Holoyolormult_base.c")
+    #qhasmToC("ge.Holoyolo._Holoyolormult_base.c", "base.h", "ge.Holoyolo._Holoyolormult_base.c")
+    os.system("sed -i 's/ cmov/ ge_precomp_cmov/g' ge.Holoyolo._Holoyolormult_base.c")
+    os.system("cat ge.Holoyolo.*.c | grep -v '^#include' > ge.Holoyolo.c")
 
 
     print("making crypto-ops.c")
@@ -218,30 +218,30 @@ if a == "m":
     #sqrtm1 things
 
     #comments
-    with open("fe.scala.comments", "w") as text_file:
+    with open("fe.Holoyolo.comments", "w") as text_file:
             text_file.write(fe_comments)
-    with open("ge.scala.comments", "w") as text_file:
+    with open("ge.Holoyolo.comments", "w") as text_file:
             text_file.write(ge_comments)
-    with open("sc.scala.comments", "w") as text_file:
+    with open("sc.Holoyolo.comments", "w") as text_file:
             text_file.write(sc_comments)
-    with open("xla.scala.comments", "w") as text_file:
+    with open("xla.Holoyolo.comments", "w") as text_file:
             text_file.write(xla_comments)
-    with open("xla.scala.predeclarations", "w") as text_file:
+    with open("xla.Holoyolo.predeclarations", "w") as text_file:
             text_file.write(predeclarations)
 
 
     #license
-    with open("scala.license", "w") as text_file:
+    with open("Holoyolo.license", "w") as text_file:
             text_file.write(license)
 
     #crypto-ops.c includes
-    with open("crypto-ops.scala.includes", "w") as text_file:
+    with open("crypto-ops.Holoyolo.includes", "w") as text_file:
         text_file.write(crypto_ops_includes)
 
     #note you may have duplicates of load_3, load_4 and possibly some other functions ... 
-    os.system("cat scala.license crypto-ops.scala.includes xla.scala.predeclarations fe.scala.comments fe.scala.c sc.scala.comments sc.scala.c ge.scala.comments ge.scala.c xla.scala.comments xlaSpecificOld.c > crypto-ops.c")
+    os.system("cat Holoyolo.license crypto-ops.Holoyolo.includes xla.Holoyolo.predeclarations fe.Holoyolo.comments fe.Holoyolo.c sc.Holoyolo.comments sc.Holoyolo.c ge.Holoyolo.comments ge.Holoyolo.c xla.Holoyolo.comments xlaSpecificOld.c > crypto-ops.c")
 
-    #scala specific header files
+    #Holoyolo specific header files
     #print("making crypto-ops-tmp.h")
     #os.system("cat fe.h ge.h sc.h |grep -v crypto_sign_ed25519 |grep -v fe.h > crypto-ops-tmp.h")
     #we'll just use the old header crypto-ops.h
@@ -253,10 +253,10 @@ if a == "m":
     os.system("sed -i 's/crypto_uint64/uint64_t/g' crypto-ops.c")
 
     #cleaning up 
-    os.system("rm *scala*")
+    os.system("rm *Holoyolo*")
 
-    #scala specific c files
+    #Holoyolo specific c files
 if a == "c":
     #turn the directory back into ref10
-    os.system("rm *scala*")
+    os.system("rm *Holoyolo*")
     os.system("rm crypto-ops.c")

@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -155,7 +155,7 @@ bool gen_bp_tx_validation_base::generate_with(std::vector<test_event_entry>& eve
       bool r = crypto::generate_key_derivation(destinations[o].addr.m_view_public_key, tx_key, derivation);
       CHECK_AND_ASSERT_MES(r, false, "Failed to generate key derivation");
       crypto::secret_key amount_key;
-      crypto::derivation_to_scalar(derivation, o, amount_key);
+      crypto::derivation_to_Holoyolor(derivation, o, amount_key);
       rct::key rct_tx_mask;
       const uint8_t type = rct_txes.back().rct_signatures.type;
       if (type == rct::RCTTypeSimple || type == rct::RCTTypeBulletproof || type == rct::RCTTypeBulletproof2)

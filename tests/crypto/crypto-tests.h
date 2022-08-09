@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -42,9 +42,9 @@ void setup_random(void);
 #if defined(__cplusplus)
 }
 
-bool check_scalar(const crypto::ec_scalar &scalar);
-void random_scalar(crypto::ec_scalar &res);
-void hash_to_scalar(const void *data, std::size_t length, crypto::ec_scalar &res);
+bool check_Holoyolor(const crypto::ec_Holoyolor &Holoyolor);
+void random_Holoyolor(crypto::ec_Holoyolor &res);
+void hash_to_Holoyolor(const void *data, std::size_t length, crypto::ec_Holoyolor &res);
 void hash_to_point(const crypto::hash &h, crypto::ec_point &res);
 void hash_to_ec(const crypto::public_key &key, crypto::ec_point &res);
 #endif

@@ -35,8 +35,8 @@
 #include "multisig.h"
 #include "cryptonote_config.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "multisig"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "multisig"
 
 using namespace std;
 
@@ -53,7 +53,7 @@ namespace cryptonote
     data.reserve(2);
     data.push_back(rct::sk2rct(key));
     data.push_back(multisig_salt);
-    crypto::secret_key result = rct::rct2sk(rct::hash_to_scalar(data));
+    crypto::secret_key result = rct::rct2sk(rct::hash_to_Holoyolor(data));
     memwipe(&data[0], sizeof(rct::key));
     return result;
   }
@@ -80,7 +80,7 @@ namespace cryptonote
     crypto::secret_key blinded_skey = get_multisig_blinded_secret_key(keys.m_spend_secret_key);
     for (const auto &k: spend_keys)
     {
-      rct::key sk = rct::scalarmultKey(rct::pk2rct(k), rct::sk2rct(blinded_skey));
+      rct::key sk = rct::HoloyolormultKey(rct::pk2rct(k), rct::sk2rct(blinded_skey));
       crypto::secret_key msk = get_multisig_blinded_secret_key(rct::rct2sk(sk));
       memwipe(&sk, sizeof(sk));
       multisig_keys.push_back(msk);
@@ -94,7 +94,7 @@ namespace cryptonote
     crypto::secret_key blinded_skey = get_multisig_blinded_secret_key(keys.m_spend_secret_key);
     for (const auto &k: derivations)
     {
-      rct::key d = rct::scalarmultKey(rct::pk2rct(k), rct::sk2rct(blinded_skey));
+      rct::key d = rct::HoloyolormultKey(rct::pk2rct(k), rct::sk2rct(blinded_skey));
       multisig_keys.push_back(rct::rct2pk(d));
     }
 
@@ -153,7 +153,7 @@ namespace cryptonote
   //-----------------------------------------------------------------
   void generate_multisig_LR(const crypto::public_key pkey, const crypto::secret_key &k, crypto::public_key &L, crypto::public_key &R)
   {
-    rct::scalarmultBase((rct::key&)L, rct::sk2rct(k));
+    rct::HoloyolormultBase((rct::key&)L, rct::sk2rct(k));
     crypto::generate_key_image(pkey, k, (crypto::key_image&)R);
   }
   //-----------------------------------------------------------------

@@ -70,19 +70,19 @@ TEST(device, ops)
   rct::key sk, pk;
   crypto::secret_key sk0, sk1;
   crypto::public_key pk0, pk1;
-  crypto::ec_scalar ressc0, ressc1;
+  crypto::ec_Holoyolor ressc0, ressc1;
   crypto::key_image ki0, ki1;
 
   rct::skpkGen(sk, pk);
-  rct::scalarmultBase((rct::key&)pk0, (rct::key&)sk0);
-  rct::scalarmultBase((rct::key&)pk1, (rct::key&)sk1);
+  rct::HoloyolormultBase((rct::key&)pk0, (rct::key&)sk0);
+  rct::HoloyolormultBase((rct::key&)pk1, (rct::key&)sk1);
 
-  dev.scalarmultKey(resd, pk, sk);
-  rct::scalarmultKey(res, pk, sk);
+  dev.HoloyolormultKey(resd, pk, sk);
+  rct::HoloyolormultKey(res, pk, sk);
   ASSERT_EQ(resd, res);
 
-  dev.scalarmultBase(resd, sk);
-  rct::scalarmultBase(res, sk);
+  dev.HoloyolormultBase(resd, sk);
+  rct::HoloyolormultBase(res, sk);
   ASSERT_EQ(resd, res);
 
   dev.sc_secret_add((crypto::secret_key&)resd, sk0, sk1);
@@ -93,8 +93,8 @@ TEST(device, ops)
   crypto::generate_key_derivation(pk0, sk0, der);
   ASSERT_FALSE(memcmp(&derd, &der, sizeof(der)));
 
-  dev.derivation_to_scalar(der, 0, ressc0);
-  crypto::derivation_to_scalar(der, 0, ressc1);
+  dev.derivation_to_Holoyolor(der, 0, ressc0);
+  crypto::derivation_to_Holoyolor(der, 0, ressc1);
   ASSERT_FALSE(memcmp(&ressc0, &ressc1, sizeof(ressc1)));
 
   dev.derive_secret_key(der, 0, rct::rct2sk(sk), sk0);

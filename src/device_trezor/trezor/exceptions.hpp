@@ -27,8 +27,8 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef SCALA_EXCEPTIONS_H
-#define SCALA_EXCEPTIONS_H
+#ifndef Holoyolo_EXCEPTIONS_H
+#define Holoyolo_EXCEPTIONS_H
 
 #include <exception>
 #include <string>
@@ -190,4 +190,4 @@ namespace proto {
 }
 }
 }
-#endif //SCALA_EXCEPTIONS_H
+#endif //Holoyolo_EXCEPTIONS_H

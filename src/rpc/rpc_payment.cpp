@@ -42,8 +42,8 @@
 #include "core_rpc_server_error_codes.h"
 #include "rpc_payment.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "daemon.rpc.payment"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "daemon.rpc.payment"
 
 #define STALE_THRESHOLD 15 /* seconds */
 

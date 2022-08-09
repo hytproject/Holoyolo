@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 //
 // All rights reserved.
 //
@@ -65,8 +65,8 @@
 #include <miniupnp/miniupnpc/include/upnpcommands.h>
 #include <miniupnp/miniupnpc/include/upnperrors.h>
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.p2p"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net.p2p"
 
 #define NET_MAKE_IP(b1,b2,b3,b4)  ((LPARAM)(((DWORD)(b1)<<24)+((DWORD)(b2)<<16)+((DWORD)(b3)<<8)+((DWORD)(b4))))
 
@@ -605,7 +605,7 @@ namespace nodetool
     if (nettype == cryptonote::TESTNET)
     {
       /* Wanna be a testnet node seed? Contact hayzam on discord */
-      full_addrs.insert("65.21.221.7:22821"); /* Scala's Official Testnet node */
+      full_addrs.insert("65.21.221.7:22821"); /* Holoyolo's Official Testnet node */
       full_addrs.insert("46.4.116.181:22821"); /* Hayzam's Node */
     }
     else if (nettype == cryptonote::STAGENET)
@@ -614,7 +614,7 @@ namespace nodetool
     {}
     else
     {
-      full_addrs.insert("135.181.166.156:11811"); /* Scala Official Seed */
+      full_addrs.insert("135.181.166.156:11811"); /* Holoyolo Official Seed */
       full_addrs.insert("51.79.146.20:11811");
       full_addrs.insert("46.4.116.181:11811"); /* Hayzam's Node */
     }

@@ -34,8 +34,8 @@
 
 #include "easylogging++.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "default"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "default"
 
 #define MAX_LOG_FILE_SIZE 104850000 // 100 MB - 7600 bytes
 #define MAX_LOG_FILES 50
@@ -64,20 +64,20 @@
 #define MCLOG_MAGENTA(level,cat,x) MCLOG_COLOR(level,cat,el::Color::Magenta,x)
 #define MCLOG_CYAN(level,cat,x) MCLOG_COLOR(level,cat,el::Color::Cyan,x)
 
-#define MLOG_RED(level,x) MCLOG_RED(level,SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MLOG_GREEN(level,x) MCLOG_GREEN(level,SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MLOG_YELLOW(level,x) MCLOG_YELLOW(level,SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MLOG_BLUE(level,x) MCLOG_BLUE(level,SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MLOG_MAGENTA(level,x) MCLOG_MAGENTA(level,SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MLOG_CYAN(level,x) MCLOG_CYAN(level,SCALA_DEFAULT_LOG_CATEGORY,x)
+#define MLOG_RED(level,x) MCLOG_RED(level,Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MLOG_GREEN(level,x) MCLOG_GREEN(level,Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MLOG_YELLOW(level,x) MCLOG_YELLOW(level,Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MLOG_BLUE(level,x) MCLOG_BLUE(level,Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MLOG_MAGENTA(level,x) MCLOG_MAGENTA(level,Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MLOG_CYAN(level,x) MCLOG_CYAN(level,Holoyolo_DEFAULT_LOG_CATEGORY,x)
 
-#define MFATAL(x) MCFATAL(SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MERROR(x) MCERROR(SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MWARNING(x) MCWARNING(SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MINFO(x) MCINFO(SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MDEBUG(x) MCDEBUG(SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MTRACE(x) MCTRACE(SCALA_DEFAULT_LOG_CATEGORY,x)
-#define MLOG(level,x) MCLOG(level,SCALA_DEFAULT_LOG_CATEGORY,el::Color::Default,x)
+#define MFATAL(x) MCFATAL(Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MERROR(x) MCERROR(Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MWARNING(x) MCWARNING(Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MINFO(x) MCINFO(Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MDEBUG(x) MCDEBUG(Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MTRACE(x) MCTRACE(Holoyolo_DEFAULT_LOG_CATEGORY,x)
+#define MLOG(level,x) MCLOG(level,Holoyolo_DEFAULT_LOG_CATEGORY,el::Color::Default,x)
 
 #define MGINFO(x) MCINFO("global",x)
 #define MGINFO_RED(x) MCLOG_RED(el::Level::Info, "global",x)
@@ -94,7 +94,7 @@
       el::base::Writer(level, color, __FILE__, __LINE__, ELPP_FUNC, type).construct(cat) << x; \
     } \
   } while(0)
-#define MIDEBUG(init, x) IFLOG(el::Level::Debug, SCALA_DEFAULT_LOG_CATEGORY, el::Color::Default, el::base::DispatchAction::NormalLog, init, x)
+#define MIDEBUG(init, x) IFLOG(el::Level::Debug, Holoyolo_DEFAULT_LOG_CATEGORY, el::Color::Default, el::base::DispatchAction::NormalLog, init, x)
 
 
 #define LOG_ERROR(x) MERROR(x)

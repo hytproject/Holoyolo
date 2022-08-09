@@ -29,8 +29,8 @@
 #include <string.h>
 #include "net/buffer.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "net.buffer"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "net.buffer"
 
 namespace epee
 {

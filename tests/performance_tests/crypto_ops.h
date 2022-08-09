@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -45,15 +45,15 @@ enum test_op
   ops_fast,
 
   op_addKeys,
-  op_scalarmultBase,
-  op_scalarmultKey,
-  op_scalarmultH,
-  op_scalarmult8,
-  op_scalarmult8_p3,
+  op_HoloyolormultBase,
+  op_HoloyolormultKey,
+  op_HoloyolormultH,
+  op_Holoyolormult8,
+  op_Holoyolormult8_p3,
   op_ge_dsm_precomp,
-  op_ge_double_scalarmult_base_vartime,
-  op_ge_double_scalarmult_precomp_vartime,
-  op_ge_double_scalarmult_precomp_vartime2,
+  op_ge_double_Holoyolormult_base_vartime,
+  op_ge_double_Holoyolormult_precomp_vartime,
+  op_ge_double_Holoyolormult_precomp_vartime2,
   op_addKeys2,
   op_addKeys3,
   op_addKeys3_2,
@@ -69,10 +69,10 @@ public:
 
   bool init()
   {
-    scalar0 = rct::skGen();
-    scalar1 = rct::skGen();
-    point0 = rct::scalarmultBase(rct::skGen());
-    point1 = rct::scalarmultBase(rct::skGen());
+    Holoyolor0 = rct::skGen();
+    Holoyolor1 = rct::skGen();
+    point0 = rct::HoloyolormultBase(rct::skGen());
+    point1 = rct::HoloyolormultBase(rct::skGen());
     if (ge_frombytes_vartime(&p3_0, point0.bytes) != 0)
       return false;
     if (ge_frombytes_vartime(&p3_1, point1.bytes) != 0)
@@ -92,9 +92,9 @@ public:
     ge_dsmp dsmp;
     switch (op)
     {
-      case op_sc_add: sc_add(key.bytes, scalar0.bytes, scalar1.bytes); break;
-      case op_sc_sub: sc_sub(key.bytes, scalar0.bytes, scalar1.bytes); break;
-      case op_sc_mul: sc_mul(key.bytes, scalar0.bytes, scalar1.bytes); break;
+      case op_sc_add: sc_add(key.bytes, Holoyolor0.bytes, Holoyolor1.bytes); break;
+      case op_sc_sub: sc_sub(key.bytes, Holoyolor0.bytes, Holoyolor1.bytes); break;
+      case op_sc_mul: sc_mul(key.bytes, Holoyolor0.bytes, Holoyolor1.bytes); break;
       case op_ge_add_p3_p3: {
         ge_p3_to_cached(&tmp_cached, &p3_0);
         ge_add(&tmp_p1p1, &p3_1, &tmp_cached);
@@ -103,18 +103,18 @@ public:
       }
       case op_ge_add_raw: ge_add(&tmp_p1p1, &p3_1, &cached); break;
       case op_addKeys: rct::addKeys(key, point0, point1); break;
-      case op_scalarmultBase: rct::scalarmultBase(scalar0); break;
-      case op_scalarmultKey: rct::scalarmultKey(point0, scalar0); break;
-      case op_scalarmultH: rct::scalarmultH(scalar0); break;
-      case op_scalarmult8: rct::scalarmult8(point0); break;
-      case op_scalarmult8_p3: rct::scalarmult8(p3_0,point0); break;
+      case op_HoloyolormultBase: rct::HoloyolormultBase(Holoyolor0); break;
+      case op_HoloyolormultKey: rct::HoloyolormultKey(point0, Holoyolor0); break;
+      case op_HoloyolormultH: rct::HoloyolormultH(Holoyolor0); break;
+      case op_Holoyolormult8: rct::Holoyolormult8(point0); break;
+      case op_Holoyolormult8_p3: rct::Holoyolormult8(p3_0,point0); break;
       case op_ge_dsm_precomp: ge_dsm_precomp(dsmp, &p3_0); break;
-      case op_ge_double_scalarmult_base_vartime: ge_double_scalarmult_base_vartime(&tmp_p2, scalar0.bytes, &p3_0, scalar1.bytes); break;
-      case op_ge_double_scalarmult_precomp_vartime: ge_double_scalarmult_precomp_vartime(&tmp_p2, scalar0.bytes, &p3_0, scalar1.bytes, precomp0); break;
-      case op_ge_double_scalarmult_precomp_vartime2: ge_double_scalarmult_precomp_vartime2(&tmp_p2, scalar0.bytes, precomp0, scalar1.bytes, precomp1); break;
-      case op_addKeys2: rct::addKeys2(key, scalar0, scalar1, point0); break;
-      case op_addKeys3: rct::addKeys3(key, scalar0, point0, scalar1, precomp1); break;
-      case op_addKeys3_2: rct::addKeys3(key, scalar0, precomp0, scalar1, precomp1); break;
+      case op_ge_double_Holoyolormult_base_vartime: ge_double_Holoyolormult_base_vartime(&tmp_p2, Holoyolor0.bytes, &p3_0, Holoyolor1.bytes); break;
+      case op_ge_double_Holoyolormult_precomp_vartime: ge_double_Holoyolormult_precomp_vartime(&tmp_p2, Holoyolor0.bytes, &p3_0, Holoyolor1.bytes, precomp0); break;
+      case op_ge_double_Holoyolormult_precomp_vartime2: ge_double_Holoyolormult_precomp_vartime2(&tmp_p2, Holoyolor0.bytes, precomp0, Holoyolor1.bytes, precomp1); break;
+      case op_addKeys2: rct::addKeys2(key, Holoyolor0, Holoyolor1, point0); break;
+      case op_addKeys3: rct::addKeys3(key, Holoyolor0, point0, Holoyolor1, precomp1); break;
+      case op_addKeys3_2: rct::addKeys3(key, Holoyolor0, precomp0, Holoyolor1, precomp1); break;
       case op_isInMainSubgroup: rct::isInMainSubgroup(point0); break;
       case op_zeroCommitUncached: rct::zeroCommit(9001); break;
       case op_zeroCommitCached: rct::zeroCommit(9000); break;
@@ -124,7 +124,7 @@ public:
   }
 
 private:
-  rct::key scalar0, scalar1;
+  rct::key Holoyolor0, Holoyolor1;
   rct::key point0, point1;
   ge_p3 p3_0, p3_1;
   ge_cached cached;

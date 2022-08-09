@@ -1,5 +1,5 @@
 //Copyright (c) 2014-2019, The Monero Project
-//Copyright (c) 2018-2020, The Scala Network
+//Copyright (c) 2018-2020, The Holoyolo Network
 // 
 // All rights reserved.
 // 
@@ -42,8 +42,8 @@
 
 using namespace epee;
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "cn"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "cn"
 
 // #define ENABLE_HASH_CASH_INTEGRITY_CHECK
 
@@ -62,7 +62,7 @@ static const uint64_t valid_decomposed_outputs[] = {
   (uint64_t)1000000000, (uint64_t)2000000000, (uint64_t)3000000000, (uint64_t)4000000000, (uint64_t)5000000000, (uint64_t)6000000000, (uint64_t)7000000000, (uint64_t)8000000000, (uint64_t)9000000000,
   (uint64_t)10000000000, (uint64_t)20000000000, (uint64_t)30000000000, (uint64_t)40000000000, (uint64_t)50000000000, (uint64_t)60000000000, (uint64_t)70000000000, (uint64_t)80000000000, (uint64_t)90000000000,
   (uint64_t)100000000000, (uint64_t)200000000000, (uint64_t)300000000000, (uint64_t)400000000000, (uint64_t)500000000000, (uint64_t)600000000000, (uint64_t)700000000000, (uint64_t)800000000000, (uint64_t)900000000000,
-  (uint64_t)1000000000000, (uint64_t)2000000000000, (uint64_t)3000000000000, (uint64_t)4000000000000, (uint64_t)5000000000000, (uint64_t)6000000000000, (uint64_t)7000000000000, (uint64_t)8000000000000, (uint64_t)9000000000000, // 1 scala
+  (uint64_t)1000000000000, (uint64_t)2000000000000, (uint64_t)3000000000000, (uint64_t)4000000000000, (uint64_t)5000000000000, (uint64_t)6000000000000, (uint64_t)7000000000000, (uint64_t)8000000000000, (uint64_t)9000000000000, // 1 Holoyolo
   (uint64_t)10000000000000, (uint64_t)20000000000000, (uint64_t)30000000000000, (uint64_t)40000000000000, (uint64_t)50000000000000, (uint64_t)60000000000000, (uint64_t)70000000000000, (uint64_t)80000000000000, (uint64_t)90000000000000,
   (uint64_t)100000000000000, (uint64_t)200000000000000, (uint64_t)300000000000000, (uint64_t)400000000000000, (uint64_t)500000000000000, (uint64_t)600000000000000, (uint64_t)700000000000000, (uint64_t)800000000000000, (uint64_t)900000000000000,
   (uint64_t)1000000000000000, (uint64_t)2000000000000000, (uint64_t)3000000000000000, (uint64_t)4000000000000000, (uint64_t)5000000000000000, (uint64_t)6000000000000000, (uint64_t)7000000000000000, (uint64_t)8000000000000000, (uint64_t)9000000000000000,
@@ -203,7 +203,7 @@ namespace cryptonote
           CHECK_AND_ASSERT_MES(n_amounts == rv.outPk.size(), false, "Internal error filling out V");
           rv.p.bulletproofs[0].V.resize(n_amounts);
           for (size_t i = 0; i < n_amounts; ++i)
-            rv.p.bulletproofs[0].V[i] = rct::scalarmultKey(rv.outPk[i].mask, rct::INV_EIGHT);
+            rv.p.bulletproofs[0].V[i] = rct::HoloyolormultKey(rv.outPk[i].mask, rct::INV_EIGHT);
         }
       }
     }
@@ -330,27 +330,27 @@ namespace cryptonote
     else
     {
       // derive secret key with subaddress - step 1: original CN derivation
-      crypto::secret_key scalar_step1;
-      hwdev.derive_secret_key(recv_derivation, real_output_index, ack.m_spend_secret_key, scalar_step1); // computes Hs(a*R || idx) + b
+      crypto::secret_key Holoyolor_step1;
+      hwdev.derive_secret_key(recv_derivation, real_output_index, ack.m_spend_secret_key, Holoyolor_step1); // computes Hs(a*R || idx) + b
 
       // step 2: add Hs(a || index_major || index_minor)
       crypto::secret_key subaddr_sk;
-      crypto::secret_key scalar_step2;
+      crypto::secret_key Holoyolor_step2;
       if (received_index.is_zero())
       {
-        scalar_step2 = scalar_step1;    // treat index=(0,0) as a special case representing the main address
+        Holoyolor_step2 = Holoyolor_step1;    // treat index=(0,0) as a special case representing the main address
       }
       else
       {
         subaddr_sk = hwdev.get_subaddress_secret_key(ack.m_view_secret_key, received_index);
-        hwdev.sc_secret_add(scalar_step2, scalar_step1,subaddr_sk);
+        hwdev.sc_secret_add(Holoyolor_step2, Holoyolor_step1,subaddr_sk);
       }
 
-      in_ephemeral.sec = scalar_step2;
+      in_ephemeral.sec = Holoyolor_step2;
 
       if (ack.m_multisig_keys.empty())
       {
-        // when not in multisig, we know the full spend secret key, so the output pubkey can be obtained by scalarmultBase
+        // when not in multisig, we know the full spend secret key, so the output pubkey can be obtained by HoloyolormultBase
         CHECK_AND_ASSERT_MES(hwdev.secret_key_to_public_key(in_ephemeral.sec, in_ephemeral.pub), false, "Failed to derive public key");
       }
       else
@@ -994,7 +994,7 @@ namespace cryptonote
     switch (decimal_point)
     {
       case 2:
-        return "scala";
+        return "Holoyolo";
       case 0:
         return "scent";
       default:

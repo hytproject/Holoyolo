@@ -28,7 +28,7 @@ try:
         "messages.proto",
         "messages-common.proto",
         "messages-management.proto",
-        "messages-scala.proto",
+        "messages-Holoyolo.proto",
     ]
 
     if args.debug_msg:

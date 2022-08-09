@@ -46,8 +46,8 @@
 #include "net/abstract_http_client.h"
 #include "message_transporter.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "wallet.mms"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "wallet.mms"
 #define AUTO_CONFIG_TOKEN_BYTES 4
 #define AUTO_CONFIG_TOKEN_PREFIX "mms"
 
@@ -122,8 +122,8 @@ namespace mms
   {
     std::string label;
     std::string transport_address;
-    bool scala_address_known;
-    cryptonote::account_public_address scala_address;
+    bool Holoyolo_address_known;
+    cryptonote::account_public_address Holoyolo_address;
     bool me;
     uint32_t index;
     std::string auto_config_token;
@@ -134,8 +134,8 @@ namespace mms
 
     authorized_signer()
     {
-      scala_address_known = false;
-      memset(&scala_address, 0, sizeof(cryptonote::account_public_address));
+      Holoyolo_address_known = false;
+      memset(&Holoyolo_address, 0, sizeof(cryptonote::account_public_address));
       me = false;
       index = 0;
       auto_config_public_key = crypto::null_pkey;
@@ -163,7 +163,7 @@ namespace mms
   {
     std::string label;
     std::string transport_address;
-    cryptonote::account_public_address scala_address;
+    cryptonote::account_public_address Holoyolo_address;
   };
 
   // Overal .mms file structure, with the "message_store" object serialized to and
@@ -223,10 +223,10 @@ namespace mms
                     uint32_t index,
                     const boost::optional<std::string> &label,
                     const boost::optional<std::string> &transport_address,
-                    const boost::optional<cryptonote::account_public_address> scala_address);
+                    const boost::optional<cryptonote::account_public_address> Holoyolo_address);
 
     const authorized_signer &get_signer(uint32_t index) const;
-    bool get_signer_index_by_scala_address(const cryptonote::account_public_address &scala_address, uint32_t &index) const;
+    bool get_signer_index_by_Holoyolo_address(const cryptonote::account_public_address &Holoyolo_address, uint32_t &index) const;
     bool get_signer_index_by_label(const std::string label, uint32_t &index) const;
     const std::vector<authorized_signer> &get_all_signers() const { return m_signers; };
     bool signer_config_complete() const;
@@ -381,8 +381,8 @@ namespace boost
     {
       a & x.label;
       a & x.transport_address;
-      a & x.scala_address_known;
-      a & x.scala_address;
+      a & x.Holoyolo_address_known;
+      a & x.Holoyolo_address;
       a & x.me;
       a & x.index;
       if (ver < 1)
@@ -401,7 +401,7 @@ namespace boost
     {
       a & x.label;
       a & x.transport_address;
-      a & x.scala_address;
+      a & x.Holoyolo_address;
     }
 
     template <class Archive>

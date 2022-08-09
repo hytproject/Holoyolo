@@ -44,8 +44,8 @@ extern "C"
 #include "multiexp.h"
 #include "bulletproofs.h"
 
-#undef SCALA_DEFAULT_LOG_CATEGORY
-#define SCALA_DEFAULT_LOG_CATEGORY "bulletproofs"
+#undef Holoyolo_DEFAULT_LOG_CATEGORY
+#define Holoyolo_DEFAULT_LOG_CATEGORY "bulletproofs"
 
 //#define DEBUG_BP
 
@@ -93,9 +93,9 @@ static inline rct::key multiexp(const std::vector<MultiexpData> &data, size_t Hi
     return data.size() <= 95 ? straus(data, NULL, 0) : pippenger(data, NULL, 0, get_pippenger_c(data.size()));
 }
 
-static inline bool is_reduced(const rct::key &scalar)
+static inline bool is_reduced(const rct::key &Holoyolor)
 {
-  return sc_check(scalar.bytes) == 0;
+  return sc_check(Holoyolor.bytes) == 0;
 }
 
 static rct::key get_exponent(const rct::key &base, size_t idx)
@@ -142,7 +142,7 @@ static void init_exponents()
   init_done = true;
 }
 
-/* Given two scalar arrays, construct a vector commitment */
+/* Given two Holoyolor arrays, construct a vector commitment */
 static rct::key vector_exponent(const rct::keyV &a, const rct::keyV &b)
 {
   CHECK_AND_ASSERT_THROW_MES(a.size() == b.size(), "Incompatible sizes of a and b");
@@ -158,8 +158,8 @@ static rct::key vector_exponent(const rct::keyV &a, const rct::keyV &b)
   return multiexp(multiexp_data, 2 * a.size());
 }
 
-/* Compute a custom vector-scalar commitment */
-static rct::key cross_vector_exponent8(size_t size, const std::vector<ge_p3> &A, size_t Ao, const std::vector<ge_p3> &B, size_t Bo, const rct::keyV &a, size_t ao, const rct::keyV &b, size_t bo, const rct::keyV *scale, const ge_p3 *extra_point, const rct::key *extra_scalar)
+/* Compute a custom vector-Holoyolor commitment */
+static rct::key cross_vector_exponent8(size_t size, const std::vector<ge_p3> &A, size_t Ao, const std::vector<ge_p3> &B, size_t Bo, const rct::keyV &a, size_t ao, const rct::keyV &b, size_t bo, const rct::keyV *scale, const ge_p3 *extra_point, const rct::key *extra_Holoyolor)
 {
   CHECK_AND_ASSERT_THROW_MES(size + Ao <= A.size(), "Incompatible size for A");
   CHECK_AND_ASSERT_THROW_MES(size + Bo <= B.size(), "Incompatible size for B");
@@ -167,28 +167,28 @@ static rct::key cross_vector_exponent8(size_t size, const std::vector<ge_p3> &A,
   CHECK_AND_ASSERT_THROW_MES(size + bo <= b.size(), "Incompatible size for b");
   CHECK_AND_ASSERT_THROW_MES(size <= maxN*maxM, "size is too large");
   CHECK_AND_ASSERT_THROW_MES(!scale || size == scale->size() / 2, "Incompatible size for scale");
-  CHECK_AND_ASSERT_THROW_MES(!!extra_point == !!extra_scalar, "only one of extra point/scalar present");
+  CHECK_AND_ASSERT_THROW_MES(!!extra_point == !!extra_Holoyolor, "only one of extra point/Holoyolor present");
 
   std::vector<MultiexpData> multiexp_data;
   multiexp_data.resize(size*2 + (!!extra_point));
   for (size_t i = 0; i < size; ++i)
   {
-    sc_mul(multiexp_data[i*2].scalar.bytes, a[ao+i].bytes, INV_EIGHT.bytes);
+    sc_mul(multiexp_data[i*2].Holoyolor.bytes, a[ao+i].bytes, INV_EIGHT.bytes);
     multiexp_data[i*2].point = A[Ao+i];
-    sc_mul(multiexp_data[i*2+1].scalar.bytes, b[bo+i].bytes, INV_EIGHT.bytes);
+    sc_mul(multiexp_data[i*2+1].Holoyolor.bytes, b[bo+i].bytes, INV_EIGHT.bytes);
     if (scale)
-      sc_mul(multiexp_data[i*2+1].scalar.bytes, multiexp_data[i*2+1].scalar.bytes, (*scale)[Bo+i].bytes);
+      sc_mul(multiexp_data[i*2+1].Holoyolor.bytes, multiexp_data[i*2+1].Holoyolor.bytes, (*scale)[Bo+i].bytes);
     multiexp_data[i*2+1].point = B[Bo+i];
   }
   if (extra_point)
   {
-    sc_mul(multiexp_data.back().scalar.bytes, extra_scalar->bytes, INV_EIGHT.bytes);
+    sc_mul(multiexp_data.back().Holoyolor.bytes, extra_Holoyolor->bytes, INV_EIGHT.bytes);
     multiexp_data.back().point = *extra_point;
   }
   return multiexp(multiexp_data, 0);
 }
 
-/* Given a scalar, construct a vector of powers */
+/* Given a Holoyolor, construct a vector of powers */
 static rct::keyV vector_powers(const rct::key &x, size_t n)
 {
   rct::keyV res(n);
@@ -205,7 +205,7 @@ static rct::keyV vector_powers(const rct::key &x, size_t n)
   return res;
 }
 
-/* Given a scalar, return the sum of its powers from 0 to n-1 */
+/* Given a Holoyolor, return the sum of its powers from 0 to n-1 */
 static rct::key vector_power_sum(rct::key x, size_t n)
 {
   if (n == 0)
@@ -239,7 +239,7 @@ static rct::key vector_power_sum(rct::key x, size_t n)
   return res;
 }
 
-/* Given two scalar arrays, construct the inner product */
+/* Given two Holoyolor arrays, construct the inner product */
 static rct::key inner_product(const epee::span<const rct::key> &a, const epee::span<const rct::key> &b)
 {
   CHECK_AND_ASSERT_THROW_MES(a.size() == b.size(), "Incompatible sizes of a and b");
@@ -256,7 +256,7 @@ static rct::key inner_product(const rct::keyV &a, const rct::keyV &b)
   return inner_product(epee::span<const rct::key>(a.data(), a.size()), epee::span<const rct::key>(b.data(), b.size()));
 }
 
-/* Given two scalar arrays, construct the Hadamard product */
+/* Given two Holoyolor arrays, construct the Hadamard product */
 static rct::keyV hadamard(const rct::keyV &a, const rct::keyV &b)
 {
   CHECK_AND_ASSERT_THROW_MES(a.size() == b.size(), "Incompatible sizes of a and b");
@@ -281,7 +281,7 @@ static void hadamard_fold(std::vector<ge_p3> &v, const rct::keyV *scale, const r
     rct::key sa, sb;
     if (scale) sc_mul(sa.bytes, a.bytes, (*scale)[n].bytes); else sa = a;
     if (scale) sc_mul(sb.bytes, b.bytes, (*scale)[sz + n].bytes); else sb = b;
-    ge_double_scalarmult_precomp_vartime2_p3(&v[n], sa.bytes, c[0], sb.bytes, c[1]);
+    ge_double_Holoyolormult_precomp_vartime2_p3(&v[n], sa.bytes, c[0], sb.bytes, c[1]);
   }
   v.resize(sz);
 }
@@ -298,7 +298,7 @@ static rct::keyV vector_add(const rct::keyV &a, const rct::keyV &b)
   return res;
 }
 
-/* Add a scalar to all elements of a vector */
+/* Add a Holoyolor to all elements of a vector */
 static rct::keyV vector_add(const rct::keyV &a, const rct::key &b)
 {
   rct::keyV res(a.size());
@@ -309,7 +309,7 @@ static rct::keyV vector_add(const rct::keyV &a, const rct::key &b)
   return res;
 }
 
-/* Subtract a scalar from all elements of a vector */
+/* Subtract a Holoyolor from all elements of a vector */
 static rct::keyV vector_subtract(const rct::keyV &a, const rct::key &b)
 {
   rct::keyV res(a.size());
@@ -320,8 +320,8 @@ static rct::keyV vector_subtract(const rct::keyV &a, const rct::key &b)
   return res;
 }
 
-/* Multiply a scalar and a vector */
-static rct::keyV vector_scalar(const epee::span<const rct::key> &a, const rct::key &x)
+/* Multiply a Holoyolor and a vector */
+static rct::keyV vector_Holoyolor(const epee::span<const rct::key> &a, const rct::key &x)
 {
   rct::keyV res(a.size());
   for (size_t i = 0; i < a.size(); ++i)
@@ -331,9 +331,9 @@ static rct::keyV vector_scalar(const epee::span<const rct::key> &a, const rct::k
   return res;
 }
 
-static rct::keyV vector_scalar(const rct::keyV &a, const rct::key &x)
+static rct::keyV vector_Holoyolor(const rct::keyV &a, const rct::key &x)
 {
-  return vector_scalar(epee::span<const rct::key>(a.data(), a.size()), x);
+  return vector_Holoyolor(epee::span<const rct::key>(a.data(), a.size()), x);
 }
 
 /* Create a vector from copies of a single value */
@@ -350,7 +350,7 @@ static rct::key sm(rct::key y, int n, const rct::key &x)
   return y;
 }
 
-/* Compute the inverse of a scalar, the clever way */
+/* Compute the inverse of a Holoyolor, the clever way */
 static rct::key invert(const rct::key &x)
 {
   rct::key _1, _10, _100, _11, _101, _111, _1001, _1011, _1111;
@@ -447,7 +447,7 @@ static rct::key hash_cache_mash(rct::key &hash_cache, const rct::key &mash0, con
   data[0] = hash_cache;
   data[1] = mash0;
   data[2] = mash1;
-  rct::hash_to_scalar(hash_cache, data, sizeof(data));
+  rct::hash_to_Holoyolor(hash_cache, data, sizeof(data));
   return hash_cache;
 }
 
@@ -458,7 +458,7 @@ static rct::key hash_cache_mash(rct::key &hash_cache, const rct::key &mash0, con
   data[1] = mash0;
   data[2] = mash1;
   data[3] = mash2;
-  rct::hash_to_scalar(hash_cache, data, sizeof(data));
+  rct::hash_to_Holoyolor(hash_cache, data, sizeof(data));
   return hash_cache;
 }
 
@@ -470,7 +470,7 @@ static rct::key hash_cache_mash(rct::key &hash_cache, const rct::key &mash0, con
   data[2] = mash1;
   data[3] = mash2;
   data[4] = mash3;
-  rct::hash_to_scalar(hash_cache, data, sizeof(data));
+  rct::hash_to_Holoyolor(hash_cache, data, sizeof(data));
   return hash_cache;
 }
 
@@ -565,7 +565,7 @@ Bulletproof bulletproof_PROVE(const rct::keyV &sv, const rct::keyV &gamma)
 #endif
 
 try_again:
-  rct::key hash_cache = rct::hash_to_scalar(V);
+  rct::key hash_cache = rct::hash_to_Holoyolor(V);
 
   PERF_TIMER_START_BP(PROVE_step1);
   // PAPER LINES 43-44
@@ -573,15 +573,15 @@ try_again:
   rct::key ve = vector_exponent(aL8, aR8);
   rct::key A;
   sc_mul(tmp.bytes, alpha.bytes, INV_EIGHT.bytes);
-  rct::addKeys(A, ve, rct::scalarmultBase(tmp));
+  rct::addKeys(A, ve, rct::HoloyolormultBase(tmp));
 
   // PAPER LINES 45-47
   rct::keyV sL = rct::skvGen(MN), sR = rct::skvGen(MN);
   rct::key rho = rct::skGen();
   ve = vector_exponent(sL, sR);
   rct::key S;
-  rct::addKeys(S, ve, rct::scalarmultBase(rho));
-  S = rct::scalarmultKey(S, INV_EIGHT);
+  rct::addKeys(S, ve, rct::HoloyolormultBase(rho));
+  S = rct::HoloyolormultKey(S, INV_EIGHT);
 
   // PAPER LINES 48-50
   rct::key y = hash_cache_mash(hash_cache, A, S);
@@ -591,7 +591,7 @@ try_again:
     MINFO("y is 0, trying again");
     goto try_again;
   }
-  rct::key z = hash_cache = rct::hash_to_scalar(y);
+  rct::key z = hash_cache = rct::hash_to_Holoyolor(y);
   if (z == rct::zero())
   {
     PERF_TIMER_STOP_BP(PROVE_step1);
@@ -639,11 +639,11 @@ try_again:
   ge_p3 p3;
   sc_mul(tmp.bytes, t1.bytes, INV_EIGHT.bytes);
   sc_mul(tmp2.bytes, tau1.bytes, INV_EIGHT.bytes);
-  ge_double_scalarmult_base_vartime_p3(&p3, tmp.bytes, &ge_p3_H, tmp2.bytes);
+  ge_double_Holoyolormult_base_vartime_p3(&p3, tmp.bytes, &ge_p3_H, tmp2.bytes);
   ge_p3_tobytes(T1.bytes, &p3);
   sc_mul(tmp.bytes, t2.bytes, INV_EIGHT.bytes);
   sc_mul(tmp2.bytes, tau2.bytes, INV_EIGHT.bytes);
-  ge_double_scalarmult_base_vartime_p3(&p3, tmp.bytes, &ge_p3_H, tmp2.bytes);
+  ge_double_Holoyolormult_base_vartime_p3(&p3, tmp.bytes, &ge_p3_H, tmp2.bytes);
   ge_p3_tobytes(T2.bytes, &p3);
 
   // PAPER LINES 54-56
@@ -671,9 +671,9 @@ try_again:
 
   // PAPER LINES 58-60
   rct::keyV l = l0;
-  l = vector_add(l, vector_scalar(l1, x));
+  l = vector_add(l, vector_Holoyolor(l1, x));
   rct::keyV r = r0;
-  r = vector_add(r, vector_scalar(r1, x));
+  r = vector_add(r, vector_Holoyolor(r1, x));
   PERF_TIMER_STOP_BP(PROVE_step2);
 
   PERF_TIMER_START_BP(PROVE_step3);
@@ -764,8 +764,8 @@ try_again:
 
     // PAPER LINES 33-34
     PERF_TIMER_START_BP(PROVE_prime);
-    aprime = vector_add(vector_scalar(slice(aprime, 0, nprime), w[round]), vector_scalar(slice(aprime, nprime, aprime.size()), winv));
-    bprime = vector_add(vector_scalar(slice(bprime, 0, nprime), winv), vector_scalar(slice(bprime, nprime, bprime.size()), w[round]));
+    aprime = vector_add(vector_Holoyolor(slice(aprime, 0, nprime), w[round]), vector_Holoyolor(slice(aprime, nprime, aprime.size()), winv));
+    bprime = vector_add(vector_Holoyolor(slice(bprime, 0, nprime), winv), vector_Holoyolor(slice(bprime, nprime, bprime.size()), w[round]));
     PERF_TIMER_STOP_BP(PROVE_prime);
 
     scale = NULL;
@@ -832,12 +832,12 @@ bool bulletproof_VERIFY(const std::vector<const Bulletproof*> &proofs)
   {
     const Bulletproof &proof = *p;
 
-    // check scalar range
-    CHECK_AND_ASSERT_MES(is_reduced(proof.taux), false, "Input scalar not in range");
-    CHECK_AND_ASSERT_MES(is_reduced(proof.mu), false, "Input scalar not in range");
-    CHECK_AND_ASSERT_MES(is_reduced(proof.a), false, "Input scalar not in range");
-    CHECK_AND_ASSERT_MES(is_reduced(proof.b), false, "Input scalar not in range");
-    CHECK_AND_ASSERT_MES(is_reduced(proof.t), false, "Input scalar not in range");
+    // check Holoyolor range
+    CHECK_AND_ASSERT_MES(is_reduced(proof.taux), false, "Input Holoyolor not in range");
+    CHECK_AND_ASSERT_MES(is_reduced(proof.mu), false, "Input Holoyolor not in range");
+    CHECK_AND_ASSERT_MES(is_reduced(proof.a), false, "Input Holoyolor not in range");
+    CHECK_AND_ASSERT_MES(is_reduced(proof.b), false, "Input Holoyolor not in range");
+    CHECK_AND_ASSERT_MES(is_reduced(proof.t), false, "Input Holoyolor not in range");
 
     CHECK_AND_ASSERT_MES(proof.V.size() >= 1, false, "V does not have at least one element");
     CHECK_AND_ASSERT_MES(proof.L.size() == proof.R.size(), false, "Mismatched L and R sizes");
@@ -850,10 +850,10 @@ bool bulletproof_VERIFY(const std::vector<const Bulletproof*> &proofs)
     PERF_TIMER_START_BP(VERIFY_start);
     proof_data.resize(proof_data.size() + 1);
     proof_data_t &pd = proof_data.back();
-    rct::key hash_cache = rct::hash_to_scalar(proof.V);
+    rct::key hash_cache = rct::hash_to_Holoyolor(proof.V);
     pd.y = hash_cache_mash(hash_cache, proof.A, proof.S);
     CHECK_AND_ASSERT_MES(!(pd.y == rct::zero()), false, "y == 0");
-    pd.z = hash_cache = rct::hash_to_scalar(pd.y);
+    pd.z = hash_cache = rct::hash_to_Holoyolor(pd.y);
     CHECK_AND_ASSERT_MES(!(pd.z == rct::zero()), false, "z == 0");
     pd.x = hash_cache_mash(hash_cache, pd.z, proof.T1, proof.T2);
     CHECK_AND_ASSERT_MES(!(pd.x == rct::zero()), false, "x == 0");
@@ -918,17 +918,17 @@ bool bulletproof_VERIFY(const std::vector<const Bulletproof*> &proofs)
     const rct::key weight_z = rct::skGen();
 
     // pre-multiply some points by 8
-    proof8_V.resize(proof.V.size()); for (size_t i = 0; i < proof.V.size(); ++i) rct::scalarmult8(proof8_V[i], proof.V[i]);
-    proof8_L.resize(proof.L.size()); for (size_t i = 0; i < proof.L.size(); ++i) rct::scalarmult8(proof8_L[i], proof.L[i]);
-    proof8_R.resize(proof.R.size()); for (size_t i = 0; i < proof.R.size(); ++i) rct::scalarmult8(proof8_R[i], proof.R[i]);
+    proof8_V.resize(proof.V.size()); for (size_t i = 0; i < proof.V.size(); ++i) rct::Holoyolormult8(proof8_V[i], proof.V[i]);
+    proof8_L.resize(proof.L.size()); for (size_t i = 0; i < proof.L.size(); ++i) rct::Holoyolormult8(proof8_L[i], proof.L[i]);
+    proof8_R.resize(proof.R.size()); for (size_t i = 0; i < proof.R.size(); ++i) rct::Holoyolormult8(proof8_R[i], proof.R[i]);
     ge_p3 proof8_T1;
     ge_p3 proof8_T2;
     ge_p3 proof8_S;
     ge_p3 proof8_A;
-    rct::scalarmult8(proof8_T1, proof.T1);
-    rct::scalarmult8(proof8_T2, proof.T2);
-    rct::scalarmult8(proof8_S, proof.S);
-    rct::scalarmult8(proof8_A, proof.A);
+    rct::Holoyolormult8(proof8_T1, proof.T1);
+    rct::Holoyolormult8(proof8_T2, proof.T2);
+    rct::Holoyolormult8(proof8_S, proof.S);
+    rct::Holoyolormult8(proof8_A, proof.A);
 
     PERF_TIMER_START_BP(VERIFY_line_61);
     sc_mulsub(m_y0.bytes, proof.taux.bytes, weight_y.bytes, m_y0.bytes);
@@ -998,34 +998,34 @@ bool bulletproof_VERIFY(const std::vector<const Bulletproof*> &proofs)
 
     for (size_t i = 0; i < MN; ++i)
     {
-      rct::key g_scalar = proof.a;
-      rct::key h_scalar;
+      rct::key g_Holoyolor = proof.a;
+      rct::key h_Holoyolor;
       if (i == 0)
-        h_scalar = proof.b;
+        h_Holoyolor = proof.b;
       else
-        sc_mul(h_scalar.bytes, proof.b.bytes, yinvpow.bytes);
+        sc_mul(h_Holoyolor.bytes, proof.b.bytes, yinvpow.bytes);
 
-      // Convert the index to binary IN REVERSE and construct the scalar exponent
-      sc_mul(g_scalar.bytes, g_scalar.bytes, w_cache[i].bytes);
-      sc_mul(h_scalar.bytes, h_scalar.bytes, w_cache[(~i) & (MN-1)].bytes);
+      // Convert the index to binary IN REVERSE and construct the Holoyolor exponent
+      sc_mul(g_Holoyolor.bytes, g_Holoyolor.bytes, w_cache[i].bytes);
+      sc_mul(h_Holoyolor.bytes, h_Holoyolor.bytes, w_cache[(~i) & (MN-1)].bytes);
 
-      sc_add(g_scalar.bytes, g_scalar.bytes, pd.z.bytes);
+      sc_add(g_Holoyolor.bytes, g_Holoyolor.bytes, pd.z.bytes);
       CHECK_AND_ASSERT_MES(2+i/N < zpow.size(), false, "invalid zpow index");
       CHECK_AND_ASSERT_MES(i%N < twoN.size(), false, "invalid twoN index");
       sc_mul(tmp.bytes, zpow[2+i/N].bytes, twoN[i%N].bytes);
       if (i == 0)
       {
         sc_add(tmp.bytes, tmp.bytes, pd.z.bytes);
-        sc_sub(h_scalar.bytes, h_scalar.bytes, tmp.bytes);
+        sc_sub(h_Holoyolor.bytes, h_Holoyolor.bytes, tmp.bytes);
       }
       else
       {
         sc_muladd(tmp.bytes, pd.z.bytes, ypow.bytes, tmp.bytes);
-        sc_mulsub(h_scalar.bytes, tmp.bytes, yinvpow.bytes, h_scalar.bytes);
+        sc_mulsub(h_Holoyolor.bytes, tmp.bytes, yinvpow.bytes, h_Holoyolor.bytes);
       }
 
-      sc_mulsub(m_z4[i].bytes, g_scalar.bytes, weight_z.bytes, m_z4[i].bytes);
-      sc_mulsub(m_z5[i].bytes, h_scalar.bytes, weight_z.bytes, m_z5[i].bytes);
+      sc_mulsub(m_z4[i].bytes, g_Holoyolor.bytes, weight_z.bytes, m_z4[i].bytes);
+      sc_mulsub(m_z5[i].bytes, h_Holoyolor.bytes, weight_z.bytes, m_z5[i].bytes);
 
       if (i == 0)
       {

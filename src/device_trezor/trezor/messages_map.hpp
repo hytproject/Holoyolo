@@ -27,8 +27,8 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef SCALA_MESSAGES_MAP_H
-#define SCALA_MESSAGES_MAP_H
+#ifndef Holoyolo_MESSAGES_MAP_H
+#define Holoyolo_MESSAGES_MAP_H
 
 #include <string>
 #include <type_traits>
@@ -91,4 +91,4 @@ namespace trezor {
 
 }}
 
-#endif //SCALA_MESSAGES_MAP_H
+#endif //Holoyolo_MESSAGES_MAP_H
